@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "265029862345",
+    "firebase_url": "https://driver-949aa.firebaseio.com",
+    "project_id": "driver-949aa",
+    "storage_bucket": "driver-949aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265029862345:android:dec81d9873aefc0b",
+        "android_client_info": {
+          "package_name": "com.android.ubclaunchpad.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265029862345-n8v9hqri97b510mbh2sbv1mh88n10bbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW7t3ed0jMGA5X_hWw7dXwmzyH4lGa2Ss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
