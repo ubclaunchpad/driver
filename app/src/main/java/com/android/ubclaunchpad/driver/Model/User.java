@@ -14,6 +14,8 @@ public class User {
     String homeAddress;
     GeoLocation coordinate;
 
+    boolean isDriver;
+
     public User (String firstName, String LastName, String address){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,12 +25,13 @@ public class User {
     }
 
     //Firebase constructor
-    public User(String firstName, String lastName, String homeAddress, GeoLocation coordinate){
+    public User(String firstName, String lastName, String homeAddress, GeoLocation coordinate, boolean isDriver){
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = getFullName();
         this.homeAddress = homeAddress;
         this.coordinate = coordinate;
+        this.isDriver = isDriver;
     }
 
 
@@ -74,5 +77,10 @@ public class User {
         this.coordinate = coordinate;
     }
 
+    public boolean getIsDriver() { return isDriver; }
+
+    public void setIsDriver(boolean isDriver){
+        this.isDriver = isDriver;
+    }
 
 }
