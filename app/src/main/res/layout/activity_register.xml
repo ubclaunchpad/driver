@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.android.ubclaunchpad.driver.RegisterActivity"
+    android:background="@drawable/solidbkg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sign Up"
+        android:id="@+id/tvSignUp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="30dp"
+
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etEmail"
+        android:layout_marginTop="95dp"
+        android:background="#ffffff"
+        android:hint="  Email Address "
+        android:layout_below="@+id/tvSignUp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etPassword"
+        android:background="#ffffff"
+        android:hint=" Password "
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="-5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/etPostalCode"
+        android:layout_alignEnd="@+id/etPostalCode" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="90dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/driverender"
+        android:backgroundTint="#00ffffff"
+        android:adjustViewBounds="true"
+        android:layout_below="@+id/tvSignUp"
+        android:layout_centerHorizontal="true"
+        android:cropToPadding="false" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:background="#ffffff"
+        android:id="@+id/etPasswordConfirm"
+        android:layout_marginTop="10dp"
+        android:hint=" Confirm Password"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/etPassword"
+        android:layout_alignEnd="@+id/etPassword" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/etPostalCode"
+        android:background="#ffffff"
+        android:layout_above="@+id/etPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/etEmail"
+        android:layout_alignEnd="@+id/etEmail"
+        android:layout_marginBottom="25dp"
+        android:hint="  Postal Code (e.g. V6B-3K9 )" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Me Up!"
+        android:id="@+id/bSignUp"
+        android:layout_below="@+id/etPasswordConfirm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+</RelativeLayout>

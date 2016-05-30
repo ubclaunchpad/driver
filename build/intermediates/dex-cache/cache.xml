@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-module\9.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="24536a7b97926a9c155c88425da6875adeb11b51">
+        <dex dex="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-auth-module-9.0.0_185a7afd2de3ac6543585cc6affb4eb92a3d0211.jar" />
+    </item>
+    <item
+        jar="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\9.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ef5c5c2afbd174d55cf1cfcac7d0346cbc4c1322">
+        <dex dex="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-database-connection-9.0.0_b7408ec360d1fa95096383ba19b41ac6c8d713f6.jar" />
+    </item>
+    <item
+        jar="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\9.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="32a5a566ae197603d0bed3e6d1d275f6a771564e">
+        <dex dex="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-database-9.0.0_c27a37f68d83518a9c632c111499c4d6f7b36116.jar" />
+    </item>
+    <item
+        jar="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth-common\9.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5f0f6913a208a126269aaa68004ed0329a832c5b">
+        <dex dex="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-auth-common-9.0.0_a41bb98529a7f402411918bdb3565fc42e62ed67.jar" />
+    </item>
+    <item
+        jar="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\9.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="70ddab48594608953b20164b82f1f890a9a8174a">
+        <dex dex="C:\Users\Noor\Documents\GitHub\driver\app\build\intermediates\pre-dexed\debug\com.google.firebase-firebase-auth-9.0.0_5a4598bb1262434e6e13fbbdd573b8552d484e1c.jar" />
+    </item>
+
+</items>
