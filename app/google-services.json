@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "225077979085",
-    "firebase_url": "https://driver-7987b.firebaseio.com",
-    "project_id": "driver-7987b",
-    "storage_bucket": "driver-7987b.appspot.com"
+    "project_number": "181685957176",
+    "firebase_url": "https://ubc-driver.firebaseio.com",
+    "project_id": "ubc-driver",
+    "storage_bucket": "ubc-driver.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:225077979085:android:dec81d9873aefc0b",
+        "mobilesdk_app_id": "1:181685957176:android:dec81d9873aefc0b",
         "android_client_info": {
           "package_name": "com.android.ubclaunchpad.driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "225077979085-2j6ke7al0mgme8i01vnni3b9nn2dsc40.apps.googleusercontent.com",
+          "client_id": "181685957176-fkepftqa4f6o69ust7bpto9ga0a9r30f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAiujeY_YHzA1LLA_r1_3vnftaQCFxLYqY"
+          "current_key": "AIzaSyBviR5jNBd9ktpZMb25bmb8ZlK1MOJMEyY"
         }
       ],
       "services": {
