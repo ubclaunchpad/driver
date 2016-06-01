@@ -92,12 +92,14 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
 
+
         // Sign in with email/password
         mAuth.signInWithEmailAndPassword(email, password);
 
         // On Success, leads to next activity
         if (mAuth.getCurrentUser() != null) {
             Toast.makeText(getApplicationContext(), "Signed in", Toast.LENGTH_SHORT).show();
+
             /**
              * Leads to next activity, when we make it (Driver/Passenger select?)
              */
