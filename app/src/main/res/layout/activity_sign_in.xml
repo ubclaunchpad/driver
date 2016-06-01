@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="65px"
         android:id="@+id/etUsername"
-        android:hint=" Username"
+        android:hint="  Email"
         android:background="#9dffffff"
         android:layout_marginTop="110dp"
         android:layout_marginLeft="40dp"

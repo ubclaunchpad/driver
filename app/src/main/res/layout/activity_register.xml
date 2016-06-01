@@ -23,35 +23,6 @@
 
         android:textColor="#ffffff" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/etEmail"
-        android:layout_marginTop="95dp"
-        android:background="#ffffff"
-        android:hint="  Email Address "
-        android:layout_below="@+id/tvSignUp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etPassword"
-        android:background="#ffffff"
-        android:hint=" Password "
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="-5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etPostalCode"
-        android:layout_alignEnd="@+id/etPostalCode" />
-
     <ImageView
         android:layout_width="100dp"
         android:layout_height="90dp"
@@ -63,41 +34,77 @@
         android:layout_centerHorizontal="true"
         android:cropToPadding="false" />
 
+
     <EditText
         android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="#ffffff"
+        android:id="@+id/etName"
+        android:hint="  Name "
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/etEmail"
+        android:layout_alignEnd="@+id/etEmail" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etEmail"
+        android:background="#ffffff"
+        android:hint="  Email Address "
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:id="@+id/etPostalCode"
+        android:background="#ffffff"
+        android:hint="  Postal Code (e.g. V6B-3K9 )"
+        android:layout_below="@+id/etEmail"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etPassword"
+        android:background="#ffffff"
+        android:hint=" Password "
+        android:layout_below="@+id/etPostalCode"
+        android:layout_marginTop="10dp" />
+
+
+    <EditText
+        android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:inputType="textPassword"
         android:ems="10"
         android:background="#ffffff"
         android:id="@+id/etPasswordConfirm"
-        android:layout_marginTop="10dp"
         android:hint=" Confirm Password"
         android:layout_below="@+id/etPassword"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etPassword"
-        android:layout_alignEnd="@+id/etPassword" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:id="@+id/etPostalCode"
-        android:background="#ffffff"
-        android:layout_above="@+id/etPassword"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etEmail"
-        android:layout_alignEnd="@+id/etEmail"
-        android:layout_marginBottom="25dp"
-        android:hint="  Postal Code (e.g. V6B-3K9 )" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign Me Up!"
         android:id="@+id/bSignUp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/etPasswordConfirm"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
