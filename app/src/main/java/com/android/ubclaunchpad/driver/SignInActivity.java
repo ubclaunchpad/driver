@@ -86,7 +86,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
 
-    // Signs in and handles UI notifications
+    // Signs in, currently doesn't lead to next activity until we make it
     private void signIn(String email, String password) {
         if (!validateForm()) {
             return;
