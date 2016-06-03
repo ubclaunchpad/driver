@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -140,11 +139,11 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                 });
     }
 
-    public boolean validateInputs(String email, String password, @Nullable String confirmPassword) {
+    private boolean validateInputs(String email, String password, @Nullable String confirmPassword) {
 
         boolean valid = true;
 
-        if (TextUtils.isEmpty(email)) {
+        if (StringUtils.isEmpty(email)) { // we use StringUtils as opposed to TextUtils for easy testing.
             mLoginView.showEmptyFieldError();
             valid = false;
         } else {
@@ -154,18 +153,18 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
             }
         }
 
-        if (TextUtils.isEmpty(password)) {
+        if (StringUtils.isEmpty(password)) {
             mLoginView.showEmptyFieldError();
             valid = false;
         }
 
         if (confirmPassword != null) {
-            if (TextUtils.isEmpty(password)) {
+            if (StringUtils.isEmpty(confirmPassword)) {
                 mLoginView.showEmptyFieldError();
                 valid = false;
             }
 
-            if (!TextUtils.equals(password, confirmPassword)) {
+            if (!StringUtils.equals(password, confirmPassword)) {
                 mLoginView.showPasswordsNotEqualError();
                 valid = false;
             }
