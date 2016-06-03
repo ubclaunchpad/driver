@@ -9,7 +9,8 @@ import com.android.ubclaunchpad.driver.util.Injection;
 
 /**
  * This activity is the overall controller that creates and connects views and presenters.
- * Performs the binding of the presenter and the view.
+ * Performs the binding of the presenter and the view. Could eventually be extended to
+ * host multiple presenters, and having them communicate using an Event Bus.
  * <p/>
  * Created by Chris Li on 6/1/2016.
  */
@@ -33,6 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // create the presenter
         mLoginPresenter = new LoginPresenter(loginFragment);
+        // use a dependency injection in order provide any data that depends on a
+        // Context to the presenter as we want to decouple the module as much as
+        // possible from the Android framework.
         mLoginPresenter.setGoogleApiClient(Injection.provideGoogleApiClient(this, mLoginPresenter));
     }
 }

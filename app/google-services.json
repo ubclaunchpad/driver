@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "181685957176-setm4c3rsan6tlddqbhsqfd3vhp85k7s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.ubclaunchpad.driver",
+            "certificate_hash": "CEC3B867A8A48197CF397B7399D78DA622FA8AB9"
+          }
+        },
+        {
           "client_id": "181685957176-fkepftqa4f6o69ust7bpto9ga0a9r30f.apps.googleusercontent.com",
           "client_type": 3
         }

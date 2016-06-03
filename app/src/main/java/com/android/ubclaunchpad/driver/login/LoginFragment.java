@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 
 import com.android.ubclaunchpad.driver.MainActivity;
 import com.android.ubclaunchpad.driver.R;
+import com.facebook.login.LoginManager;
+
+import java.util.Collection;
 
 
 /**
@@ -27,7 +30,7 @@ import com.android.ubclaunchpad.driver.R;
  * <p/>
  * Created by Chris Li on 6/1/2016.
  */
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
     private LoginContract.Presenter mPresenter;
 
@@ -48,9 +51,10 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_example, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Setup UI
+        view.findViewById(R.id.button).setOnClickListener(this /* the LoginFragment */);
 
         return view;
     }
@@ -77,27 +81,33 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // passing data from the Android framework to the presenter.
         mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void showInvalidEmailError() {
-
+        /* No-op */
     }
 
     @Override
     public void showEmptyFieldError() {
+        /* No-op */
+    }
 
+    @Override
+    public void showPasswordsNotEqualError() {
+        /* No-op */
     }
 
     @Override
     public void showProgressDialog() {
-
+        /* No-op */
     }
 
     @Override
     public void hideProgressDialog() {
-
+        /* No-op */
     }
 
     @Override
@@ -106,8 +116,29 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     @Override
+    public void showFacebookAuthView(Collection<String> permissions) {
+        LoginManager.getInstance().logInWithReadPermissions(this, permissions);
+    }
+
+    @Override
     public void showMainActivity() {
         startActivity(new Intent(getActivity(), MainActivity.class));
         getActivity().finish();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.button:
+                // extend this to handle all the click events easily by specifying another case
+                // based on the clicked view's unique id, as opposed to using messy anonymous
+                // classes or strongly coupling the XML view to the business logic by declaring
+                // the android:onClick attribute.
+
+                // e.g. mPresenter.signInWithFacebook()
+                break;
+        }
     }
 }

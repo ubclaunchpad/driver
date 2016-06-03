@@ -5,6 +5,8 @@ import android.content.Intent;
 import com.android.ubclaunchpad.driver.BasePresenter;
 import com.android.ubclaunchpad.driver.BaseView;
 
+import java.util.Collection;
+
 /**
  * This specifies the contract between the view and the presenter.
  * <p/>
@@ -38,12 +40,17 @@ public interface LoginContract {
 
         void showEmptyFieldError();
 
+        void showPasswordsNotEqualError();
+
         void showProgressDialog();
 
         void hideProgressDialog();
 
         void showGoogleAuthView(Intent signInIntent, int requestCode);
 
+        void showFacebookAuthView(Collection<String> permissions);
+
         void showMainActivity();
+
     }
 }
