@@ -10,11 +10,12 @@
     tools:context="com.android.ubclaunchpad.driver.RegisterActivity"
     android:background="@drawable/solidbkg">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sign Up"
+        android:text="@string/register_headerSignUp"
         android:id="@+id/tvSignUp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -26,7 +27,7 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="90dp"
-        android:id="@+id/imageView"
+        android:id="@+id/imgCar"
         android:src="@drawable/driverender"
         android:backgroundTint="#00ffffff"
         android:adjustViewBounds="true"
@@ -34,18 +35,25 @@
         android:layout_centerHorizontal="true"
         android:cropToPadding="false" />
 
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="125dp">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:background="#ffffff"
         android:id="@+id/etName"
-        android:hint="  Name "
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etEmail"
-        android:layout_alignEnd="@+id/etEmail" />
+        android:hint="@string/register_name"
+        android:paddingLeft="10dp"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -54,22 +62,28 @@
         android:ems="10"
         android:id="@+id/etEmail"
         android:background="#ffffff"
-        android:hint="  Email Address "
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"/>
+        android:hint="@string/register_email"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp" />
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/etStreetAddress"
+                android:background="#ffffff"
+                android:hint="@string/register_streetAddress"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"/>
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:id="@+id/etPostalCode"
         android:background="#ffffff"
-        android:hint="  Postal Code (e.g. V6B-3K9 )"
-        android:layout_below="@+id/etEmail"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"/>
+        android:hint="@string/register_address"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -78,9 +92,9 @@
         android:ems="10"
         android:id="@+id/etPassword"
         android:background="#ffffff"
-        android:hint=" Password "
-        android:layout_below="@+id/etPostalCode"
-        android:layout_marginTop="10dp" />
+        android:hint="@string/register_password"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp" />
 
 
     <EditText
@@ -90,21 +104,21 @@
         android:ems="10"
         android:background="#ffffff"
         android:id="@+id/etPasswordConfirm"
-        android:hint=" Confirm Password"
-        android:layout_below="@+id/etPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:hint="@string/register_passwordConfirm"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp" />
 
+    </LinearLayout>
 
+    </ScrollView>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Me Up!"
+        android:text="@string/register_bSignUp"
         android:id="@+id/bSignUp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/etPasswordConfirm"
-        android:layout_centerHorizontal="true" />
-
+        android:onClick="signUpClick"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="280dp"/>
 
 </RelativeLayout>

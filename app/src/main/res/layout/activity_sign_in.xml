@@ -16,11 +16,13 @@
         android:layout_width="fill_parent"
         android:layout_height="65px"
         android:id="@+id/etUsername"
-        android:hint="  Email"
+        android:hint="@string/signIn_email"
         android:background="#9dffffff"
         android:layout_marginTop="110dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
+        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -28,40 +30,44 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etPassword"
-        android:hint=" Password"
+        android:hint="@string/signIn_password"
         android:background="#9dffffff"
         android:layout_marginTop="160dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
+        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sign In"
+        android:text="@string/signIn_headerSignIn"
         android:fontFamily="sans-serif-condensed"
         android:textSize="40dp"
         android:id="@+id/tvSignIn"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="40dp"  />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter"
+        android:text="@string/signIn_bEnter"
         android:id="@+id/bSignIn"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="signInClick"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Don&apos;t have an account?"
+        android:text="@string/signIn_bRegister"
         android:id="@+id/tvSignUp"
         android:layout_below="@+id/bSignIn"
         android:layout_centerHorizontal="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:onClick="registerClick"/>
 
 </RelativeLayout>
