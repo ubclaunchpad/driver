@@ -17,8 +17,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * and run a test hermetically. This also allows us
  * to maintain our MVP architecture as we do want to deal
  * with objects that rely on Contexts in the presenter.
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public class Injection {
 

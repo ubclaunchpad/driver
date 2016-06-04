@@ -5,8 +5,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 /**
  * User model. Used to serialize and deserialize data to/from
  * POJOs (Plain Old Java Objects).
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 @IgnoreExtraProperties
 public class User {

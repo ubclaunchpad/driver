@@ -35,8 +35,6 @@ import java.util.Arrays;
  * The [P]resenter in the MVP architectural pattern. This class
  * should contain almost all of the business logic. It relies on
  * the abstracted View to do all the Android specific UI work.
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.AuthStateListener, GoogleApiClient.OnConnectionFailedListener, FacebookCallback<LoginResult> {
 
@@ -106,9 +104,8 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     }
 
     /**
-     * ! UNTESTED !
      * Method shouldn't be in the LoginPresenter and is only here for brevity.
-     * Move this method to the a different presenter moving forward.
+     * Move this method to a different presenter moving forward.
      *
      * @param email
      * @param password

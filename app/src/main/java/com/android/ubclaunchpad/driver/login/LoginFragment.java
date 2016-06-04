@@ -27,8 +27,6 @@ import java.util.Collection;
  * It also gives us good cohesion as almost all of our Android
  * specific dependencies (like the View and Context class) are only
  * used in one layer.
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 

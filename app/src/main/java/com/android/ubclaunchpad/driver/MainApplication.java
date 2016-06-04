@@ -9,8 +9,6 @@ import com.facebook.FacebookSdk;
  * time of the app's lifecycle. Essentially can be
  * used as a Singleton, can be used to globally
  * initialize instances with application context.
- * <p/>
- * Created by Chris Li on 6/2/2016.
  */
 public class MainApplication extends Application {
 

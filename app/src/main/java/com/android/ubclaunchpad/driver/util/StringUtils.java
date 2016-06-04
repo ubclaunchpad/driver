@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 
 /**
  * Utility for handling String matchings.
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public class StringUtils {
 
@@ -25,7 +23,7 @@ public class StringUtils {
     );
 
     /**
-     * Validates if the given input is a valid email address.
+     * Checks if input is a valid email address.
      *
      * @param email The email to validate.
      * @return {@code true} if the input is a valid email. {@code false} otherwise.
@@ -38,6 +36,7 @@ public class StringUtils {
     /**
      * Returns true if the string is null or 0-length.
      * Note: Copied from the Android framework's TextUtils to facilitate testing.
+     *
      * @param str the string to be examined
      * @return true if str is null or zero length
      */
@@ -53,6 +52,7 @@ public class StringUtils {
      * Note: In platform versions 1.1 and earlier, this method only worked well if
      * both the arguments were instances of String.
      * Note: Copied from the Android framework's TextUtils to facilitate testing.
+     *
      * @param a first CharSequence to check
      * @param b second CharSequence to check
      * @return true if a and b are equal

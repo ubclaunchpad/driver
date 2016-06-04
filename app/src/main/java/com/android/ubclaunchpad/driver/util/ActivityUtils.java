@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 
 /**
  * This provides methods to help Activities load their View (Fragment).
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public class ActivityUtils {
 

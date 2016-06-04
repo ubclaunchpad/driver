@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
  * activity in order to prevent users from having to log in repeatedly
  * when reopening the app. Note that we do not always have to use the
  * MVP pattern in simple use cases.
- * <p/>
- * Created by Chris Li on 6/2/2016.
  */
 public class DispatchActivity extends AppCompatActivity {
 

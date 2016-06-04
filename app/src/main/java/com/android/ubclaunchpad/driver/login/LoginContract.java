@@ -9,8 +9,6 @@ import java.util.Collection;
 
 /**
  * This specifies the contract between the view and the presenter.
- * <p/>
- * Created by Chris Li on 6/1/2016.
  */
 public interface LoginContract {
 
