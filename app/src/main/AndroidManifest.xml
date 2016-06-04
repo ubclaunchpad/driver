@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".SignInActivity" >
+        <!--
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+        -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,5 +30,8 @@
                 android:value="com.android.ubclaunchpad.driver.SignInActivity" />
         </activity>
     </application>
+
+    <!-- PERMISSIONS -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
 </manifest>
