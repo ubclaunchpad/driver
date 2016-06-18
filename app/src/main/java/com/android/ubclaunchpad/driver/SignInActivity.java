@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class SignInActivity extends AppCompatActivity {
 
     private EditText etUsername;
     private EditText etPassword;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -21,6 +25,7 @@ public class SignInActivity extends AppCompatActivity {
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -56,28 +61,23 @@ public class SignInActivity extends AppCompatActivity {
             return;
         }
 
+        mAuth.signInWithEmailAndPassword(email, password);
 
-        // Sign in with email/password
 
 
-        /**
-         * On Success, leads to next activity
-         *
-         *
          //Leads to next activity upon successful sign in
 
          if (mAuth.getCurrentUser() != null) {
 
          Toast.makeText(getApplicationContext(), "Signed in", Toast.LENGTH_SHORT).show();
 
-         Intent nextIntent = new Intent(SignInActivity.this, DriverPassengerActivity.class);
+         Intent nextIntent = new Intent(SignInActivity.this, MainActivity.class);
          SignInActivity.this.startActivity(nextIntent);
          } else {
 
          Toast.makeText(getApplicationContext(), "Invalid email/password", Toast.LENGTH_SHORT).show();
          }
 
-         */
     }
 
 
