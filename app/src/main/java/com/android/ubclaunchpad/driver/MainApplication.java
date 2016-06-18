@@ -17,4 +17,8 @@ public class MainApplication extends Application {
         super.onCreate();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
     }
+
+    public void getFirebaseAuth() {
+
+    }
 }
