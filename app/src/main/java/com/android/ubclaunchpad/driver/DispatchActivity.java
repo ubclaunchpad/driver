@@ -16,18 +16,20 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class DispatchActivity extends AppCompatActivity {
 
+
+    // ToDo: uncomment 'user' value assignment and entire 'if' statement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    //    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //    if (user != null) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
             // User is signed in
             startActivity(new Intent(this, MainActivity.class));
-    //    } else {
+        } else {
             // No user is signed in
-    //        startActivity(new Intent(this, LoginActivity.class));
-    //    }
-    //    finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        finish();
     }
 }

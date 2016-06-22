@@ -13,67 +13,61 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Java for the Register View, allows user to create an account.
  */
 
-
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etName;
-    EditText etEmail;
-    EditText etPostalCode;
-    EditText etStreetAddress;
-    EditText password1;
-    EditText password2;
-    Button bRegister;
+    EditText mName;
+    EditText mEmail;
+    EditText mPostalCode;
+    EditText mStreetAddress;
+    EditText mPassword1;
+    EditText mPassword2;
+    Button mRegister;
+
     String passwordFirst;
     String passwordSecond;
+    String email;
+    String password;
+    String name;
+    String postalCode;
+    String streetAddress;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference users;
 
-    // Create a storage reference from our app
-    StorageReference storageRef;
 
     private static final String TAG = "EmailPassword";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etName = (EditText) findViewById(R.id.etName);
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etPostalCode = (EditText) findViewById(R.id.etPostalCode);
-        etStreetAddress = (EditText) findViewById(R.id.etStreetAddress);
-        password1 = (EditText) findViewById(R.id.etPassword);
-        password2 = (EditText) findViewById(R.id.etPasswordConfirm);
-
-        bRegister = (Button) findViewById(R.id.bSignUp);
-
-        mAuth = FirebaseAuth.getInstance();
-        storageRef = storage.getReferenceFromUrl("gs://ubc-driver.appspot.com");
-        users = storageRef.child("users");
-
+        assignValues();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    writeNewUser(user.getUid());
+
                     Toast.makeText(RegisterActivity.this, "Account created.",
                             Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -88,6 +82,38 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
+    private void writeNewUser(String userId) {
+        User user = new User(name, email, streetAddress, postalCode);
+
+        mDatabase.child("Users").child(userId).setValue(user);
+    }
+
+
+    /**
+     *  Assigns necessary class values, such as Firebase instance, buttons, and EditTexts
+     */
+    public void assignValues() {
+        // Edit texts and buttons
+        mName = (EditText) findViewById(R.id.etName);
+        mEmail = (EditText) findViewById(R.id.etEmail);
+        mPostalCode = (EditText) findViewById(R.id.etPostalCode);
+        mStreetAddress = (EditText) findViewById(R.id.etStreetAddress);
+        mPassword1 = (EditText) findViewById(R.id.etPassword);
+        mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
+        mRegister = (Button) findViewById(R.id.bSignUp);
+
+        // String values of user properties
+        email = mEmail.getText().toString();
+        password = mPassword1.getText().toString();
+        name = mName.getText().toString();
+        postalCode = mPostalCode.getText().toString();
+        streetAddress = mStreetAddress.getText().toString();
+
+        // Firebase values
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
 
 
     @Override
@@ -117,14 +143,11 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-            String email = etEmail.getText().toString();
-            String password = password1.getText().toString();
-            String name = etName.getText().toString();
 
         createAccount(email, password);
 
             // on to next activity (for now just leads back to SignIn)
-            Intent nextIntent = new Intent(RegisterActivity.this, SignInActivity.class);
+            Intent nextIntent = new Intent(RegisterActivity.this, MainActivity.class);
             RegisterActivity.this.startActivity(nextIntent);
     }
 
@@ -135,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      * @param password
      */
-    private void createAccount(String email, String password) {
+    private void createAccount(final String email, final String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateBoxes()) {
             return;
@@ -153,6 +176,8 @@ public class RegisterActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+                            mAuth.signInWithEmailAndPassword(email, password);
                         }
 
 
@@ -171,40 +196,28 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean noEmptyBoxes() {
         boolean valid = true;
 
-        String name = etName.getText().toString();
+        String name = mName.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            etName.setError("Required.");
+            mName.setError("Required.");
             valid = false;
         }
 
-        String email = etEmail.getText().toString();
+        String email = mEmail.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Required.");
-            valid = false;
-        }
-
-        String streetAddress = etStreetAddress.getText().toString();
-        if (TextUtils.isEmpty(streetAddress)) {
-            etStreetAddress.setError("Required.");
-            valid = false;
-        }
-
-        String postalCode = etPostalCode.getText().toString();
-        if (TextUtils.isEmpty(postalCode)) {
-            etPostalCode.setError("Required.");
+            mEmail.setError("Required.");
             valid = false;
         }
 
 
-        passwordFirst = password1.getText().toString();
+        passwordFirst = mPassword1.getText().toString();
         if (TextUtils.isEmpty(passwordFirst)) {
-            password1.setError("Required.");
+            mPassword1.setError("Required.");
             valid = false;
         }
 
-        passwordSecond = password2.getText().toString();
+        passwordSecond = mPassword2.getText().toString();
         if (TextUtils.isEmpty(passwordSecond)) {
-            password2.setError("Required.");
+            mPassword2.setError("Required.");
             valid = false;
         }
 
@@ -213,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     * Returns true if both password edit text's match, false otherwise.
+     * Returns true if both password edit texts match, false otherwise.
      * @param passwordFirst
      * @param passwordSecond
      * @return
@@ -229,8 +242,8 @@ public class RegisterActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //dismiss the dialog
-                            password1.setText("");
-                            password2.setText("");
+                            mPassword1.setText("");
+                            mPassword2.setText("");
                         }
                     });
             alertDialog.show();
