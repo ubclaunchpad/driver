@@ -16,8 +16,9 @@ public class User {
     public Boolean isDriver;
     public Car car;
 
+    // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        // empty
     }
 
     /**

@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.ubclaunchpad.driver.RegisterActivity"
-    android:background="@drawable/solidbkg">
+    android:background="#3b404f">
 
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_width="100dp"
         android:layout_height="90dp"
         android:id="@+id/imgCar"
-        android:src="@drawable/driverender"
+        android:src="@drawable/driverrender"
         android:backgroundTint="#00ffffff"
         android:adjustViewBounds="true"
         android:layout_below="@+id/tvSignUp"
