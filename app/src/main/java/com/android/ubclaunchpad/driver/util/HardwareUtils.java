@@ -81,15 +81,13 @@ public class HardwareUtils {
      */
     public static boolean isPhoneFaster(Map<String, String> myPhone, Map<String, String> otherPhone){
         //TODO implement
-        double myPhoneMIPS = getPhoneValue(myPhone, "BogoMIPS");
-        double otherPhoneMIPS = getPhoneValue(otherPhone, "BogoMIPS");
-        double myPhoneProduct = myPhoneMIPS;
-        double otherPhoneProduct = otherPhoneMIPS;
+        double myPhoneProduct = getPhoneValue(myPhone, "BogoMIPS");
+        double otherPhoneProduct = getPhoneValue(otherPhone, "BogoMIPS");
 
-        if (myPhoneMIPS == 0) {
+        if (myPhoneProduct == 0) {
             myPhoneProduct = 5.5 * getPhoneValue(myPhone, "processor");
         }
-        if (otherPhoneMIPS == 0) {
+        if (otherPhoneProduct == 0) {
             otherPhoneProduct = 5.5 * getPhoneValue(otherPhone, "processor");
         }
         return (myPhoneProduct >= otherPhoneProduct);
