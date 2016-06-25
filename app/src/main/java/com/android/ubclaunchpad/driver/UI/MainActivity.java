@@ -4,21 +4,22 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.BluetoothCore;
 
 public class MainActivity extends AppCompatActivity {
 
-    int REQUEST_ENABLE_BT = 1;
-
-    private boolean mBluetoothProblems = true;
+    private int REQUEST_ENABLE_BT = 1;
+    private boolean mBluetoothProblems = true; //TODO maybe needs to be accessed in application layer
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothCheck(); //TODO does not really belong in view, move to model
+        bluetoothCheck();
     }
 
     @Override
@@ -33,17 +34,18 @@ public class MainActivity extends AppCompatActivity {
      * If not enabled, prompt user to turn on
      */
     private void bluetoothCheck(){
-        //Enable Bluetooth
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if(mBluetoothAdapter == null){
-            //No bluetooth supported
+        if(!BluetoothCore.deviceHasBluetooth()){
+            // No bluetooth supported
             mBluetoothProblems = true;
-            //TODO warn user they do not have bluetooth
+            Toast.makeText(this, "WARNING: This device does not support bluetooth," +
+                    "Some features may not be available.", Toast.LENGTH_LONG).show();
         }
-         else if (!mBluetoothAdapter.isEnabled()) {
+        else if(!BluetoothCore.isBluetoothEnabled()){
             // prompt user to turn on bluetooth
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
+        else
+            mBluetoothProblems = false; //if it passes the two checks, bluetooth is good to go
     }
 }
