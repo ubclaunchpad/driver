@@ -4,13 +4,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.models.Exceptions.BluetoothException;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String MAIN_TAG = "MAIN ACTIVITY";
     private int REQUEST_ENABLE_BT = 1;
     private boolean mBluetoothProblems = true; //TODO maybe needs to be accessed in application layer
 
@@ -19,7 +22,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothCheck();
+        tryEnableBluetooth();
+        if (!mBluetoothProblems) {
+            try {
+                BluetoothCore bluetoothCore = new BluetoothCore();
+            }
+            catch (BluetoothException e){
+                Log.d(MAIN_TAG, e.getLocalizedMessage());
+            }
+        }
     }
 
     @Override
@@ -33,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
      * Checks if phone has bluetooth and if it is enabled
      * If not enabled, prompt user to turn on
      */
-    private void bluetoothCheck(){
+    private void tryEnableBluetooth(){
         if(!BluetoothCore.deviceHasBluetooth()){
             // No bluetooth supported
             mBluetoothProblems = true;
