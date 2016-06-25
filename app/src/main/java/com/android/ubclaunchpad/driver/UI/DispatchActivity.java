@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,14 +21,13 @@ public class DispatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //TODO revert if case before merge
-//        if (user != null) {
+        if (user != null) {
             // User is signed in
             startActivity(new Intent(this, MainActivity.class));
-//        } else {
+        } else {
             // No user is signed in
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
+            startActivity(new Intent(this, LoginActivity.class));
+        }
         finish();
     }
 }
