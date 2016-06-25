@@ -83,6 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Creates new user object and writes it to firebase
+     * @param userId
+     */
     private void writeNewUser(String userId) {
         User user = new User(name, email, streetAddress, postalCode);
 
