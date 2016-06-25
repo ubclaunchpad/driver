@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver;
+package com.android.ubclaunchpad.driver.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
