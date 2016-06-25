@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private Button iAmAPassengerButton;
     private Button iAmADriverButton;
 
     @Override
@@ -16,16 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        iAmAPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
+        iAmAPassengerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
+                ((EditText) findViewById(R.id.how_many_passengers)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.submit_passenger_number)).setVisibility(View.GONE);
+            }
+        });
+
         iAmADriverButton = (Button) findViewById(R.id.i_am_a_driver_button);
         iAmADriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(v.getContext(), "I am a driver lol", Toast.LENGTH_SHORT).show();
-                EditText howManyPassengers = new EditText(v.getContext());
-                howManyPassengers.setLayoutParams(new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT));
                 ((EditText) findViewById(R.id.how_many_passengers)).setVisibility(View.VISIBLE);
+                ((Button) findViewById(R.id.submit_passenger_number)).setVisibility(View.VISIBLE);
             }
         });
     }
