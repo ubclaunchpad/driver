@@ -81,34 +81,17 @@ public class HardwareUtils {
      */
     public static boolean isPhoneFaster(Map<String, String> myPhone, Map<String, String> otherPhone){
         //TODO implement
-        double myPhoneProduct;
-        double otherPhoneProduct;
-        double myPhoneMIPS;
-        double myPhoneprocessor;
-        double otherPhoneMIPS;
-        double otherPhoneprocessor;
-        myPhoneMIPS = getPhoneValue(myPhone, "BogoMIPS");
-        myPhoneprocessor = getPhoneValue(myPhone, "processor");
-        otherPhoneMIPS = getPhoneValue(otherPhone, "BogoMIPS");
-        otherPhoneprocessor = getPhoneValue(otherPhone, "processor");
-        if (myPhoneMIPS == 0 || otherPhoneMIPS == 0)
-        {
-            myPhoneProduct = 5.5 * myPhoneprocessor; //higher factor because no MIPS
-            otherPhoneProduct = 5.5 * otherPhoneprocessor;
-        }
-        else
-        {
-            myPhoneProduct = (5 * myPhoneprocessor) + (.5 * myPhoneMIPS); //numbers to be changed
-            otherPhoneProduct = (5*otherPhoneprocessor) + (.5 * otherPhoneMIPS);
-        }
+        double myPhoneMIPS = getPhoneValue(myPhone, "BogoMIPS");
+        double otherPhoneMIPS = getPhoneValue(otherPhone, "BogoMIPS");
+        double myPhoneProduct = myPhoneMIPS;
+        double otherPhoneProduct = otherPhoneMIPS;
 
-        if (myPhoneProduct >= otherPhoneProduct) //made this greater than or equal to because it will return nothing if other product = myproduct
-        {
-            return true; // other way around?
+        if (myPhoneMIPS == 0) {
+            myPhoneProduct = 5.5 * getPhoneValue(myPhone, "processor");
         }
-        else
-        {
-            return false;
+        if (otherPhoneMIPS == 0) {
+            otherPhoneProduct = 5.5 * getPhoneValue(otherPhone, "processor");
         }
+        return (myPhoneProduct >= otherPhoneProduct);
     }
 }
