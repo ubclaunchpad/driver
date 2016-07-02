@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.UI;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
-                ((EditText) findViewById(R.id.how_many_passengers)).setVisibility(View.GONE);
-                ((Button) findViewById(R.id.submit_passenger_number)).setVisibility(View.GONE);
             }
         });
 
@@ -41,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         iAmADriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((EditText) findViewById(R.id.how_many_passengers)).setVisibility(View.VISIBLE);
-                ((Button) findViewById(R.id.submit_passenger_number)).setVisibility(View.VISIBLE);
+                //Toast.makeText(v.getContext(), "I AM A DRIVER", Toast.LENGTH_SHORT).show();
+                DialogFragment numPassengersFragment = new NumPassengersFragment();
+                numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
             }
         });
     }
