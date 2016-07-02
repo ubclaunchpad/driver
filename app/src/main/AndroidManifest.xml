@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DispatchActivity">
+        <activity android:name=".UI.DispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".MainActivity"/>
+            android:name=".UI.MainActivity"></activity>
 
         <activity
             android:screenOrientation="portrait"
