@@ -80,7 +80,7 @@ public class HardwareUtils {
      * @return true if myPhone BogoMIPS > otherPhone BogoMIPS
      */
     public static boolean isPhoneFaster(Map<String, String> myPhone, Map<String, String> otherPhone){
-        //TODO implement
+
         double myPhoneProduct = getPhoneValue(myPhone, "BogoMIPS");
         double otherPhoneProduct = getPhoneValue(otherPhone, "BogoMIPS");
 
