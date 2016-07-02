@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
@@ -18,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private int REQUEST_ENABLE_BT = 1;
     private boolean mBluetoothProblems = true; //TODO maybe needs to be accessed in application layer
 
-    private Button iAmAPassengerButton;
-    private Button iAmADriverButton;
+    private Button mPassengerButton;
+    private Button mDriverButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         bluetoothCheck();
 
-        iAmAPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
-        iAmAPassengerButton.setOnClickListener(new View.OnClickListener() {
+        mPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
+        mPassengerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // this is a debug statement, delete this when load screen view is implemented
@@ -39,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        iAmADriverButton = (Button) findViewById(R.id.i_am_a_driver_button);
-        iAmADriverButton.setOnClickListener(new View.OnClickListener() {
+        mDriverButton = (Button) findViewById(R.id.i_am_a_driver_button);
+        mDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
