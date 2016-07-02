@@ -3,19 +3,25 @@ package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Dialog Fragment for when users choose to be Drivers,
+ * here they can choose how many passengers they can take
+ *
+ * author: Mav Cuyugan
  */
 public class NumPassengersFragment extends DialogFragment {
 
@@ -33,13 +39,39 @@ public class NumPassengersFragment extends DialogFragment {
                 R.layout.fragment_num_passengers, null
         );
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(rootView);
-
         numPassengerPick = (NumberPicker) rootView.findViewById(R.id.num_passenger_picker);
         numPassengerPick.setMaxValue(10);
         numPassengerPick.setMinValue(1);
         numPassengerPick.setWrapSelectorWheel(true);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setView(rootView);
+        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("PRESS CANCEL", "cancel button pressed");
+            }
+        });
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("PRESS OK", "ok button pressed");
+
+                int numPassengers = numPassengerPick.getValue();
+
+                // debug toad
+                // TODO: delete this when we're able to save this into user object
+                Toast.makeText(getContext(),
+                        "choosing " + Integer.toString(numPassengers) +
+                                (numPassengers > 1 ? " passengers" : " passenger"),
+                        Toast.LENGTH_SHORT)
+                        .show();
+
+                // TODO: at this point, value chosen by user should be saved in the User object
+                // that is accessible everywhere in the app.
+            }
+        });
 
         return builder.create();
     }
