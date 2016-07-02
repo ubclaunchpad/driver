@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.facebook.login.LoginManager;
 
 import java.util.Collection;
+import java.util.Map;
 
 
 /**
@@ -136,6 +139,11 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
                 // the android:onClick attribute.
 
                 // e.g. mPresenter.signInWithFacebook()
+                Log.d("LoginFrag", "Test");
+                Map<String, String> cpuInfo = HardwareUtils.getCpuInfoMap();
+                for(Map.Entry<String, String> info: cpuInfo.entrySet()){
+                    System.out.println(info.getKey() + " : " + info.getValue());
+                }
                 break;
         }
     }
