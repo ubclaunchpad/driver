@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.android.ubclaunchpad.driver.SignInActivity"
+    android:background="@drawable/newthing2"
+    >
+
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="65px"
+        android:id="@+id/etUsername"
+        android:hint="@string/signIn_email"
+        android:background="#9dffffff"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="65px"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etPassword"
+        android:hint="@string/signIn_password"
+        android:background="#9dffffff"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/signIn_headerSignIn"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="40dp"
+        android:id="@+id/tvSignIn"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:layout_marginTop="40dp"  />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signIn_bEnter"
+        android:id="@+id/bSignIn"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="signInClick"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/signIn_bRegister"
+        android:id="@+id/tvSignUp"
+        android:layout_below="@+id/bSignIn"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:onClick="registerClick"/>
+
+</RelativeLayout>
