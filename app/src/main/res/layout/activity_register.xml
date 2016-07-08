@@ -8,117 +8,100 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.ubclaunchpad.driver.RegisterActivity"
-    android:background="#3b404f">
-
-
+    android:background="#ffffff">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/register_headerSignUp"
         android:id="@+id/tvSignUp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-condensed"
-        android:textSize="30dp"
+        android:textSize="40sp"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
 
-        android:textColor="#ffffff" />
+    <!--<ImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="90dp"-->
+        <!--android:id="@+id/imgCar"-->
+        <!--android:src="@drawable/driverrender"-->
+        <!--android:backgroundTint="#00ffffff"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:layout_below="@+id/tvSignUp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:cropToPadding="false" />-->
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="90dp"
-        android:id="@+id/imgCar"
-        android:src="@drawable/driverrender"
-        android:backgroundTint="#00ffffff"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/tvSignUp"
-        android:layout_centerHorizontal="true"
-        android:cropToPadding="false" />
-
-    
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/signUpLayout"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="125dp">
-        
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        >
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:id="@+id/etName"
+            android:hint="@string/register_name"
+            android:textColor="#000000"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/etEmail"
+            android:hint="@string/register_email"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:background="#ffffff"
-        android:id="@+id/etName"
-        android:hint="@string/register_name"
-        android:paddingLeft="10dp"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etStreetAddress"
+            android:hint="@string/register_streetAddress"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/etEmail"
-        android:background="#ffffff"
-        android:hint="@string/register_email"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:id="@+id/etStreetAddress"
-                android:background="#ffffff"
-                android:hint="@string/register_streetAddress"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:id="@+id/etPostalCode"
-        android:background="#ffffff"
-        android:hint="@string/register_address"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etPassword"
-        android:background="#ffffff"
-        android:hint="@string/register_password"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:background="#ffffff"
-        android:id="@+id/etPasswordConfirm"
-        android:hint="@string/register_passwordConfirm"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etPassword"
+            android:hint="@string/register_password"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etPasswordConfirm"
+            android:hint="@string/register_passwordConfirm"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
     </LinearLayout>
-
-    </ScrollView>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signUpLayout"
         android:text="@string/register_bSignUp"
+        android:textSize="20sp"
         android:id="@+id/bSignUp"
         android:onClick="signUpClick"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="280dp"/>
+        android:layout_marginTop="40dp"
+        />
 
 </RelativeLayout>

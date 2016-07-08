@@ -2,11 +2,10 @@
     <string name="app_name">Driver</string>
     <string name="register_name">Name</string>
     <string name="register_email">Email Address</string>
-    <string name="register_address">Postal Code (Optional)</string>
     <string name="register_password">Password</string>
     <string name="register_passwordConfirm">Confirm Password</string>
     <string name="register_bSignUp">Sign Me Up!</string>
-    <string name="register_headerSignUp">Sign Up</string>
+    <string name="register_headerSignUp">Register</string>
     <string name="signIn_email">Email</string>
     <string name="signIn_password">Password</string>
     <string name="signIn_headerSignIn">Sign In</string>

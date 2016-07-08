@@ -14,12 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.MainActivity;
-import com.android.ubclaunchpad.driver.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,20 +35,17 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mPassword2;
     Button mRegister;
 
-    String passwordFirst;
-    String passwordSecond;
-    String email;
-    String password;
-    String name;
-    String postalCode;
-    String streetAddress;
+//    String passwordFirst;
+//    String passwordSecond;
+//    String email;
+//    String password;
+//    String name;
+//    String postalCode;
+//    String streetAddress;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
-
-
-
     private static final String TAG = "EmailPassword";
 
 
@@ -61,38 +56,37 @@ public class RegisterActivity extends AppCompatActivity {
 
         assignValues();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                    writeNewUser(user.getUid());
-
-                    Toast.makeText(RegisterActivity.this, "Account created.",
-                            Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-
-
-            }
-        };
-
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//
+//                    writeNewUser(user.getUid());
+//
+//                    Toast.makeText(RegisterActivity.this, "Account created.",
+//                            Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+//                } else {
+//                    // User is signed out
+//                    Log.d(TAG, "onAuthStateChanged:signed_out");
+//                }
+//
+//
+//            }
+//        };
     }
 
 
-    /**
-     * Creates new user object and writes it to firebase
-     * @param userId
-     */
-    private void writeNewUser(String userId) {
-        User user = new User(name, email, streetAddress, postalCode);
-
-        mDatabase.child("Users").child(userId).setValue(user);
-    }
+//    /**
+//     * Creates new user object and writes it to firebase
+//     * @param userId
+//     */
+//    private void writeNewUser(String userId) {
+//        User user = new User(name, email, streetAddress, postalCode);
+//
+//        mDatabase.child("Users").child(userId).setValue(user);
+//    }
 
 
     /**
@@ -108,33 +102,33 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
         mRegister = (Button) findViewById(R.id.bSignUp);
 
-        // String values of user properties
-        email = mEmail.getText().toString();
-        password = mPassword1.getText().toString();
-        name = mName.getText().toString();
-        postalCode = mPostalCode.getText().toString();
-        streetAddress = mStreetAddress.getText().toString();
+//        // String values of user properties
+//        email = mEmail.getText().toString();
+//        password = mPassword1.getText().toString();
+//        name = mName.getText().toString();
+//        postalCode = mPostalCode.getText().toString();
+//        streetAddress = mStreetAddress.getText().toString();
 
         // Firebase values
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
+//
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        mAuth.addAuthStateListener(mAuthListener);
+//    }
+//
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//        }
+//    }
 
 
     /**
@@ -147,9 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (!validateBoxes()) {
             return;
         }
-
-
-        createAccount(email, password);
+        createAccount(mEmail.getText().toString(), mPassword1.getText().toString());
 
             // on to next activity (for now just leads back to SignIn)
             Intent nextIntent = new Intent(RegisterActivity.this, MainActivity.class);
@@ -165,15 +157,17 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void createAccount(final String email, final String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateBoxes()) {
-            return;
-        }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email.trim(), password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                        if(task.isSuccessful()){
+                            //TODO add user to firebase
+                            //TODO sign user in
+                        }
+
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -214,13 +208,13 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-        passwordFirst = mPassword1.getText().toString();
+        String passwordFirst = mPassword1.getText().toString();
         if (TextUtils.isEmpty(passwordFirst)) {
             mPassword1.setError("Required.");
             valid = false;
         }
 
-        passwordSecond = mPassword2.getText().toString();
+        String passwordSecond = mPassword2.getText().toString();
         if (TextUtils.isEmpty(passwordSecond)) {
             mPassword2.setError("Required.");
             valid = false;
@@ -237,8 +231,6 @@ public class RegisterActivity extends AppCompatActivity {
      * @return
      */
     private boolean passwordMatch(String passwordFirst, String passwordSecond) {
-        boolean valid = true;
-
         if (!passwordFirst.equals(passwordSecond)) {
             AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
             alertDialog.setTitle("Uh oh!");
@@ -252,12 +244,9 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
             alertDialog.show();
-
-
-            valid = false;
+            return false;
         }
-
-        return valid;
+        return true;
 
     }
 
@@ -268,15 +257,9 @@ public class RegisterActivity extends AppCompatActivity {
      * @return
      */
     private boolean validateBoxes() {
-        boolean valid = true;
-        if (noEmptyBoxes()) {
-            if (!passwordMatch(passwordFirst, passwordSecond))
-                valid = false;
-        } else {
-            valid = false;
-        }
-
-        return valid;
+        String passwordFirst = mPassword1.getText().toString();
+        String passwordSecond = mPassword2.getText().toString();
+        return (noEmptyBoxes() && passwordMatch(passwordFirst, passwordSecond));
     }
 
 }

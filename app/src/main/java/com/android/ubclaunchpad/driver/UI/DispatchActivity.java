@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.ubclaunchpad.driver.login.LoginActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 /**
  * A view-less activity in charge of dispatching to the correct
  * activity in order to prevent users from having to log in repeatedly
@@ -30,6 +26,6 @@ public class DispatchActivity extends AppCompatActivity {
             // No user is signed in
         //    startActivity(new Intent(this, LoginActivity.class));
         //}
-        //finish();
+        finish();
     }
 }
