@@ -1,6 +1,11 @@
 package com.android.ubclaunchpad.driver.models;
 
+import android.app.Application;
+
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -14,7 +19,7 @@ public class User {
     public String address;
     public String postalCode;
     public Boolean isDriver;
-    public Car car;
+    public Integer seatNum;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -34,7 +39,7 @@ public class User {
         this.address = address;
         this.postalCode = postalCode;
         isDriver = false;
-        car = null;
+        seatNum = null;
     }
 
     /**
@@ -42,24 +47,24 @@ public class User {
      * @param
      */
 
-    public void setCar(Car car) {
+    public void makeSeatNum(Integer seatNum) {
         isDriver = true;
-        this.car = car;
+        this.seatNum = seatNum;
     }
 
-    public void resetName(String name){
+    public void makeName(String name){
         this.name = name;
     }
 
-    public void resetEmail(String email) {
+    public void makeEmail(String email) {
         this.email = email;
     }
 
-    public void resetAddress(String address){
+    public void makeAddress(String address){
         this.address = address;
     }
 
-    public void resetPostalCode(String postalCode) {
+    public void makePostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -72,23 +77,42 @@ public class User {
         return isDriver;
     }
 
-    public Car getCar() {
-        return car;
+    public Integer grabSeatNum() {
+        return seatNum;
     }
 
-    public String getUserName(){
+    public String grabUserName(){
         return name;
     }
 
-    public String getEmail() {
+    public String grabEmail() {
         return email;
     }
 
-    public String getAddress() {
+    public String grabAddress() {
         return address;
     }
 
-    public String getPostalCode() {
+    public String grabPostalCode() {
         return postalCode;
+    }
+
+    public JSONObject userToString() {
+
+        JSONObject userJSON = new JSONObject();
+
+        try {
+            userJSON.put("name", name);
+            userJSON.put("address", address);
+            userJSON.put("isDriver", isDriver);
+            userJSON.put("seatNum", seatNum);
+            userJSON.put("email", email);
+
+        }
+        catch (JSONException e) {
+        //
+        }
+
+        return userJSON;
     }
 }

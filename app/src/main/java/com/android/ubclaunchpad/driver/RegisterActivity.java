@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
 
-
     private static final String TAG = "EmailPassword";
 
 
@@ -59,26 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         assignValues();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-
-                    writeNewUser(user.getUid());
-
-                    Toast.makeText(RegisterActivity.this, "Account created.",
-                            Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-
-
-            }
-        };
 
     }
 
@@ -94,10 +72,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+
+
     /**
      *  Assigns necessary class values, such as Firebase instance, buttons, and EditTexts
      */
-    public void assignValues() {
+    private void assignValues() {
         // Edit texts and buttons
         mName = (EditText) findViewById(R.id.etName);
         mEmail = (EditText) findViewById(R.id.etEmail);
@@ -106,13 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword1 = (EditText) findViewById(R.id.etPassword);
         mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
         mRegister = (Button) findViewById(R.id.bSignUp);
-
-        // String values of user properties
-        email = mEmail.getText().toString();
-        password = mPassword1.getText().toString();
-        name = mName.getText().toString();
-        postalCode = mPostalCode.getText().toString();
-        streetAddress = mStreetAddress.getText().toString();
 
         // Firebase values
         mAuth = FirebaseAuth.getInstance();
@@ -148,6 +121,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
+        email = mEmail.getText().toString();
+        password = mPassword1.getText().toString();
         createAccount(email, password);
 
             // on to next activity (for now just leads back to SignIn)
@@ -158,15 +133,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Creates account after checking that all edit text's are properly filled.
+     * Signs them in and stores their info in the firebase.
      * Notifies user if account was or was not created successfully.
      * @param email
      * @param password
      */
     private void createAccount(final String email, final String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateBoxes()) {
-            return;
-        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -178,10 +151,18 @@ public class RegisterActivity extends AppCompatActivity {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, "Authentication failed. Please try again later.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signInWithEmailAndPassword(email, password);
+
+                            String userId = mAuth.getCurrentUser().getUid();
+
+                            Toast.makeText(RegisterActivity.this, "Account created.",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onAuthStateChanged:signed_in:" + userId);
+
+                            writeNewUser(userId);
                         }
 
 
@@ -200,13 +181,13 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean noEmptyBoxes() {
         boolean valid = true;
 
-        String name = mName.getText().toString();
+        name = mName.getText().toString();
         if (TextUtils.isEmpty(name)) {
             mName.setError("Required.");
             valid = false;
         }
 
-        String email = mEmail.getText().toString();
+        email = mEmail.getText().toString();
         if (TextUtils.isEmpty(email)) {
             mEmail.setError("Required.");
             valid = false;

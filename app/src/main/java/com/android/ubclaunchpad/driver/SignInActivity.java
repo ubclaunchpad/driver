@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * Java for Sign In screen. Signs in user and locally assigns user's info
  */
@@ -33,6 +41,9 @@ public class SignInActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private User userSignedIn;
 
+    private String FILENAME = "user_info";
+    public FileOutputStream fos;
+
     private static final String TAG = "EmailPassword";
 
 
@@ -46,54 +57,66 @@ public class SignInActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-                    // User is signed in. Their user info is grabbed from Firebase and assigned locally
-                    // for ease of use
-
-                    final String userId = user.getUid();
-                    mDatabase.child("Users").child(userId).addListenerForSingleValueEvent(
-                            new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    // Get user value
-                                    userSignedIn = dataSnapshot.getValue(User.class);
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                }
-                            });
-
-                    Toast.makeText(getApplicationContext(), "Signed in", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
-                    Intent nextIntent = new Intent(SignInActivity.this, MainActivity.class);
-                    SignInActivity.this.startActivity(nextIntent);
-
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-
-                }
+    }
 
 
-            }
-        };
+    /**
+     * Once user is signed in, pulls their user info from firebase and assigns it to local value.
+     * Then, moves on to next intent (MainActivity)
+     */
+    public void authListener() {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            // User is signed in. Their user info is grabbed from Firebase and assigned locally
+            // for ease of use
+
+            final String userId = user.getUid();
+            mDatabase.child("Users").child(userId).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Get user value
+                            userSignedIn = dataSnapshot.getValue(User.class);
+
+                            JSONObject userr = userSignedIn.userToString();
+                            try {
+                                FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                                fos.write(userr.toString().getBytes());
+                                fos.close();
+
+                            } catch (FileNotFoundException e) {
+                                //
+                            } catch (IOException e) {
+                                //
+                            }
+
+                            Toast.makeText(getApplicationContext(), "Signed in", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
+                            Intent nextIntent = new Intent(SignInActivity.this, MainActivity.class);
+                            SignInActivity.this.startActivity(nextIntent);
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        }
+                    });
+
+
+        } else {
+            // User is signed out
+            Log.d(TAG, "onAuthStateChanged:signed_out");
+
+        }
 
     }
 
-    // To be used by other activities/classes when getting current user. Could
-    // also be grabbed by other ways if decided
-    public User getUser() {
-        return userSignedIn;
-    }
 
     // Click for "Enter" button
     public void signInClick(View view) {
@@ -123,7 +146,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    // Signs in, currently doesn't lead to next activity until we make it
+    // Signs in
     private void signIn(String email, String password) {
         if (!validateForm()) {
             return;
@@ -134,8 +157,9 @@ public class SignInActivity extends AppCompatActivity {
          if (mAuth.getCurrentUser() == null) {
 
          Toast.makeText(getApplicationContext(), "Invalid email/password", Toast.LENGTH_SHORT).show();
-
          }
+
+        authListener();
 
     }
 

@@ -21,6 +21,8 @@ public class MainApplication extends Application {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
 
