@@ -128,7 +128,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         //Create the newly successfully registered user
                                         User user = new User(name, email, streetAddress, postalCode);
 
-                                        //TODO add user to application layer
+                                        //Set user to application layer
+                                        MainApplication app = ((MainApplication)getApplicationContext());
+                                        app.setUser(user);
 
                                         //Save user to firebase
                                         mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);

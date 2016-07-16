@@ -50,8 +50,11 @@ public class DispatchActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
+
                     if (user != null) {
-                        //TODO add user to application layer
+                        //Add user to application level
+                        MainApplication app = ((MainApplication)getApplicationContext());
+                        app.setUser(user);
 
                         //It is possible that shared pref is out of sync if firebase user cache is different.
                         //Safer option to is to re-save
