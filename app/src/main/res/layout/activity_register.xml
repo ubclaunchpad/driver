@@ -24,8 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-condensed"
-        android:textSize="30dp"
-
+        android:textSize="30sp"
         android:textColor="#ffffff" />
 
     <ImageView
@@ -41,77 +40,80 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="140dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/imgCar"
+        android:paddingTop="10dp">
 
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:background="#ffffff"
-        android:id="@+id/etName"
-        android:hint="@string/register_name"
-        android:paddingLeft="10dp"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:background="#ffffff"
+            android:id="@+id/etName"
+            android:hint="@string/register_name"
+            android:paddingLeft="10dp"
+            android:text="Kelvin"/>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/etEmail"
-        android:background="#ffffff"
-        android:hint="@string/register_email"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:id="@+id/etStreetAddress"
-                android:background="#ffffff"
-                android:hint="@string/register_streetAddress"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:id="@+id/etPostalCode"
-        android:background="#ffffff"
-        android:hint="@string/register_address"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etPassword"
-        android:background="#ffffff"
-        android:hint="@string/register_password"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/etEmail"
+            android:background="#ffffff"
+            android:hint="@string/register_email"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="chan.kelv@gmail.com"/>
 
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:background="#ffffff"
-        android:id="@+id/etPasswordConfirm"
-        android:hint="@string/register_passwordConfirm"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:id="@+id/etStreetAddress"
+            android:background="#ffffff"
+            android:hint="@string/register_streetAddress"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:id="@+id/etPostalCode"
+            android:background="#ffffff"
+            android:hint="@string/register_address"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etPassword"
+            android:background="#ffffff"
+            android:hint="@string/register_password"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="123456"/>
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:background="#ffffff"
+            android:id="@+id/etPasswordConfirm"
+            android:hint="@string/register_passwordConfirm"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:text="123456"/>
 
     </LinearLayout>
-
-
 
     <Button
         android:layout_width="wrap_content"
