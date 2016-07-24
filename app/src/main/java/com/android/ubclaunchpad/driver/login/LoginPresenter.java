@@ -65,7 +65,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     private CallbackManager mCallbackManager;
 
-    private FragmentActivity context;
+    private FragmentActivity mContext;
 
     /**
      * Pass a reference of the view to the Presenter. We use this reference
@@ -94,7 +94,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     @Override
     public void onCreate(FragmentActivity fragContext){
-        this.context = fragContext;
+        this.mContext = fragContext;
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -109,27 +109,27 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                             User user = dataSnapshot.getValue(User.class);
                             if(user != null){
                                 //Add user to application level
-                                MainApplication app = ((MainApplication)context.getApplicationContext());
+                                MainApplication app = ((MainApplication) mContext.getApplicationContext());
                                 app.setUser(user);
 
                                 //It is possible that shared pref is out of sync if firebase user cache is different.
                                 //Safer option to is to re-save
-                                SharedPreferences sharedPref = context.getSharedPreferences(StringUtils.FirebaseUidKey, context.MODE_PRIVATE);
+                                SharedPreferences sharedPref = mContext.getSharedPreferences(StringUtils.FirebaseUidKey, mContext.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString(StringUtils.FirebaseUidKey, firebaseUser.getUid());
                                 editor.apply();
 
-                                context.startActivity(new Intent(context, MainActivity.class));
-                                context.finish();
+                                mContext.startActivity(new Intent(mContext, MainActivity.class));
+                                mContext.finish();
                             }
                             else{
-//                                Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(mContext, "Login error. Please try again later", Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "Login error. Please try again later", Toast.LENGTH_LONG).show();
                         }
                     });
                 }

@@ -87,10 +87,6 @@ public class RegisterActivity extends AppCompatActivity {
                     mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
                     startActivity(mainIntent);
                 }
-                else{
-//                    Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();
-//                    startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
-                }
             }
         };
     }
@@ -180,39 +176,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
-                                    else{
-//
-                                    }
-//                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
-//                                    if (firebaseUser != null) {
-//                                        String uid = firebaseUser.getUid();
-//
-//                                        //Create the newly successfully registered user
-//                                        User user = new User(name, email, streetAddress, postalCode);
-//
-//                                        //Set user to application layer
-//                                        MainApplication app = ((MainApplication)getApplicationContext());
-//                                        app.setUser(user);
-//
-//                                        //Save user to firebase
-//                                        mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
-//
-//                                        //save user id to shared pref for future auto-login
-//                                        SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
-//                                        SharedPreferences.Editor editor = sharedPref.edit();
-//                                        editor.putString(StringUtils.FirebaseUidKey, uid);
-//                                        editor.apply();
-//
-//                                        //Move to main activity
-//                                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-//                                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
-//                                        startActivity(mainIntent);
-//                                    }
-//                                    else{
-//                                        Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();
-//                                        startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
-//                                    }
-//                                    finish();
                                 }
                             });
                         }
