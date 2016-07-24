@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         MainApplication app = ((MainApplication)getApplicationContext());
-        User u = app.getUser();
+        user = app.getUser();
 
         if(user == null){
             //Something went wrong, go back to login

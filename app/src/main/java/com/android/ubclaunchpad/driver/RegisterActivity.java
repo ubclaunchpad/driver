@@ -142,7 +142,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         editor.apply();
 
                                         //Move to main activity
-                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
+                                        startActivity(mainIntent);
                                     }
                                     else{
                                         Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();

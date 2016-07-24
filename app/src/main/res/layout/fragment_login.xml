@@ -4,25 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/signIn_headerSignIn"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/loginFieldsLayout">
         <EditText
+            android:id="@+id/emailSignInEditText"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:hint="@string/signIn_email"/>
         <EditText
+            android:id="@+id/signInPasswordEditText"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:hint="@string/signIn_password"/>
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
+        android:text="@string/signIn_bEnter"
+        android:id="@+id/signInButton"
+        android:layout_below="@id/loginFieldsLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signIn_bRegister"
+        android:id="@+id/registerButton"
+        android:layout_below="@id/signInButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
 </RelativeLayout>

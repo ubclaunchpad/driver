@@ -14,6 +14,7 @@ public class StringUtils {
      */
     public static final String DispatchActivity = "Dispatch";
     public static final String RegisterActivity = "Register";
+    public static final String SignInActivity = "SignIn";
 
     /**
      * Firebase endpoints (children)

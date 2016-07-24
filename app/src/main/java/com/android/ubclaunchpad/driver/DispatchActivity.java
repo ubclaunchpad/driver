@@ -78,7 +78,7 @@ public class DispatchActivity extends AppCompatActivity {
         }
         //If no user is found
         else{
-            startActivity(new Intent(this, RegisterActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
         }
         finish();
     }

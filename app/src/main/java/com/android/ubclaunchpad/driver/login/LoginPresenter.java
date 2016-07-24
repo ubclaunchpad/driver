@@ -2,10 +2,16 @@ package com.android.ubclaunchpad.driver.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.MainActivity;
+import com.android.ubclaunchpad.driver.MainApplication;
+import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -28,6 +34,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
@@ -46,9 +57,15 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     private FirebaseAuth mAuth;
 
+    private DatabaseReference mDatabase;
+
+    private FirebaseAuth.AuthStateListener authStateListener;
+
     private GoogleApiClient mGoogleApiClient;
 
     private CallbackManager mCallbackManager;
+
+    private FragmentActivity context;
 
     /**
      * Pass a reference of the view to the Presenter. We use this reference
@@ -76,9 +93,52 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     }
 
     @Override
+    public void onCreate(FragmentActivity context){
+        this.context = context;
+    }
+
+    @Override
     public void onStart() {
         mAuth = FirebaseAuth.getInstance();
-        mAuth.addAuthStateListener(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser != null){
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            if(user != null){
+                                //Add user to application level
+                                MainApplication app = ((MainApplication)context.getApplicationContext());
+                                app.setUser(user);
+
+                                //It is possible that shared pref is out of sync if firebase user cache is different.
+                                //Safer option to is to re-save
+                                SharedPreferences sharedPref = context.getSharedPreferences(StringUtils.FirebaseUidKey, context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(StringUtils.FirebaseUidKey, firebaseUser.getUid());
+                                editor.apply();
+
+                                context.startActivity(new Intent(context, MainActivity.class));
+                                context.finish();
+                            }
+                            else{
+                                Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        };
+        mAuth.addAuthStateListener(authStateListener);
     }
 
     @Override
@@ -185,6 +245,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
+                            //TODO unsuccessful login error message to user
                         }
 
                         mLoginView.hideProgressDialog();

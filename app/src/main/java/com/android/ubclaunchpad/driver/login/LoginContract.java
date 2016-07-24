@@ -1,6 +1,7 @@
 package com.android.ubclaunchpad.driver.login;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.android.ubclaunchpad.driver.BasePresenter;
 import com.android.ubclaunchpad.driver.BaseView;
@@ -15,6 +16,8 @@ public interface LoginContract {
     interface Presenter extends BasePresenter {
 
         // we can expose activity/fragment lifecycle events to the presenter
+        void onCreate(FragmentActivity context);
+
         void onStart();
 
         void onStop();
