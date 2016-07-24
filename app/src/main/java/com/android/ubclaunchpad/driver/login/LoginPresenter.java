@@ -93,12 +93,9 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     }
 
     @Override
-    public void onCreate(FragmentActivity context){
-        this.context = context;
-    }
+    public void onCreate(FragmentActivity fragContext){
+        this.context = fragContext;
 
-    @Override
-    public void onStart() {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -126,7 +123,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                                 context.finish();
                             }
                             else{
-                                Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(context, "Login error. Please try again later", Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -138,12 +135,18 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                 }
             }
         };
+    }
+
+    @Override
+    public void onStart() {
         mAuth.addAuthStateListener(authStateListener);
     }
 
     @Override
     public void onStop() {
-        mAuth.removeAuthStateListener(this);
+        if (authStateListener != null) {
+            mAuth.removeAuthStateListener(authStateListener);
+        }
     }
 
     @Override

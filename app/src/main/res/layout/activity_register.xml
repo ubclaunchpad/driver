@@ -54,8 +54,7 @@
             android:background="#ffffff"
             android:id="@+id/etName"
             android:hint="@string/register_name"
-            android:paddingLeft="10dp"
-            android:text="Kelvin"/>
+            android:paddingLeft="10dp"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -66,8 +65,7 @@
             android:background="#ffffff"
             android:hint="@string/register_email"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="chan.kelv@gmail.com"/>
+            android:paddingLeft="10dp"/>
 
 
         <EditText
@@ -97,8 +95,7 @@
             android:background="#ffffff"
             android:hint="@string/register_password"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="123456"/>
+            android:paddingLeft="10dp"/>
 
 
         <EditText
@@ -110,8 +107,7 @@
             android:id="@+id/etPasswordConfirm"
             android:hint="@string/register_passwordConfirm"
             android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:text="123456"/>
+            android:paddingLeft="10dp"/>
 
     </LinearLayout>
 

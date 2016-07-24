@@ -38,7 +38,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mPassword2;
     Button mRegister;
 
+    private User user;
+
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
 
 
@@ -48,6 +51,62 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         assignValues();
+
+        // Firebase values
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    String uid = firebaseUser.getUid();
+
+                    //Create the newly successfully registered user
+                    String name = mName.getText().toString();
+                    String email = mEmail.getText().toString();
+                    String streetAddress = mStreetAddress.getText().toString();
+                    String postalCode = mPostalCode.getText().toString();
+                    User user = new User(name, email, streetAddress, postalCode);
+
+                    //Set user to application layer
+                    MainApplication app = ((MainApplication)getApplicationContext());
+                    app.setUser(user);
+
+                    //Save user to firebase
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
+
+                    //save user id to shared pref for future auto-login
+                    SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(StringUtils.FirebaseUidKey, uid);
+                    editor.apply();
+
+                    //Move to main activity
+                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
+                    startActivity(mainIntent);
+                }
+                else{
+//                    Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        if(mAuthListener!= null){
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     /**
@@ -84,10 +143,6 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword1 = (EditText) findViewById(R.id.etPassword);
         mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
         mRegister = (Button) findViewById(R.id.bSignUp);
-
-        // Firebase values
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     /**
@@ -120,37 +175,44 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(StringUtils.RegisterActivity, "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                    if (firebaseUser != null) {
-                                        String uid = firebaseUser.getUid();
-
-                                        //Create the newly successfully registered user
-                                        User user = new User(name, email, streetAddress, postalCode);
-
-                                        //Set user to application layer
-                                        MainApplication app = ((MainApplication)getApplicationContext());
-                                        app.setUser(user);
-
-                                        //Save user to firebase
-                                        mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
-
-                                        //save user id to shared pref for future auto-login
-                                        SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.putString(StringUtils.FirebaseUidKey, uid);
-                                        editor.apply();
-
-                                        //Move to main activity
-                                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
-                                        startActivity(mainIntent);
+                                    if (!task.isSuccessful()) {
+                                        Log.w(StringUtils.RegisterActivity, "signInWithEmail", task.getException());
+                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-                                        Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
+//
                                     }
-                                    finish();
+//                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+//                                    if (firebaseUser != null) {
+//                                        String uid = firebaseUser.getUid();
+//
+//                                        //Create the newly successfully registered user
+//                                        User user = new User(name, email, streetAddress, postalCode);
+//
+//                                        //Set user to application layer
+//                                        MainApplication app = ((MainApplication)getApplicationContext());
+//                                        app.setUser(user);
+//
+//                                        //Save user to firebase
+//                                        mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
+//
+//                                        //save user id to shared pref for future auto-login
+//                                        SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
+//                                        SharedPreferences.Editor editor = sharedPref.edit();
+//                                        editor.putString(StringUtils.FirebaseUidKey, uid);
+//                                        editor.apply();
+//
+//                                        //Move to main activity
+//                                        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+//                                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
+//                                        startActivity(mainIntent);
+//                                    }
+//                                    else{
+//                                        Toast.makeText(RegisterActivity.this, "Could not log in new user. Please try again", Toast.LENGTH_LONG).show();
+//                                        startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
+//                                    }
+//                                    finish();
                                 }
                             });
                         }
