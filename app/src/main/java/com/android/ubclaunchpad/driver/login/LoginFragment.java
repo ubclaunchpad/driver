@@ -12,13 +12,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainActivity;
+import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.RegisterActivity;
+import com.android.ubclaunchpad.driver.UI.RegisterActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.facebook.login.LoginManager;
 
 import java.util.Collection;
+import java.util.Map;
 
 
 /**
@@ -145,11 +147,16 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
                 // the android:onClick attribute.
 
                 // e.g. mPresenter.signInWithFacebook()
+                Log.d("LoginFrag", "Test");
+                Map<String, String> cpuInfo = HardwareUtils.getCpuInfoMap();
+                for (Map.Entry<String, String> info : cpuInfo.entrySet()) {
+                    System.out.println(info.getKey() + " : " + info.getValue());
+                }
                 break;
             case R.id.signInButton:
                 Log.d(StringUtils.SignInActivity, "Clicked");
-                String email = ((EditText)getView().findViewById(R.id.emailSignInEditText)).getText().toString();
-                String password = ((EditText)getView().findViewById(R.id.signInPasswordEditText)).getText().toString();
+                String email = ((EditText) getView().findViewById(R.id.emailSignInEditText)).getText().toString();
+                String password = ((EditText) getView().findViewById(R.id.signInPasswordEditText)).getText().toString();
 
                 mPresenter.signInWithEmail(email, password);
                 break;

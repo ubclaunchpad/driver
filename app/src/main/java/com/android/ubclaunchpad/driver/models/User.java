@@ -1,7 +1,5 @@
 package com.android.ubclaunchpad.driver.models;
 
-import android.app.Application;
-
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.json.JSONException;
@@ -114,5 +112,9 @@ public class User {
         }
 
         return userJSON;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

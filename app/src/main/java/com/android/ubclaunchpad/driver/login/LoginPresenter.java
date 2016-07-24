@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainActivity;
 import com.android.ubclaunchpad.driver.MainApplication;
+import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.facebook.AccessToken;

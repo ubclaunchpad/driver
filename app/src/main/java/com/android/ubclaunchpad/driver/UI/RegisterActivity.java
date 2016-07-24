@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver;
+package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.MainApplication;
+import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.tasks.OnCompleteListener;

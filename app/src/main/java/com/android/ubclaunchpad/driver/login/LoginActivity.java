@@ -36,5 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         // Context to the presenter as we want to decouple it as much as
         // possible from the Android framework.
         mLoginPresenter.setGoogleApiClient(Injection.provideGoogleApiClient(this, mLoginPresenter));
+
     }
 }
