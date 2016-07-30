@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.login.LoginActivity;
+import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mPassengerButton;
     private Button mDriverButton;
+
+    User user;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,17 @@ public class MainActivity extends AppCompatActivity {
                 numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
+        MainApplication app = ((MainApplication)getApplicationContext());
+        user = app.getUser();
+
+        if(user == null){
+            //Something went wrong, go back to login
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
     @Override
