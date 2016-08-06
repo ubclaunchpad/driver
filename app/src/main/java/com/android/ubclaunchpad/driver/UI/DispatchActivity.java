@@ -21,13 +21,13 @@ public class DispatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
+        //if (user != null) {
             // User is signed in
             startActivity(new Intent(this, MainActivity.class));
-        } else {
+        //} else {
             // No user is signed in
-            startActivity(new Intent(this, LoginActivity.class));
-        }
+            //startActivity(new Intent(this, LoginActivity.class));
+        //}
         finish();
     }
 }
