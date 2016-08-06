@@ -10,6 +10,23 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     /**
+     * Log Tags
+     */
+    public static final String DispatchActivity = "Dispatch";
+    public static final String RegisterActivity = "Register";
+    public static final String SignInActivity = "SignIn";
+
+    /**
+     * Firebase endpoints (children)
+     */
+    public static final String FirebaseUserEndpoint = "Users";
+
+    /**
+     * Shared pref keys
+     */
+    public static final String FirebaseUidKey = "FirebaseUidKey";
+
+    /**
      * Email validation pattern.
      */
     public static final Pattern EMAIL_PATTERN = Pattern.compile(

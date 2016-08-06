@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.RegisterActivity;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.facebook.login.LoginManager;
 
@@ -55,7 +59,10 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Setup UI
-        view.findViewById(R.id.button).setOnClickListener(this /* the LoginFragment */);
+        view.findViewById(R.id.signInButton).setOnClickListener(this /* the LoginFragment */);
+        view.findViewById(R.id.registerButton).setOnClickListener(this /* the LoginFragment */);
+
+        mPresenter.onCreate(getActivity());
 
         return view;
     }
@@ -93,7 +100,8 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
 
     @Override
     public void showEmptyFieldError() {
-        /* No-op */
+        Toast.makeText(getContext(), "All fields must be filled in to continue", Toast.LENGTH_LONG).show();
+        //TODO make better error
     }
 
     @Override
@@ -141,9 +149,20 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
                 // e.g. mPresenter.signInWithFacebook()
                 Log.d("LoginFrag", "Test");
                 Map<String, String> cpuInfo = HardwareUtils.getCpuInfoMap();
-                for(Map.Entry<String, String> info: cpuInfo.entrySet()){
+                for (Map.Entry<String, String> info : cpuInfo.entrySet()) {
                     System.out.println(info.getKey() + " : " + info.getValue());
                 }
+                break;
+            case R.id.signInButton:
+                Log.d(StringUtils.SignInActivity, "Clicked");
+                String email = ((EditText) getView().findViewById(R.id.emailSignInEditText)).getText().toString();
+                String password = ((EditText) getView().findViewById(R.id.signInPasswordEditText)).getText().toString();
+
+                mPresenter.signInWithEmail(email, password);
+                break;
+            case R.id.registerButton:
+                Log.d(StringUtils.SignInActivity, "Clicked");
+                startActivity(new Intent(getContext(), RegisterActivity.class));
                 break;
         }
     }
