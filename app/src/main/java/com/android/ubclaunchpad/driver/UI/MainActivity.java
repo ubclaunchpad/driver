@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                Log.i("TESTSUCCESS", "Place: " + place.getName());
+                Log.i("TESTSUCCESS", "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
             }
 
             @Override
