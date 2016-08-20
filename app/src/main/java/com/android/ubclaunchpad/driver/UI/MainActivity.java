@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,6 +15,10 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mPassengerButton;
     private Button mDriverButton;
 
+    private final static String TAG = MainActivity.class.getSimpleName();
+
     User user;
     FirebaseAuth mAuth;
 
@@ -33,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bluetoothCheck();
+
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.d(TAG, "An error occurred: " + status);
+            }
+        });
 
         mPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
         mPassengerButton.setOnClickListener(new View.OnClickListener() {
