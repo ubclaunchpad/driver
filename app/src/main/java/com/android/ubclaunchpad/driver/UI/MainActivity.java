@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mPassengerButton;
     private Button mDriverButton;
 
+    private final static String TAG = MainActivity.class.getSimpleName();
+
     User user;
     FirebaseAuth mAuth;
 
@@ -46,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                Log.i("TESTSUCCESS", "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
             }
 
             @Override
             public void onError(Status status) {
                 // TODO: Handle the error.
-                Log.i("TESTERROR", "An error occurred: " + status);
+                Log.d(TAG, "An error occurred: " + status);
             }
         });
 
