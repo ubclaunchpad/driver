@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.mDataObject.PassengerCollection;
 
 
 public class TabSelect extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class TabSelect extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tab_select);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -60,7 +60,7 @@ public class TabSelect extends AppCompatActivity {
     private class CustomAdapter extends FragmentPagerAdapter {
 
         // filling in tab headers
-        private String fragments [] = {"Passengers " + "(" + getPassengerCount() + ")","Route"};
+        private String fragments [] = {"Passengers " + "(" + " " + getPassengerCount()+ " " + ")","Route"};
 
         public CustomAdapter(FragmentManager supportFragmentManager, Context applicationContext) {
             super(supportFragmentManager);
@@ -97,7 +97,7 @@ public class TabSelect extends AppCompatActivity {
      * @return
      */
     public String getPassengerCount() {
-        return "0";
+        return String.valueOf(PassengerCollection.getPassengers().size());
 
     }
 

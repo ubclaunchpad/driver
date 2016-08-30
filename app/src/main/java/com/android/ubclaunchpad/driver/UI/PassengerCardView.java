@@ -1,7 +1,6 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.mDataObject.Passenger;
@@ -31,9 +29,8 @@ public class PassengerCardView extends Fragment {
 
     static public RecyclerView rv;
     MyAdapter myAdapter;
-    FloatingActionButton btn;
-    ArrayList<Passenger> selectedPassengers = new ArrayList<>();
-    ArrayList<Passenger> allPassengers = new ArrayList<>();
+    FloatingActionButton bRemovePassengers;
+    ArrayList<Passenger> checkBoxSelectedPassengers = new ArrayList<>();
 
     @Nullable
     @Override
@@ -70,14 +67,14 @@ public class PassengerCardView extends Fragment {
         helper.attachToRecyclerView(rv);
 
 
-        btn = (FloatingActionButton) getView().findViewById(R.id.remove_passengers_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        bRemovePassengers = (FloatingActionButton) getView().findViewById(R.id.remove_passengers_btn);
+        bRemovePassengers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                selectedPassengers = myAdapter.getSelectedPassengers();
+                checkBoxSelectedPassengers = myAdapter.getSelectedPassengers();
 
-                myAdapter.dismissSelectedPassenger(selectedPassengers);
+                myAdapter.dismissSelectedPassenger(checkBoxSelectedPassengers);
 
 
 
@@ -85,6 +82,7 @@ public class PassengerCardView extends Fragment {
         });
 
     }
+
 
 
 

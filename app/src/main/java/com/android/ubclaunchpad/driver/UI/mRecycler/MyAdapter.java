@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.mDataObject.Passenger;
 
@@ -26,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     ArrayList<Passenger> passengers;
     MyHolder myHolder;
     ArrayList<Passenger> selectedPassengers = new ArrayList<>();
-    CheckBox yesorno;
+    CheckBox mCheckBx;
     View v;
 
 
@@ -57,9 +58,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
          * CheckBox click listener. Adds selected passengers to a list that will be removed
          * upon selecting "Remove Passengers" from FAB.
          */
-        yesorno = (CheckBox) v.findViewById(R.id.yesorno);
-        yesorno.setTag(new Integer(position));
-        yesorno.setOnClickListener(new View.OnClickListener() {
+        mCheckBx = (CheckBox) v.findViewById(R.id.yesorno);
+        mCheckBx.setTag(new Integer(position));
+        mCheckBx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
