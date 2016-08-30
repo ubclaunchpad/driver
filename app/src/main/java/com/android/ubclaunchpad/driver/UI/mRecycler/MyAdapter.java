@@ -58,9 +58,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
          * CheckBox click listener. Adds selected passengers to a list that will be removed
          * upon selecting "Remove Passengers" from FAB.
          */
-        mCheckBx = (CheckBox) v.findViewById(R.id.yesorno);
-        mCheckBx.setTag(new Integer(position));
-        mCheckBx.setOnClickListener(new View.OnClickListener() {
+
+        holder.mCheckBoxx.setTag(new Integer(position));
+        holder.mCheckBoxx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
@@ -71,6 +71,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
             }
         });
+
+        holder.mCheckBoxx.setChecked(false);
+
     }
 
     @Override
@@ -83,6 +86,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     public void dismissPassenger(int position) {
         passengers.remove(position);
         this.notifyDataSetChanged();
+
     }
 
     //DISMISS PASSENGERS WHEN "REMOVE PASSENGERS" FAB IS SELECTED, AND THEY ARE CHECKED
