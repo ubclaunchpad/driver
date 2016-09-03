@@ -13,6 +13,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:id="@+id/connect"
+            android:text="@string/connect_btn_text"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/send"
+            android:text="@string/send_btn_text"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:id="@+id/i_am_a_passenger_button"
             android:text="@string/passenger_bttn_text"/>
 

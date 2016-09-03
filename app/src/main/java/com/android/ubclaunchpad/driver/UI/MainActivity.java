@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mPassengerButton;
     private Button mDriverButton;
+    private Button mConnectButton;
+    private Button mSendButton;
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -64,6 +66,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mConnectButton = (Button) findViewById(R.id.connect);
+        mConnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+
+                Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+            }
+        });
+
+        mSendButton = (Button) findViewById(R.id.send);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bt.send("Hello", true);
+            }
+        });
+
         mPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
         mPassengerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +106,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bt.setupService();
-        bt.startService(BluetoothState.DEVICE_ANDROID);
-
-        Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-        startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-
-
+        // listen in on incoming data
+        bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
+            @Override
+            public void onDataReceived(byte[] data, String message) {
+                Log.i(TAG, message);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         MainApplication app = ((MainApplication)getApplicationContext());
@@ -110,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             mBluetoothProblems = !(resultCode == RESULT_OK);
         } else if(requestCode == BluetoothState.REQUEST_CONNECT_DEVICE) {
             if(resultCode == Activity.RESULT_OK) {
-                data.getExtras();
+//                data.getExtras();
                 bt.connect(data);
             }
         }
