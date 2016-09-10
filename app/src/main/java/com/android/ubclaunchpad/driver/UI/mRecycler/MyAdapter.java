@@ -27,7 +27,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     ArrayList<Passenger> passengers;
     MyHolder myHolder;
     ArrayList<Passenger> selectedPassengers = new ArrayList<>();
-    CheckBox mCheckBx;
     View v;
 
 
@@ -43,6 +42,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         return myHolder;
     }
 
+    // Fills out each row in RecyclerView. Keep in mind, rows of deleted passengers are reused.
     @Override
     public void onBindViewHolder(MyHolder holder, final int position) {
 
