@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.login;
+package com.android.ubclaunchpad.driver.UI.login;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -22,12 +22,12 @@
             android:screenOrientation="portrait"
             android:name=".UI.MainActivity"/>
 
-        <activity android:name=".UI.RegisterActivity"/>
+        <activity android:name=".UI.register.RegisterActivity"/>
 
 
         <activity
             android:screenOrientation="portrait"
-            android:name=".login.LoginActivity"/>
+            android:name=".UI.login.LoginActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

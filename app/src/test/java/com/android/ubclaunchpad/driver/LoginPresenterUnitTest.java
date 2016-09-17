@@ -1,14 +1,13 @@
 package com.android.ubclaunchpad.driver;
 
-import com.android.ubclaunchpad.driver.login.LoginContract;
-import com.android.ubclaunchpad.driver.login.LoginPresenter;
+import com.android.ubclaunchpad.driver.UI.login.LoginContract;
+import com.android.ubclaunchpad.driver.UI.login.LoginPresenter;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.verify;
 

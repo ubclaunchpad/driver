@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.login;
+package com.android.ubclaunchpad.driver.UI.login;
 
 import android.app.Activity;
 import android.content.Intent;

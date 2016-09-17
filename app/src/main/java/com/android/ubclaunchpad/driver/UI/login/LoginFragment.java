@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.login;
+package com.android.ubclaunchpad.driver.UI.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.RegisterActivity;
+import com.android.ubclaunchpad.driver.UI.register.RegisterActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.facebook.login.LoginManager;

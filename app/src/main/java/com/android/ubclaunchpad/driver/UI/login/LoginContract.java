@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.login;
+package com.android.ubclaunchpad.driver.UI.login;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;

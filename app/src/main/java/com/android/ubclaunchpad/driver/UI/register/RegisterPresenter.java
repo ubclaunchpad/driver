@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.UI.register;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.MainActivity;
+import com.android.ubclaunchpad.driver.UI.login.LoginContract;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,34 +27,32 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.concurrent.Executor;
+
 /**
- * Java for the Register View, allows user to create an account.
+ * Created by Marina on 10.09.16.
  */
+public class RegisterPresenter implements RegisterContract.Presenter {
 
-public class RegisterActivity extends AppCompatActivity {
-
-    EditText mName;
-    EditText mEmail;
-    EditText mPostalCode;
-    EditText mStreetAddress;
-    EditText mPassword1;
-    EditText mPassword2;
-    Button mRegister;
 
     private User user;
+
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
 
 
+    private final RegisterContract.View mRegisterView;
+
+    public RegisterPresenter(@NonNull RegisterContract.View exampleView) {
+        mRegisterView = exampleView;
+        mRegisterView.setPresenter(this);
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        assignValues();
-
+    public void onCreate(Bundle savedInstanceState) {
         // Firebase values
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -65,61 +64,49 @@ public class RegisterActivity extends AppCompatActivity {
                     String uid = firebaseUser.getUid();
 
                     //Create the newly successfully registered user
-                    String name = mName.getText().toString();
-                    String email = mEmail.getText().toString();
-                    String streetAddress = mStreetAddress.getText().toString();
-                    String postalCode = mPostalCode.getText().toString();
-                    User user = new User(name, email, streetAddress, postalCode);
+
+                    User user = mRegisterView.createUser();
 
                     //Set user to application layer
-                    MainApplication app = ((MainApplication)getApplicationContext());
+                    MainApplication app = mRegisterView.getMainApplication();
                     app.setUser(user);
 
                     //Save user to firebase
                     mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
 
                     //save user id to shared pref for future auto-login
-                    SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
+                    SharedPreferences sharedPref = mRegisterView.getSharPref();
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(StringUtils.FirebaseUidKey, uid);
                     editor.apply();
 
+
                     //Move to main activity
-                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
-                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
-                    startActivity(mainIntent);
+                    mRegisterView.startMainActivity();
                 }
             }
         };
+
     }
 
     @Override
     public void onStart(){
-        super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop(){
-        super.onStop();
         if(mAuthListener!= null){
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
+
     /**
      * When sign up button is clicked, account is created (if valid) and moves on
      * to the SignInActivity for the user to sign in for the first time.
-     * @param view
      */
-    public void signUpClick(View view) {
-        String name, email, postalCode, address, password1, password2;
-        name = mName.getText().toString();
-        email = mEmail.getText().toString();
-        postalCode = mPostalCode.getText().toString();
-        address = mStreetAddress.getText().toString();
-        password1 = mPassword1.getText().toString();
-        password2 = mPassword2.getText().toString();
+    public void signUp(String name, String email, String password1, String password2, String postalCode, String address) {
 
         if (!validateBoxes(name, email, password1, password2)) {
             return;
@@ -129,19 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    /**
-     *  Assigns necessary class values, such as Firebase instance, buttons, and EditTexts
-     */
-    private void assignValues() {
-        // Edit texts and buttons
-        mName = (EditText) findViewById(R.id.etName);
-        mEmail = (EditText) findViewById(R.id.etEmail);
-        mPostalCode = (EditText) findViewById(R.id.etPostalCode);
-        mStreetAddress = (EditText) findViewById(R.id.etStreetAddress);
-        mPassword1 = (EditText) findViewById(R.id.etPassword);
-        mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
-        mRegister = (Button) findViewById(R.id.bSignUp);
-    }
+
 
     /**
      * Creates account after checking that all edit text's are properly filled.
@@ -150,11 +125,11 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      * @param password
      */
-    private void createAccount(final String name, final String email, final String postalCode, final String streetAddress, final String password) {
+    public void createAccount(final String name, final String email, final String postalCode, final String streetAddress, final String password) {
         Log.d(StringUtils.RegisterActivity, "createAccount:" + email);
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(StringUtils.RegisterActivity, "RegisterUser:onComplete:" + task.isSuccessful());
@@ -164,59 +139,30 @@ public class RegisterActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.d(StringUtils.RegisterActivity, "ERROR: Could not create Firebase account");
-                            Toast.makeText(RegisterActivity.this, "Authentication failed" + task.getException().getLocalizedMessage(),
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(RegisterActivity.this, "Authentication failed" + task.getException().getLocalizedMessage(),
+//                                    Toast.LENGTH_SHORT).show();
+                            mRegisterView.showRegistrationError(task);
 
                         } else {
                             //if user created successfully, auto login the user to firebase
-                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(StringUtils.RegisterActivity, "signInWithEmail:onComplete:" + task.isSuccessful());
                                     if (!task.isSuccessful()) {
                                         Log.w(StringUtils.RegisterActivity, "signInWithEmail", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        mRegisterView.showSingUpError();
                                     }
                                 }
                             });
                         }
                     }
+
                 });
     }
 
 
 
-    /**
-     * Returns true if all boxes are filled in, false otherwise. If any boxes are empty,
-     * alerts user that that edit text is required to be filled.
-     * @return
-     */
-    private boolean noEmptyBoxes(String name, String email, String passwordFirst, String passwordSecond) {
-        boolean valid = true;
-
-        if (TextUtils.isEmpty(name)) {
-            mName.setError("Required.");
-            valid = false;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            mEmail.setError("Required.");
-            valid = false;
-        }
-
-        if (TextUtils.isEmpty(passwordFirst)) {
-            mPassword1.setError("Required.");
-            valid = false;
-        }
-
-        if (TextUtils.isEmpty(passwordSecond)) {
-            mPassword2.setError("Required.");
-            valid = false;
-        }
-
-        return valid;
-    }
 
 
     /**
@@ -229,15 +175,14 @@ public class RegisterActivity extends AppCompatActivity {
         boolean valid = true;
 
         if (!passwordFirst.equals(passwordSecond)) {
-            AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
-            alertDialog.setTitle("Uh oh!");
-            alertDialog.setMessage("Passwords do not match");
+
+            AlertDialog alertDialog = mRegisterView.setDialog();
+
             alertDialog.setButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //dismiss the dialog
-                            mPassword1.setText("");
-                            mPassword2.setText("");
+                            mRegisterView.showPassword();
                         }
                     });
             alertDialog.show();
@@ -257,7 +202,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private boolean validateBoxes(String name, String email, String passwordFirst, String passwordSecond) {
         boolean valid = true;
-        if (noEmptyBoxes(name, email, passwordFirst, passwordSecond)) {
+        if (mRegisterView.noEmptyBoxes(name, email, passwordFirst, passwordSecond)) {
             if (!passwordMatch(passwordFirst, passwordSecond))
                 valid = false;
         } else {
@@ -267,4 +212,8 @@ public class RegisterActivity extends AppCompatActivity {
         return valid;
     }
 
+    @Override
+    public void start() {
+
+    }
 }

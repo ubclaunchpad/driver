@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.ubclaunchpad.driver.MainApplication;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
+import com.android.ubclaunchpad.driver.UI.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.firebase.auth.FirebaseAuth;

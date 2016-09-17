@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
+import com.android.ubclaunchpad.driver.UI.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
 import com.google.android.gms.common.api.Status;
