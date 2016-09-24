@@ -1,7 +1,7 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +15,7 @@ public class User {
     public String name;
     public String email;
     public String address;
-    public String postalCode;
+    public LatLng latLng;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -28,14 +28,12 @@ public class User {
      * User contructor
      * @param name
      * @param email
-     * @param address
-     * @param postalCode
      */
-    public User(String name, String email, String address, String postalCode) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.address = address;
-        this.postalCode = postalCode;
+        this.address = "";
+        this.latLng = new LatLng(0, 0);
         isDriver = false;
         seatNum = null;
     }
@@ -62,8 +60,8 @@ public class User {
         this.address = address;
     }
 
-    public void makePostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void makeLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     /**
@@ -91,8 +89,8 @@ public class User {
         return address;
     }
 
-    public String grabPostalCode() {
-        return postalCode;
+    public LatLng grabLatLng() {
+        return latLng;
     }
 
     public JSONObject userToString() {

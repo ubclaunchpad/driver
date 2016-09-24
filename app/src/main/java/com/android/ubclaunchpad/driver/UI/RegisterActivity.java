@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String email = mEmail.getText().toString();
                     String streetAddress = mStreetAddress.getText().toString();
                     String postalCode = mPostalCode.getText().toString();
-                    User user = new User(name, email, streetAddress, postalCode);
+                    User user = new User(name, email);
 
                     //Set user to application layer
                     MainApplication app = ((MainApplication)getApplicationContext());
