@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                MainApplication app = (MainApplication) getApplicationContext();
+                app.getUser().makeAddress(place.getAddress().toString());
+                app.getUser().makeLatLng(place.getLatLng());
             }
 
             @Override
