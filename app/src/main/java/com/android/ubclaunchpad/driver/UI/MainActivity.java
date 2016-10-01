@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
                 MainApplication app = (MainApplication) getApplicationContext();
                 app.getUser().makeAddress(place.getAddress().toString());

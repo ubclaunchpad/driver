@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 
 /**
@@ -62,6 +63,9 @@ public class NumPassengersFragment extends DialogFragment {
                         .show();
 
                 // TODO: at this point, value chosen by user should be saved in the User object
+
+                MainApplication app = (MainApplication) getContext();
+                app.getUser().makeSeatNum(numPassengers);
                 // that is accessible everywhere in the app.
             }
         });
