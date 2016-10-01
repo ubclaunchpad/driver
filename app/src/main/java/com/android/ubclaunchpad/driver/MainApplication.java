@@ -2,6 +2,7 @@ package com.android.ubclaunchpad.driver;
 
 import android.app.Application;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.ubclaunchpad.driver.models.User;
 import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ public class MainApplication extends Application {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     public User getUser(){
