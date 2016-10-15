@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.Manifest;
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
 
