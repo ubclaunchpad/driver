@@ -47,17 +47,23 @@ import java.util.Map;
  */
 public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
+    //This View could be used when the user has signed in
     private TextView mTextDetails;
 
     private LoginContract.Presenter mPresenter;
     private CallbackManager callbackManager;
+
+    //To recieve the callback when the user attempts to sign in using facebook
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
             if (profile!= null){
-                mTextDetails.setText("Welcome :)" + profile.getName());
+
+                //Just to verify that everything is working properly
+                mTextDetails.setText("Welcome :) " + profile.getName());
+
             }
         }
 
@@ -108,6 +114,7 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         return view;
     }
 
+    //To enable sign in using FB
     public void OnViewCreated(View view, Bundle savedInstanceState){
     super.onViewCreated(view, savedInstanceState);
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
@@ -136,6 +143,7 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         mPresenter.onStop();
         super.onStop();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
