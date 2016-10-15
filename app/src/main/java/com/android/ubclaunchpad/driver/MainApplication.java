@@ -30,7 +30,7 @@ public class MainApplication extends Application {
     }
 
     public void setUser(User u){
-        user = u;
+            user = u;
     }
 
 
