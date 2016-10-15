@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.json.JSONException;
@@ -15,7 +16,7 @@ public class User {
     public String name;
     public String email;
     public String address;
-    public String postalCode;
+    public String latLngAsString;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -28,14 +29,12 @@ public class User {
      * User contructor
      * @param name
      * @param email
-     * @param address
-     * @param postalCode
      */
-    public User(String name, String email, String address, String postalCode) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.address = address;
-        this.postalCode = postalCode;
+        this.address = "";
+        this.latLngAsString = "";
         isDriver = false;
         seatNum = null;
     }
@@ -45,25 +44,27 @@ public class User {
      * @param
      */
 
-    public void makeSeatNum(Integer seatNum) {
+    public void setSeatNum(Integer seatNum) {
         isDriver = true;
         this.seatNum = seatNum;
     }
 
-    public void makeName(String name){
+    public void setName(String name){
         this.name = name;
     }
 
-    public void makeEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public void makeAddress(String address){
+    public void setAddress(String address){
         this.address = address;
     }
 
-    public void makePostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setLatLngAsString(LatLng latLng) {
+        Double lat = latLng.latitude;
+        Double lng = latLng.longitude;
+        this.latLngAsString = lat.toString() + "," + lng.toString();
     }
 
     /**
@@ -75,24 +76,24 @@ public class User {
         return isDriver;
     }
 
-    public Integer grabSeatNum() {
+    public Integer getSeatNum() {
         return seatNum;
     }
 
-    public String grabUserName(){
+    public String getUserName(){
         return name;
     }
 
-    public String grabEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public String grabAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public String grabPostalCode() {
-        return postalCode;
+    public String getLatLngAsString() {
+        return latLngAsString;
     }
 
     public JSONObject userToString() {
@@ -112,9 +113,5 @@ public class User {
         }
 
         return userJSON;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }

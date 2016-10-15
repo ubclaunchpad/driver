@@ -49,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                try {
+                    MainApplication app = (MainApplication) getApplicationContext();
+                    app.getUser().setAddress(place.getAddress().toString());
+                    app.getUser().setLatLngAsString(place.getLatLng());
+                } catch (NullPointerException e){
+                    Log.d(TAG, e.getMessage());
+                }
             }
 
             @Override
