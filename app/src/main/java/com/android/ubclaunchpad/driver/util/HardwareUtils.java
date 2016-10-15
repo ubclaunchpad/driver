@@ -1,6 +1,16 @@
 package com.android.ubclaunchpad.driver.util;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.android.ubclaunchpad.driver.Manifest;
+import com.android.ubclaunchpad.driver.UI.MainActivity;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.util.HashMap;
@@ -91,5 +101,21 @@ public class HardwareUtils {
             otherPhoneProduct = 5.5 * getPhoneValue(otherPhone, "processor");
         }
         return (myPhoneProduct >= otherPhoneProduct);
+    }
+
+    public static LatLng getGPS(){
+
+        Context context = MainActivity.getContext();
+
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            return new LatLng(latitude, longitude);
+        } else {
+            Toast.makeText(context, "Make sure Location Services are on", Toast.LENGTH_LONG).show();
+        }
+        return new LatLng(0, 0);
     }
 }
