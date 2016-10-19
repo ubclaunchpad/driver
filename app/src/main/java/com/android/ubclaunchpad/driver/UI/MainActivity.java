@@ -19,12 +19,18 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.android.ubclaunchpad.driver.util.WiFiDirectBroadcastReceiver;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,17 +45,45 @@ public class MainActivity extends AppCompatActivity {
     User user;
     FirebaseAuth mAuth;
 
+    FirebaseDatabase db;
+    DatabaseReference root;
+    DatabaseReference userDestData;
+
+    HardwareUtils hardwareUtil;
+    Double mipsScore;
+
+
     WifiP2pManager mManager;
     WifiP2pManager.Channel mChannel;
     BroadcastReceiver mReceiver;
     IntentFilter mIntentFilter;
+
+    CharSequence userDestPlaceName;
+    LatLng userDestLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = FirebaseDatabase.getInstance();
+        root = db.getReference("ubc-driver");
+        userDestData = db.getReference("currSession");
+
+        hardwareUtil = new HardwareUtils();
+
         bluetoothCheck();
+
+        mAuth = FirebaseAuth.getInstance();
+        MainApplication app = ((MainApplication)getApplicationContext());
+        user = app.getUser();
+
+        if(user == null){
+            //Something went wrong, go back to login
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -59,6 +93,29 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                userDestPlaceName = place.getName();
+                userDestLocation = place.getLatLng();
+
+                // if nothing is wrong, then check if user is passenger / driver
+                // if user is a passenger, send the information to firebase
+                if (!user.isDriver() && user!=null) {
+
+                    userDestData.child(user.grabUserName()).child("destination")
+                            .setValue(userDestLocation);
+                    userDestData.child(user.grabUserName()).child("destination")
+                            .child("destination name").setValue(userDestPlaceName);
+
+
+                    Map<String,String> cpuInfoMap = hardwareUtil.getCpuInfoMap();
+                    Double bogoMIPSScore = hardwareUtil.getPhoneValue(cpuInfoMap, "BogoMIPS");
+                    if (bogoMIPSScore == 0) {
+                        mipsScore = hardwareUtil.getPhoneValue(cpuInfoMap, "processor");
+                    } else {
+                        mipsScore = bogoMIPSScore;
+                    }
+
+                    userDestData.child(user.grabUserName()).child("MIPS Score").setValue(mipsScore);
+                }
             }
 
             @Override
@@ -88,16 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
 
-        if(user == null){
-            //Something went wrong, go back to login
-            mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
