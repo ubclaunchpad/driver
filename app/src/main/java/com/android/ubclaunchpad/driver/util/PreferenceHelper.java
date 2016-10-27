@@ -12,6 +12,12 @@ public class PreferenceHelper {
     private static SharedPreferences sharedPreferences;
     private static PreferenceHelper preferenceHelperInstance;
 
+    /**
+     * Initalize the preference helper when the app starts from the Main application
+     * This ensure the singleton is created once and can be used throughout the app.
+     * @param context - required to create shared preferences
+     * @return - an instance of the Preference Helper
+     */
     public static PreferenceHelper initInstance(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         if(preferenceHelperInstance == null)
@@ -19,8 +25,11 @@ public class PreferenceHelper {
         return preferenceHelperInstance;
     }
 
-    private PreferenceHelper(){}
-
+    /**
+     * Returns the instance of the Preference Helper created from the application startup
+     * @return Instance of the Preference Helper
+     * @throws Exception - If the instance was not created proper
+     */
     public static PreferenceHelper getPreferenceHelperInstance() throws Exception {
         if(sharedPreferences == null){
             throw new Exception("Preference Helper needs to be initialized first");
@@ -28,6 +37,14 @@ public class PreferenceHelper {
         return preferenceHelperInstance;
     }
 
+    /**
+     * Singleton constructor. Should be private to prevent additional instance being created
+     */
+    private PreferenceHelper(){}
+
+    /*
+        Put methods are to write to shared pref
+     */
     public void put(String key, String val){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, val);
@@ -54,10 +71,13 @@ public class PreferenceHelper {
         editor.apply();
     }
 
+    /*
+        Get methods to retrieve from shared pref
+     */
+
     public String getString(String key, String def){
         return sharedPreferences.getString(key, def);
     }
-
     public int getInt(String key, int def){
         return sharedPreferences.getInt(key, def);
     }
@@ -65,7 +85,6 @@ public class PreferenceHelper {
     public boolean getBool(String key, boolean def){
         return sharedPreferences.getBoolean(key, def);
     }
-
     public float getFloat(String key, float def){
         return sharedPreferences.getFloat(key, def);
     }
@@ -73,7 +92,4 @@ public class PreferenceHelper {
     public long getLong(String key, long def){
         return sharedPreferences.getLong(key, def);
     }
-
-
-
 }

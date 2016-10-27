@@ -15,17 +15,29 @@ public class UserManager {
     private User user;
     private static UserManager userManager;
 
+    /**
+     * Singleton instance of User manager
+     * @return Instance of user manager
+     */
     public static UserManager getInstance() {
         if(userManager == null)
             userManager = new UserManager();
         return userManager;
     }
 
+    /**
+     * Private constructor for singleton ensure only one instance is created
+     */
     private UserManager(){}
 
+    /**
+     * Returns the user handled by the manager instance
+     * @return User
+     * @throws Exception if user is not set yet
+     */
     public User getUser() throws Exception{
         if(user == null){
-            //TODO get user
+            //TODO get user?
             throw new Exception("User not set");
         }
         return user;
@@ -35,7 +47,11 @@ public class UserManager {
         this.user = user;
     }
 
-    public void saveUserToPref(User currentUser){
+    /**
+     * Saves a user to the shared prefs of the device. The user is serialized to allow for shared pref save
+     * @param currentUser
+     */
+    public static void saveUserToPref(User currentUser){
         String userString = currentUser.serializeUser();
         try {
             PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.UserKey, userString);
@@ -45,6 +61,10 @@ public class UserManager {
         }
     }
 
+    /**
+     * Looks for the shared pref saved user and deserailizes it back into User.class
+     * @return User
+     */
     @Nullable
     public User retrieveUserFromPref(){
         try {

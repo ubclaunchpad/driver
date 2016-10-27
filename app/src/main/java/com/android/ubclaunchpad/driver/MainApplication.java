@@ -18,8 +18,7 @@ public class MainApplication extends Application {
         super.onCreate();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
+        //This singleton handles all save/load preferences of the app
         PreferenceHelper.initInstance(this);
     }
-
-
 }
