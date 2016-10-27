@@ -3,8 +3,8 @@ package com.android.ubclaunchpad.driver;
 import android.app.Application;
 
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.facebook.FacebookSdk;
-import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Application class that is alive throughout the entire
@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class MainApplication extends Application {
 
-    private FirebaseAuth mAuth;
+//    private FirebaseAuth mAuth;
     private User user;
 
     @Override
@@ -22,7 +22,9 @@ public class MainApplication extends Application {
         super.onCreate();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
+
+        PreferenceHelper.initInstance(this);
     }
 
     public User getUser(){

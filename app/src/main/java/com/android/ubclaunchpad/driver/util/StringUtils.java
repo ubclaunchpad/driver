@@ -25,6 +25,7 @@ public class StringUtils {
      * Shared pref keys
      */
     public static final String FirebaseUidKey = "FirebaseUidKey";
+    public static final String UserKey = "UserKey";
 
     /**
      * Email validation pattern.
