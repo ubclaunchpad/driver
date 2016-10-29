@@ -2,9 +2,7 @@ package com.android.ubclaunchpad.driver.models;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -37,6 +35,16 @@ public class User {
         this.latLngAsString = "";
         isDriver = false;
         seatNum = null;
+    }
+
+    public static User createUser(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json, User.class);
+    }
+
+    public String serializeUser(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     /**
@@ -96,22 +104,22 @@ public class User {
         return latLngAsString;
     }
 
-    public JSONObject userToString() {
-
-        JSONObject userJSON = new JSONObject();
-
-        try {
-            userJSON.put("name", name);
-            userJSON.put("address", address);
-            userJSON.put("isDriver", isDriver);
-            userJSON.put("seatNum", seatNum);
-            userJSON.put("email", email);
-
-        }
-        catch (JSONException e) {
-        //
-        }
-
-        return userJSON;
-    }
+//    public JSONObject userToString() {
+//
+//        JSONObject userJSON = new JSONObject();
+//
+//        try {
+//            userJSON.put("name", name);
+//            userJSON.put("address", address);
+//            userJSON.put("isDriver", isDriver);
+//            userJSON.put("seatNum", seatNum);
+//            userJSON.put("email", email);
+//
+//        }
+//        catch (JSONException e) {
+//        //
+//        }
+//
+//        return userJSON;
+//    }
 }

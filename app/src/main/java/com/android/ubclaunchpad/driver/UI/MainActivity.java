@@ -15,6 +15,7 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -50,9 +51,17 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
                 try {
-                    MainApplication app = (MainApplication) getApplicationContext();
-                    app.getUser().setAddress(place.getAddress().toString());
-                    app.getUser().setLatLngAsString(place.getLatLng());
+                    try {
+                        User user = UserManager.getInstance().getUser();
+                        if(user != null){
+                            user.setAddress(place.getAddress().toString());
+                            user.setLatLngAsString(place.getLatLng());
+                        }
+                    }
+                    catch (Exception e){
+                        Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                    }
+
                 } catch (NullPointerException e){
                     Log.d(TAG, e.getMessage());
                 }
@@ -87,9 +96,19 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
+//        user = app.getUser();
+        try {
+            user = UserManager.getInstance().getUser();
 
-        if(user == null){
+            if (user == null) {
+                //Something went wrong, go back to login
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+        }
+        catch (Exception e){
+            Log.e(TAG, "Could not retrieve user" + e.getMessage());
             //Something went wrong, go back to login
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
