@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
                 userDestPlaceName = place.getName();
                 userDestLocation = place.getLatLng();
 
@@ -100,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 // if user is a passenger, send the information to firebase
                 if (!user.isDriver() && user!=null) {
 
-                    userDestData.child(user.grabUserName()).child("destination")
+                    userDestData.child(user.getUserName()).child("destination")
                             .setValue(userDestLocation);
-                    userDestData.child(user.grabUserName()).child("destination")
+                    userDestData.child(user.getUserName()).child("destination")
                             .child("destination name").setValue(userDestPlaceName);
 
 
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
                         mipsScore = bogoMIPSScore;
                     }
 
-                    userDestData.child(user.grabUserName()).child("MIPS Score").setValue(mipsScore);
+                    userDestData.child(user.getUserName()).child("MIPS Score").setValue(mipsScore);
+
                 }
             }
 

@@ -67,9 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
                     //Create the newly successfully registered user
                     String name = mName.getText().toString();
                     String email = mEmail.getText().toString();
-                    String streetAddress = mStreetAddress.getText().toString();
-                    String postalCode = mPostalCode.getText().toString();
-                    User user = new User(name, email, streetAddress, postalCode);
+//                    String streetAddress = mStreetAddress.getText().toString();
+//                    String postalCode = mPostalCode.getText().toString();
+                    User user = new User(name, email);
 
                     //Set user to application layer
                     MainApplication app = ((MainApplication)getApplicationContext());
