@@ -1,8 +1,10 @@
 package com.android.ubclaunchpad.driver.util;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,11 +12,12 @@ import java.util.List;
  */
 public class UserUtils {
 
-    public List<LatLng> findNearbyLatLngs(List<LatLng> latLngs){
+    // finds latLngs within 30 meters of your current latLng
+    public List<LatLng> findNearbyLatLngs(List<LatLng> latLngs, Context context){
 
-        LatLng ownLatLng = HardwareUtils.getGPS();
+        LatLng ownLatLng = HardwareUtils.getGPS(context);
 
-        List<LatLng> nearbyLatLng = new LinkedList<LatLng>();
+        List<LatLng> nearbyLatLng = new ArrayList<LatLng>();
 
         for (LatLng next: latLngs){
             double lon1 = next.longitude;
