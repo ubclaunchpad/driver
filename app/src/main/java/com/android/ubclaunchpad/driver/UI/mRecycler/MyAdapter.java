@@ -64,11 +64,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
             @Override
             public void onClick(View v) {
                 if (((CheckBox) v).isChecked()) {
-                    selectedPassengers.add(passengers.get(((Integer) v.getTag())));
-                } else {
-                    selectedPassengers.remove(passengers.get(((Integer) v.getTag())));
+                    dismissSelectedPassenger(passengers.get(((Integer) v.getTag())));
                 }
-
             }
         });
 
@@ -90,20 +87,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     }
 
     //DISMISS PASSENGERS WHEN "REMOVE PASSENGERS" FAB IS SELECTED, AND THEY ARE CHECKED
-    public void dismissSelectedPassenger(ArrayList<Passenger> passengersSelected) {
+    public void dismissSelectedPassenger(Passenger passengerSelected) {
 
-        for (Passenger p: passengersSelected) {
-            passengers.remove(p);
-        }
+            passengers.remove(passengerSelected);
+
 
         this.notifyDataSetChanged();
 
     }
 
-
-    public ArrayList<Passenger> getSelectedPassengers() {
-        return selectedPassengers;
-    }
 
 
 }
