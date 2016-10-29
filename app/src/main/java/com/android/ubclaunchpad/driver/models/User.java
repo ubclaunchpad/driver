@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 /**
  * User model. Used to serialize and deserialize data to/from
  * POJOs (Plain Old Java Objects).
