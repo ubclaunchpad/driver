@@ -72,10 +72,10 @@ public class DispatchActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.e(StringUtils.DispatchActivity, databaseError.getMessage());
-                    startActivity(new Intent(DispatchActivity.this, LoginActivity.class));
-                }
-            });
+            Log.e(StringUtils.DispatchActivity, databaseError.getMessage());
+            startActivity(new Intent(DispatchActivity.this, LoginActivity.class));
+        }
+        });
         }
         //If no user is found
         else {

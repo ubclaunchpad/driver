@@ -84,5 +84,4 @@
         android:layout_alignLeft="@+id/registerButton"
         android:layout_alignStart="@+id/registerButton" />
 
-
 </RelativeLayout>

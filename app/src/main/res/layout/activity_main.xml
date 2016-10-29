@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:id="@+id/i_am_a_passenger_button"
-            android:text="@string/passenger_bttn_text"/>
+            android:text="@string/passenger_bttn_text" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/i_am_a_driver_button"
-            android:text="@string/driver_bttn_text"/>
+            android:text="@string/driver_bttn_text" />
 
         <fragment
             android:id="@+id/place_autocomplete_fragment"
@@ -31,4 +31,7 @@
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
 
     </LinearLayout>
+
+
+
 </RelativeLayout>

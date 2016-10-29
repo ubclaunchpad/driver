@@ -1,11 +1,16 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,9 +41,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    //For FB
-
-
 
     private int REQUEST_ENABLE_BT = 1;
     private boolean mBluetoothProblems = true; //TODO maybe needs to be accessed in application layer
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     User user;
     FirebaseAuth mAuth;
+    LocationManager locationManager;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //Added to target larger audience as per FB
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
         //callbackManager = CallbackManager.Factory.create();
         // LoginButton loginButton = (LoginButton) findViewById(R.id.user_settings_fragment_login_button);
 /*
@@ -75,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
                         AuthUI.EMAILPROVIDER)
                 .build(), 1);
 */
-        bluetoothCheck();
+       // bluetoothCheck();
+       // if(!isLocationEnabled()){
+         // }
+
+
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -128,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

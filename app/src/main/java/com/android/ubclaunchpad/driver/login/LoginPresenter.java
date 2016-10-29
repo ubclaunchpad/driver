@@ -1,11 +1,15 @@
 package com.android.ubclaunchpad.driver.login;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -67,6 +71,8 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     private FragmentActivity mContext;
 
+    private LoginManager loginManager;
+
     /**
      * Pass a reference of the view to the Presenter. We use this reference
      * to modify the view's state.
@@ -95,6 +101,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     @Override
     public void onCreate(FragmentActivity fragContext){
         this.mContext = fragContext;
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -317,6 +324,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     /**
      * Facebook API callbacks
      **/
+
     @Override
     public void onSuccess(LoginResult loginResult) {
         Log.d(TAG, "facebook:onSuccess:" + loginResult);
