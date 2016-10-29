@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
@@ -53,6 +54,7 @@ public class NumPassengersFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int numPassengers = numPassengerPick.getValue();
+
 
                 // debug toad
                 // TODO: delete this when we're able to save this into user object
