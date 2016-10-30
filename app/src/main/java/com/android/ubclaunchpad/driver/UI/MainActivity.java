@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,10 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance();
         root = db.getReference("ubc-driver");
-        userDestData = db.getReference("currSession");
-
-        hardwareUtil = new HardwareUtils();
-
+        userDestData = db.getReference("currPassengerUsers");
+        
         bluetoothCheck();
 
         mAuth = FirebaseAuth.getInstance();
@@ -97,26 +96,33 @@ public class MainActivity extends AppCompatActivity {
                 userDestPlaceName = place.getName();
                 userDestLocation = place.getLatLng();
 
-                // if nothing is wrong, then check if user is passenger / driver
-                // if user is a passenger, send the information to firebase
+                /*
+                if nothing is wrong, then check if user is passenger / driver
+                if user is a passenger, send the information to firebase
+                */
                 if (!user.isDriver() && user!=null) {
 
-                    userDestData.child(user.getUserName()).child("destination")
-                            .setValue(userDestLocation);
-                    userDestData.child(user.getUserName()).child("destination")
-                            .child("destination name").setValue(userDestPlaceName);
+                    Map<String, Object> userDataHashMap = new HashMap<String, Object>();
 
+                    userDataHashMap.put("Username", user.getUserName());
 
-                    Map<String,String> cpuInfoMap = hardwareUtil.getCpuInfoMap();
-                    Double bogoMIPSScore = hardwareUtil.getPhoneValue(cpuInfoMap, "BogoMIPS");
+                    Map<String, Object> userDestinationHashMap = new HashMap<String, Object>();
+                    userDestinationHashMap.put("Location Name", userDestPlaceName);
+                    userDestinationHashMap.put("LatLng", userDestLocation);
+
+                    userDataHashMap.put("Destination", userDestinationHashMap);
+
+                    Map<String,String> cpuInfoMap = HardwareUtils.getCpuInfoMap();
+                    Double bogoMIPSScore = HardwareUtils.getPhoneValue(cpuInfoMap, "BogoMIPS");
                     if (bogoMIPSScore == 0) {
-                        mipsScore = hardwareUtil.getPhoneValue(cpuInfoMap, "processor");
+                        mipsScore = HardwareUtils.getPhoneValue(cpuInfoMap, "processor");
                     } else {
                         mipsScore = bogoMIPSScore;
                     }
 
-                    userDestData.child(user.getUserName()).child("MIPS Score").setValue(mipsScore);
-
+                    userDataHashMap.put("MIPS Score", mipsScore);
+                    // push the hashmap into firebase
+                    userDestData.push().setValue(userDataHashMap);
                 }
             }
 
