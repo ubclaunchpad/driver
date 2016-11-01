@@ -1,6 +1,7 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mPassengerButton;
     private Button mDriverButton;
 
+    private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
     User user;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
 
         bluetoothCheck();
 
@@ -121,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQUEST_ENABLE_BT){
             mBluetoothProblems = !(resultCode == RESULT_OK);
         }
+    }
+
+    public static Context getContext(){
+        return MainActivity.context;
     }
 
     /**

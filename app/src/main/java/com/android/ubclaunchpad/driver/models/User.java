@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
+
 /**
  * User model. Used to serialize and deserialize data to/from
  * POJOs (Plain Old Java Objects).
