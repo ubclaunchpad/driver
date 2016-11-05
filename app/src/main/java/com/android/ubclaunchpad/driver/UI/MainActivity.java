@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         root = db.getReference("ubc-driver");
         userDestData = db.getReference("currPassengerUsers");
-        
+
         bluetoothCheck();
 
         mAuth = FirebaseAuth.getInstance();
