@@ -14,6 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
 import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mPassengerButton;
     private Button mDriverButton;
+    private Button mSessionButton;
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     WifiP2pManager mManager;
+    WifiP2pManager.PeerListListener myPeerListListener;
     WifiP2pManager.Channel mChannel;
     BroadcastReceiver mReceiver;
     IntentFilter mIntentFilter;
@@ -88,6 +96,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mSessionButton = (Button) findViewById(R.id.button3);
+        final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
+        mSessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SessionIntent);
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
         MainApplication app = ((MainApplication)getApplicationContext());
         user = app.getUser();
@@ -121,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         registerReceiver(mReceiver, mIntentFilter);
     }
     /* unregister the broadcast receiver */
@@ -135,15 +153,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
 
+                // Code for when the discovery initiation is successful goes here.
+                // No services have actually been discovered yet, so this method
+                // can often be left blank.  Code for peer discovery goes in the
+                // onReceive method,
 
             }
 
             @Override
             public void onFailure(int reason) {
+                // Code for when the discovery initiation fails goes here.
+                // Alert the user that something went wrong.
+    //            Toast.makeText(MainActivity.this, "Connect failed. Retry.",
+    //                    Toast.LENGTH_SHORT).show();
 
             }
         });
+
     }
+
+
 
     /**
      * Checks if phone has bluetooth and if it is enabled
