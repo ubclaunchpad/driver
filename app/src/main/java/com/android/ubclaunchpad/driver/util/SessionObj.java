@@ -2,6 +2,7 @@ package com.android.ubclaunchpad.driver.util;
 
 
 import com.android.ubclaunchpad.driver.models.User;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,19 +14,17 @@ public class SessionObj {
 
     private String sSessionName;
     private String sID;
-    private String sUserName;
     private String sLatLong;
     private boolean isOpen;
-    // hashmap where the key is the Driver, that is a user and the entry is the list of users(list of Passangers)
-    private HashMap<User,List<User>> users;
+    private String uID;
+    // hashmap with String = userID, User - user object
 
-    public SessionObj(String SessionName, String ID, String LatLon, String UserName){
+    public SessionObj(String SessionName, String ID, String LatLon, String userID){
         this.sSessionName = SessionName;
         this.sID = ID;
-        this.sUserName = UserName;
+        this.uID = userID;
         this.sLatLong = LatLon;
         this.isOpen = true;
-        users = new HashMap<>();
     }
 
     public String getSessionName(){
@@ -36,13 +35,11 @@ public class SessionObj {
         return sID;
     }
 
-    public String getUserName(){
-        return sUserName;
+    public String getUserID(){
+        return uID;
     }
 
     public String getLatLong(){return sLatLong;}
 
     public boolean getIsOpen(){return isOpen;}
-
-    public HashMap getUsers(){return users;}
 }

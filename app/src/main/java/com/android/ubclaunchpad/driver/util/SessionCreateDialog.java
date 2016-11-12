@@ -2,6 +2,7 @@ package com.android.ubclaunchpad.driver.util;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.SessionActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -52,8 +56,6 @@ public class SessionCreateDialog extends Dialog implements
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
 
-
-
         txtDescription = (EditText) findViewById(R.id.session_name);
 
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -84,9 +86,16 @@ public class SessionCreateDialog extends Dialog implements
 
     private void createSession () {
         String uniqueID = UUID.randomUUID().toString();
-        mDatabase.child("Session").child(uniqueID).child("User1").setValue(mUser.getUid());
 
-        scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getDisplayName());
+        // hashmap to store the list of users
+        Map<String, String> userSessionHashMap = new HashMap<>();
+
+
+        userSessionHashMap.put(mUser.getUid(), mUser.getUid());
+
+        scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getUid());
+
+        mDatabase.child("Session group").child(scdSession.getSessionID()).setValue(userSessionHashMap);
         // Lat Lon should be changed to the real lat lon of the current session
         mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }

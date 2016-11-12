@@ -47,7 +47,9 @@ public class SessionActivity extends AppCompatActivity {
 
         CreateSession = (Button) findViewById(R.id.create_session);
         scd = new SessionCreateDialog(this);
-        final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
+        Intent intent1 = getIntent();
+        Intent SessionIntent = new Intent(this, SessionCreateDialog.class);   // session intent
+
         CreateSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bluetoothCheck();
-
+        mAuth = FirebaseAuth.getInstance();
+        MainApplication app = ((MainApplication)getApplicationContext());
+        user = app.getUser();
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -105,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
+//        mAuth = FirebaseAuth.getInstance();
+//        MainApplication app = ((MainApplication)getApplicationContext());
+//        user = app.getUser();
 
         if(user == null){
             //Something went wrong, go back to login
