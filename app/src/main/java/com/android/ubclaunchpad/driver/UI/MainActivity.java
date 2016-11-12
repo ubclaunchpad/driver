@@ -14,23 +14,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-
 import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.android.ubclaunchpad.driver.util.HardwareUtils;
 import com.android.ubclaunchpad.driver.util.WiFiDirectBroadcastReceiver;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothCheck();
+        mAuth = FirebaseAuth.getInstance();
+        MainApplication app = ((MainApplication)getApplicationContext());
+        user = app.getUser();
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -67,6 +66,17 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
+                user.makeDestinationName(place.getName());
+                user.makeDestinationLatLng(place.getLatLng());
+
+                Map<String,String> cpuInfoMap = HardwareUtils.getCpuInfoMap();
+                Double bogoMIPSScore = HardwareUtils.getPhoneValue(cpuInfoMap, "BogoMIPS");
+                if (bogoMIPSScore == 0) {
+                    user.makeMIPSScore(HardwareUtils.getPhoneValue(cpuInfoMap, "processor"));
+                } else {
+                    user.makeMIPSScore(bogoMIPSScore);
+                }
             }
 
             @Override
@@ -104,10 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(SessionIntent);
             }
         });
-
-        mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
 
         if(user == null){
             //Something went wrong, go back to login

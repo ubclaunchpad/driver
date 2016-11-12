@@ -5,21 +5,19 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -38,6 +36,7 @@ public class SessionCreateDialog extends Dialog implements
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
 
+
     public SessionCreateDialog (Activity a) {
         super(a);
         this.c = a;
@@ -48,9 +47,11 @@ public class SessionCreateDialog extends Dialog implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.session_create_dialog);
 
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
+
 
         txtDescription = (EditText) findViewById(R.id.session_name);
 
@@ -83,7 +84,15 @@ public class SessionCreateDialog extends Dialog implements
     private void createSession () {
 
         String uniqueID = UUID.randomUUID().toString();
-        mDatabase.child("Session").child(uniqueID).child("User1").setValue(mUser.getUid());
+        // hashmap to store the list of users
+        Map<String, Object> userSessionHashMap = new HashMap<String, Object>();
+
+        // get session list of user objects
+        for (User sessionUser: session.getUser()) {
+            userDataHashMap.put(sessionUser.getUser(), sessionUser);
+        }
+
+        mDatabase.child("Session").child(uniqueID).setValue(userSessionHashMap);
 
         scdSession = new SessionObj(dSessionName, uniqueID, mUser.getDisplayName());
         // Lat Lon should be changed to the real lat lon of the current session

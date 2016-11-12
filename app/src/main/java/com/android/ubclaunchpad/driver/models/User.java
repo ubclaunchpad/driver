@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.json.JSONException;
@@ -18,6 +19,10 @@ public class User {
     public String postalCode;
     public Boolean isDriver;
     public Integer seatNum;
+
+    public double mipsScore;
+    public CharSequence destinationName;
+    public LatLng destinationLatLng;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -65,6 +70,12 @@ public class User {
     public void makePostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
+
+    public void makeDestinationName(CharSequence destinationName) { this.destinationName = destinationName;}
+
+    public void makeDestinationLatLng(LatLng destinationLatLng) { this.destinationLatLng = destinationLatLng;}
+
+    public void makeMIPSScore(double mipsScore) { this.mipsScore = mipsScore;}
 
     /**
      * Just a bunch of getter methods
