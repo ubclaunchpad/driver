@@ -52,6 +52,8 @@ public class SessionCreateDialog extends Dialog implements
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
 
+
+
         txtDescription = (EditText) findViewById(R.id.session_name);
 
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -81,13 +83,12 @@ public class SessionCreateDialog extends Dialog implements
     }
 
     private void createSession () {
-
         String uniqueID = UUID.randomUUID().toString();
         mDatabase.child("Session").child(uniqueID).child("User1").setValue(mUser.getUid());
 
-        scdSession = new SessionObj(dSessionName, uniqueID, mUser.getDisplayName());
+        scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getDisplayName());
         // Lat Lon should be changed to the real lat lon of the current session
-        mDatabase.child("Geo point").child("Lat Long").setValue(scdSession.getSessionID());
+        mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }
 }
 
