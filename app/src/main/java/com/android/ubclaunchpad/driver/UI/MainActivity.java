@@ -20,12 +20,15 @@ import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.WiFiDirectBroadcastReceiver;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.Map;
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     User user;
     FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     WifiP2pManager mManager;
     WifiP2pManager.PeerListListener myPeerListListener;
@@ -76,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
                     user.makeMIPSScore(HardwareUtils.getPhoneValue(cpuInfoMap, "processor"));
                 } else {
                     user.makeMIPSScore(bogoMIPSScore);
+                }
+
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(firebaseUser.getUid()).setValue(user);
                 }
             }
 

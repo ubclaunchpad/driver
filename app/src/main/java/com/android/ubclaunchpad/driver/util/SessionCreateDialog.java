@@ -85,12 +85,13 @@ public class SessionCreateDialog extends Dialog implements
 
         String uniqueID = UUID.randomUUID().toString();
         // hashmap to store the list of users
-        Map<String, Object> userSessionHashMap = new HashMap<String, Object>();
+        Map<String, String> userSessionHashMap = new HashMap<String, String>();
 
         // get session list of user objects
-        for (User sessionUser: session.getUser()) {
-            userDataHashMap.put(sessionUser.getUser(), sessionUser);
-        }
+        SessionObj sessionObj = new SessionObj();
+
+        userSessionHashMap.put(mUser.getUid(), mUser.getUid());
+
 
         mDatabase.child("Session").child(uniqueID).setValue(userSessionHashMap);
 
