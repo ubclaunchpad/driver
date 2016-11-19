@@ -12,6 +12,9 @@ import com.android.ubclaunchpad.driver.R;
 * Created by Navjashan on 09/11/2016
  */
 
+//Here I ll have to add the new created session list to the firebase session lists and I ll also
+//add the user who has created this list
+
 //Post: Should also be able to add all the information that the user has entered to the session list
 //Post: User who selects the session should also be added to that session
 
@@ -31,6 +34,9 @@ public class NewSession extends AppCompatActivity {
 
         if(message.length()!=0) {
             display.putExtra("displaySession", message);
+
+//            createSession(message);
+
             startActivity(display);
         }
     }

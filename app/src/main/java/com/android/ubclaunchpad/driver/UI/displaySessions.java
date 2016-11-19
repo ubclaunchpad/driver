@@ -18,6 +18,11 @@ import java.util.List;
 * Created by Navjashan on 09/11/2016
  */
 
+/*TODO
+Here I use the session item which user has clicked and will have to get all the users who are in that
+session
+ */
+
 //This class get the session name and is required to generate a list of all the user who have
 //joined this session
 

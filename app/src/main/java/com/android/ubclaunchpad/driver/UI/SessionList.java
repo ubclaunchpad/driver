@@ -21,6 +21,10 @@ import java.util.ArrayList;
 * Created by Navjashan on 09/11/2016
  */
 
+/*TODO
+Get a session list which gets updated in real time
+Maybe the best way to get it is from firebase itself
+ */
 
 //Requires: An ArrayList to display the list of sessions on the firebase
 //Post: User who selects the session should also be added to that session
