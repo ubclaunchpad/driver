@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_driver_passenger"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment">
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/i_am_a_passenger_button"
+        android:text="@string/passenger_bttn_text"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/i_am_a_driver_button"
+        android:text="@string/driver_bttn_text"/>
+
+</RelativeLayout>

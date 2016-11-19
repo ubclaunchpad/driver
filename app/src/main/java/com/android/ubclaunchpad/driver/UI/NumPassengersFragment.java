@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.UserManager;
 
 /**
  * Dialog Fragment for when users choose to be Drivers,
@@ -22,6 +24,7 @@ import com.android.ubclaunchpad.driver.R;
 public class NumPassengersFragment extends DialogFragment {
 
     private NumberPicker numPassengerPick;
+    private final static String TAG = NumPassengersFragment.class.getSimpleName();
 
     public NumPassengersFragment() {
         // Required empty public constructor
@@ -52,7 +55,11 @@ public class NumPassengersFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int numPassengers = numPassengerPick.getValue();
-
+                try {
+                    UserManager.getInstance().getUser().setSeatNum(numPassengers);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                }
                 // debug toad
                 // TODO: delete this when we're able to save this into user object
                 Toast.makeText(getContext(),
