@@ -50,6 +50,8 @@ dependencies {
     compile 'com.android.support:support-v4:23.4.0'
 
     compile 'com.google.android.gms:play-services-appindexing:9.0.1'
+    //JSON serialize/deserialize
+    compile 'com.google.code.gson:gson:2.7'
 }
 
 

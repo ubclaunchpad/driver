@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -67,13 +67,12 @@ public class RegisterActivity extends AppCompatActivity {
                     //Create the newly successfully registered user
                     String name = mName.getText().toString();
                     String email = mEmail.getText().toString();
-                    String streetAddress = mStreetAddress.getText().toString();
-                    String postalCode = mPostalCode.getText().toString();
-                    User user = new User(name, email, streetAddress, postalCode);
+//                    String streetAddress = mStreetAddress.getText().toString();
+//                    String postalCode = mPostalCode.getText().toString();
+                    User user = new User(name, email);
 
-                    //Set user to application layer
-                    MainApplication app = ((MainApplication)getApplicationContext());
-                    app.setUser(user);
+                    //Set user to UserManager
+                    UserManager.getInstance().setUser(user);
 
                     //Save user to firebase
                     mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);

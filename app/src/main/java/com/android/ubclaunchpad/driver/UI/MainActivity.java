@@ -1,6 +1,6 @@
 package com.android.ubclaunchpad.driver.UI;
 
-import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,18 +16,13 @@ import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.BluetoothCore;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -41,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private int REQUEST_ENABLE_BT = 1;
-    private boolean mBluetoothProblems = true; //TODO maybe needs to be accessed in application layer
 
     private Button mPassengerButton;
     private Button mDriverButton;
 
+    private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
     User user;
@@ -75,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         AuthUI.EMAILPROVIDER)
                 .build(), 1);
 */
-        bluetoothCheck();
-
+        context = getApplicationContext();
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -85,6 +79,21 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                try {
+                    try {
+                        User user = UserManager.getInstance().getUser();
+                        if(user != null){
+                            user.setAddress(place.getAddress().toString());
+                            user.setLatLngAsString(place.getLatLng());
+                        }
+                    }
+                    catch (Exception e){
+                        Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                    }
+
+                } catch (NullPointerException e){
+                    Log.d(TAG, e.getMessage());
+                }
             }
 
             @Override
@@ -115,10 +124,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication) getApplicationContext());
-        user = app.getUser();
 
-        if (user == null) {
+        MainApplication app = ((MainApplication)getApplicationContext());
+        try {
+            user = UserManager.getInstance().getUser();
+
+            if (user == null) {
+                //Something went wrong, go back to login
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+        }
+        catch (Exception e){
+            Log.e(TAG, "Could not retrieve user" + e.getMessage());
             //Something went wrong, go back to login
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
@@ -131,27 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ENABLE_BT) {
-            mBluetoothProblems = !(resultCode == RESULT_OK);
-        }
     }
 
-    /**
-     * Checks if phone has bluetooth and if it is enabled
-     * If not enabled, prompt user to turn on
-     */
-    private void bluetoothCheck() {
-        if (!BluetoothCore.deviceHasBluetooth()) {
-            // No bluetooth supported
-            mBluetoothProblems = true;
-            Toast.makeText(this, "WARNING: This device does not support bluetooth," +
-                    "Some features may not be available.", Toast.LENGTH_LONG).show();
-        } else if (!BluetoothCore.isBluetoothEnabled()) {
-            // prompt user to turn on bluetooth
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        } else
-            mBluetoothProblems = false; //if it passes the two checks, bluetooth is good to go
+    public static Context getContext(){
+        return MainActivity.context;
     }
 
     /**
