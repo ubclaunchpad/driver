@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
  * MVP pattern in simple use cases.
  */
 public class DispatchActivity extends AppCompatActivity {
+    private static final String TAG = DispatchActivity.class.getSimpleName();
     private DatabaseReference mDatabase;
 
     // ToDo: uncomment 'user' value assignment and entire 'if' statement
@@ -53,16 +55,17 @@ public class DispatchActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
 
                     if (user != null) {
-                        //Add user to application level
-                        MainApplication app = ((MainApplication)getApplicationContext());
-                        app.setUser(user);
+                        //Add user to Manager
+                        UserManager.getInstance().setUser(user);
 
-                        //It is possible that shared pref is out of sync if firebase user cache is different.
-                        //Safer option to is to re-save
-                        SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString(StringUtils.FirebaseUidKey, savedUid);
-                        editor.apply();
+//                        //It is possible that shared pref is out of sync if firebase user cache is different.
+//                        //Safer option to is to re-save
+                        try {
+                            PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, savedUid);
+                        }
+                        catch (Exception e){
+                            Log.e(TAG, "Could not save firebase key:" + e.getMessage());
+                        }
 
                         startActivity(new Intent(DispatchActivity.this, MainActivity.class));
                     } else {

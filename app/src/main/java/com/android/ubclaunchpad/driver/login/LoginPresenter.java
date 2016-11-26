@@ -2,17 +2,17 @@ package com.android.ubclaunchpad.driver.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -108,16 +108,16 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
                             if(user != null){
-                                //Add user to application level
-                                MainApplication app = ((MainApplication) mContext.getApplicationContext());
-                                app.setUser(user);
+                                //Set user to the manager
+                                UserManager userManager = UserManager.getInstance();
+                                userManager.setUser(user);
 
-                                //It is possible that shared pref is out of sync if firebase user cache is different.
-                                //Safer option to is to re-save
-                                SharedPreferences sharedPref = mContext.getSharedPreferences(StringUtils.FirebaseUidKey, mContext.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(StringUtils.FirebaseUidKey, firebaseUser.getUid());
-                                editor.apply();
+                                try {
+                                    PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, firebaseUser.getUid());
+                                }
+                                catch (Exception e){
+                                    Log.e(TAG, "Could not save firebase key:" + e.getMessage());
+                                }
 
                                 mContext.startActivity(new Intent(mContext, MainActivity.class));
                                 mContext.finish();

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,17 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-
 import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.BluetoothCore;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.android.ubclaunchpad.driver.util.WiFiDirectBroadcastReceiver;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -42,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mDriverButton;
     private Button mSessionButton;
 
+    private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
     User user;
@@ -58,10 +53,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = getApplicationContext();
+
         bluetoothCheck();
-        mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -70,6 +64,21 @@ public class MainActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                try {
+                    try {
+                        User user = UserManager.getInstance().getUser();
+                        if(user != null){
+                            user.setAddress(place.getAddress().toString());
+                            user.setLatLngAsString(place.getLatLng());
+                        }
+                    }
+                    catch (Exception e){
+                        Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                    }
+
+                } catch (NullPointerException e){
+                    Log.d(TAG, e.getMessage());
+                }
             }
 
             @Override
@@ -108,15 +117,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mAuth = FirebaseAuth.getInstance();
-//        MainApplication app = ((MainApplication)getApplicationContext());
-//        user = app.getUser();
+        mAuth = FirebaseAuth.getInstance();
+        MainApplication app = ((MainApplication)getApplicationContext());
+        user = app.getUser();
 
-        if(user == null){
-            //Something went wrong, go back to login
-            mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+        try {
+            user = UserManager.getInstance().getUser();
+
+            if (user == null) {
+                //Something went wrong, go back to login
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+        }
+        catch (Exception e){
+            Log.e(TAG, "Could not retrieve user" + e.getMessage());
+
         }
 
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
@@ -137,45 +154,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* register the broadcast receiver with the intent values to be matched */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        registerReceiver(mReceiver, mIntentFilter);
+    public static Context getContext(){
+        return MainActivity.context;
     }
-    /* unregister the broadcast receiver */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-    }
-
-    public void StartWifi(View view){
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-
-                // Code for when the discovery initiation is successful goes here.
-                // No services have actually been discovered yet, so this method
-                // can often be left blank.  Code for peer discovery goes in the
-                // onReceive method,
-
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                // Code for when the discovery initiation fails goes here.
-                // Alert the user that something went wrong.
-    //            Toast.makeText(MainActivity.this, "Connect failed. Retry.",
-    //                    Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-
 
     /**
      * Checks if phone has bluetooth and if it is enabled

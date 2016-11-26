@@ -1,9 +1,9 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -15,7 +15,7 @@ public class User {
     public String name;
     public String email;
     public String address;
-    public String postalCode;
+    public String latLngAsString;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -28,16 +28,24 @@ public class User {
      * User contructor
      * @param name
      * @param email
-     * @param address
-     * @param postalCode
      */
-    public User(String name, String email, String address, String postalCode) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.address = address;
-        this.postalCode = postalCode;
+        this.address = "";
+        this.latLngAsString = "";
         isDriver = false;
         seatNum = null;
+    }
+
+    public static User createUser(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json, User.class);
+    }
+
+    public String serializeUser(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     /**
@@ -45,25 +53,27 @@ public class User {
      * @param
      */
 
-    public void makeSeatNum(Integer seatNum) {
+    public void setSeatNum(Integer seatNum) {
         isDriver = true;
         this.seatNum = seatNum;
     }
 
-    public void makeName(String name){
+    public void setName(String name){
         this.name = name;
     }
 
-    public void makeEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public void makeAddress(String address){
+    public void setAddress(String address){
         this.address = address;
     }
 
-    public void makePostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setLatLngAsString(LatLng latLng) {
+        Double lat = latLng.latitude;
+        Double lng = latLng.longitude;
+        this.latLngAsString = lat.toString() + "," + lng.toString();
     }
 
     /**
@@ -75,46 +85,42 @@ public class User {
         return isDriver;
     }
 
-    public Integer grabSeatNum() {
+    public Integer getSeatNum() {
         return seatNum;
     }
 
-    public String grabUserName(){
+    public String getUserName(){
         return name;
-    }
-
-    public String grabEmail() {
-        return email;
-    }
-
-    public String grabAddress() {
-        return address;
-    }
-
-    public String grabPostalCode() {
-        return postalCode;
-    }
-
-    public JSONObject userToString() {
-
-        JSONObject userJSON = new JSONObject();
-
-        try {
-            userJSON.put("name", name);
-            userJSON.put("address", address);
-            userJSON.put("isDriver", isDriver);
-            userJSON.put("seatNum", seatNum);
-            userJSON.put("email", email);
-
-        }
-        catch (JSONException e) {
-        //
-        }
-
-        return userJSON;
     }
 
     public String getEmail() {
         return email;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getLatLngAsString() {
+        return latLngAsString;
+    }
+
+//    public JSONObject userToString() {
+//
+//        JSONObject userJSON = new JSONObject();
+//
+//        try {
+//            userJSON.put("name", name);
+//            userJSON.put("address", address);
+//            userJSON.put("isDriver", isDriver);
+//            userJSON.put("seatNum", seatNum);
+//            userJSON.put("email", email);
+//
+//        }
+//        catch (JSONException e) {
+//        //
+//        }
+//
+//        return userJSON;
+//    }
 }
