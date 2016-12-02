@@ -46,8 +46,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".util.ServerActivity" />
-        <activity android:name=".util.ClientActivity" />
         <activity android:name=".UI.SessionActivity"></activity>
     </application>
 

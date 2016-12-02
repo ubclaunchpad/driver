@@ -1,10 +1,7 @@
 package com.android.ubclaunchpad.driver.UI;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.UserManager;
-import com.android.ubclaunchpad.driver.util.WiFiDirectBroadcastReceiver;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -36,12 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     User user;
     FirebaseAuth mAuth;
-
-    WifiP2pManager mManager;
-    WifiP2pManager.PeerListListener myPeerListListener;
-    WifiP2pManager.Channel mChannel;
-    BroadcastReceiver mReceiver;
-    IntentFilter mIntentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+/**
+ * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
+ */
         mSessionButton = (Button) findViewById(R.id.button3);
         final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        MainApplication app = ((MainApplication)getApplicationContext());
-        user = app.getUser();
 
         try {
             user = UserManager.getInstance().getUser();
@@ -129,16 +120,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
 
         }
-
-        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel = mManager.initialize(this, getMainLooper(), null);
-        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
-
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
     }
 
     @Override

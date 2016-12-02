@@ -2,32 +2,25 @@ package com.android.ubclaunchpad.driver.util;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.SessionActivity;
-import com.android.ubclaunchpad.driver.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 /**
  * Created by Marina on 10/22/16.
+ * TODO this activity is for DEMO ONLY. UI please REMOVE
  */
 public class SessionCreateDialog extends Dialog implements
         android.view.View.OnClickListener {
