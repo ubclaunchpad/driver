@@ -1,6 +1,7 @@
 package com.android.ubclaunchpad.driver.models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
@@ -70,10 +71,15 @@ public class User {
         this.address = address;
     }
 
+    @Exclude
     public void setLatLngAsString(LatLng latLng) {
         Double lat = latLng.latitude;
         Double lng = latLng.longitude;
         this.latLngAsString = lat.toString() + "," + lng.toString();
+    }
+
+    public void setLatLngAsString(String latLng) {
+        this.latLngAsString = latLng;
     }
 
     /**
