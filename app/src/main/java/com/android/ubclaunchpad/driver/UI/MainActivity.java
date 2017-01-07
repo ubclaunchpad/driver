@@ -17,7 +17,7 @@ import com.android.ubclaunchpad.driver.models.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     User user;
     FirebaseAuth mAuth;
-
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
