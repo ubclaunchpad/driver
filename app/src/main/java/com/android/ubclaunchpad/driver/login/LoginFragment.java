@@ -18,19 +18,17 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.RegisterActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.w3c.dom.Text;
-
 import java.util.Collection;
 import java.util.Map;
+
+import static com.facebook.internal.FacebookDialogFragment.TAG;
 
 
 /**
@@ -47,9 +45,6 @@ import java.util.Map;
  */
 public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
-    //This View could be used when the user has signed in
-    private TextView mTextDetails;
-
     private LoginContract.Presenter mPresenter;
     private CallbackManager callbackManager;
 
@@ -57,24 +52,18 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            AccessToken accessToken = loginResult.getAccessToken();
-            Profile profile = Profile.getCurrentProfile();
-            if (profile!= null){
 
-                //Just to verify that everything is working properly
-                mTextDetails.setText("Welcome :) " + profile.getName());
-
-            }
+            Log.d(TAG, "facebook:onSuccess:" + loginResult.getAccessToken().getUserId());
         }
 
         @Override
         public void onCancel() {
-
+            Log.d(TAG, "Cancelling");
         }
 
         @Override
         public void onError(FacebookException error) {
-
+            Log.d(TAG, "ERROR with EXCEPTION");
         }
     };
 
@@ -97,24 +86,14 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        // Setup UI
+
         view.findViewById(R.id.signInButton).setOnClickListener(this /* the LoginFragment */);
         view.findViewById(R.id.registerButton).setOnClickListener(this /* the LoginFragment */);
-        
-        //Adding the FB button functionality
-
-
-        //loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult()>){
-
-        //}
-
-        
         mPresenter.onCreate(getActivity());
 
         return view;
     }
 
-    //To enable sign in using FB
     public void OnViewCreated(View view, Bundle savedInstanceState){
     super.onViewCreated(view, savedInstanceState);
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
