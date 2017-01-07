@@ -20,7 +20,8 @@ public class StringUtils {
      * Firebase endpoints (children)
      */
     public static final String FirebaseUserEndpoint = "Users";
-
+    public static final String isDriverEndpoint = "isDriver";
+    public static final String numPassengersEndpoint = "numPassengers";
     /**
      * Shared pref keys
      * TODO turn to enum
