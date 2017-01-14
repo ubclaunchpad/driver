@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.UI.DestinationActivity;
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.RegisterActivity;

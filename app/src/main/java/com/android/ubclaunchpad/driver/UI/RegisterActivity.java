@@ -84,8 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.putString(StringUtils.FirebaseUidKey, uid);
                     editor.apply();
 
-                    //Move to main activity
-                    Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                    //Move to destination activity
+                    Intent mainIntent = new Intent(RegisterActivity.this, DestinationActivity.class);
                     mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
                     startActivity(mainIntent);
                 }

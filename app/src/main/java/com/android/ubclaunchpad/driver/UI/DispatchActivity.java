@@ -64,7 +64,7 @@ public class DispatchActivity extends AppCompatActivity {
                         editor.putString(StringUtils.FirebaseUidKey, savedUid);
                         editor.apply();
 
-                        startActivity(new Intent(DispatchActivity.this, MainActivity.class));
+                        startActivity(new Intent(DispatchActivity.this, DestinationActivity.class));
                     } else {
                         startActivity(new Intent(DispatchActivity.this, LoginActivity.class));
                     }
