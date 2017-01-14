@@ -20,6 +20,10 @@ public class StringUtils {
      * Firebase endpoints (children)
      */
     public static final String FirebaseUserEndpoint = "Users";
+
+    public static final String FirebaseLatlngEndpoint = "latLng";
+    public static final String FirebaseLatEndpoint = "latitude";
+    public static final String FirebaseLonEndpoint ="longitude";
     public static final String isDriverEndpoint = "isDriver";
     public static final String numPassengersEndpoint = "numPassengers";
     /**
