@@ -23,8 +23,10 @@ public class StringUtils {
 
     /**
      * Shared pref keys
+     * TODO turn to enum
      */
     public static final String FirebaseUidKey = "FirebaseUidKey";
+    public static final String UserKey = "UserKey";
 
     /**
      * Email validation pattern.

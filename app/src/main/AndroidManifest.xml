@@ -3,7 +3,9 @@
     package="com.android.ubclaunchpad.driver">
 
     <!-- PERMISSIONS -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MainApplication"
@@ -15,6 +17,7 @@
         <activity android:name=".UI.DispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,6 +46,7 @@
         <activity android:name=".UI.DestinationActivity">
 
         </activity>
+      
     </application>
 
 </manifest>
