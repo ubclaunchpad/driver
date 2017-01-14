@@ -21,6 +21,9 @@ public class StringUtils {
      */
     public static final String FirebaseUserEndpoint = "Users";
 
+    public static final String FirebaseLatlngEndpoint = "latLng";
+    public static final String FirebaseLatEndpoint = "latitude";
+    public static final String FirebaseLonEndpoint ="longitude";
     /**
      * Shared pref keys
      * TODO turn to enum
