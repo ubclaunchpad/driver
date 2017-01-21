@@ -88,7 +88,8 @@ public class SessionCreateDialog extends Dialog implements
 
         scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getUid());
 
-        mDatabase.child("Session group").child(scdSession.getSessionID()).setValue(userSessionHashMap);
+    //    mDatabase.child("Session group").child(scdSession.getSessionID()).setValue(userSessionHashMap);
+        mDatabase.child("Session group").child(scdSession.getSessionName()).setValue(userSessionHashMap);
         // Lat Lon should be changed to the real lat lon of the current session
         mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }
