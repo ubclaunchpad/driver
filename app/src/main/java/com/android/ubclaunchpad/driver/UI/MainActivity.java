@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.MainApplication;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
@@ -27,16 +26,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int REQUEST_ENABLE_BT = 1;
-
     private Button mPassengerButton;
     private Button mDriverButton;
+    private Button mSessionButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
-
-    User user;
-    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,15 +105,19 @@ public class MainActivity extends AppCompatActivity {
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+
+/**
+ * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
+ */
+        mSessionButton = (Button) findViewById(R.id.button3);
+        final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
+        mSessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SessionIntent);
             }
-        }
-        catch (Exception e){
-            Log.e(TAG, "Could not retrieve user" + e.getMessage());
-            //Something went wrong, go back to login
-            mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
+        });
+
     }
 
     @Override

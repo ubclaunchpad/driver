@@ -67,7 +67,7 @@ public class DispatchActivity extends AppCompatActivity {
                             Log.e(TAG, "Could not save firebase key:" + e.getMessage());
                         }
 
-                        startActivity(new Intent(DispatchActivity.this, MainActivity.class));
+                        startActivity(new Intent(DispatchActivity.this, DestinationActivity.class));
                     } else {
                         startActivity(new Intent(DispatchActivity.this, LoginActivity.class));
                     }
