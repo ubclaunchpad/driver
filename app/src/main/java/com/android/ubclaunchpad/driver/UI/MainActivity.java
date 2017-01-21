@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
-    User user;
-    FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,22 +101,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-
-        try {
-            user = UserManager.getInstance().getUser();
-
-            if (user == null) {
-                //Something went wrong, go back to login
-                mAuth.signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-            }
-        }
-        catch (Exception e){
-            Log.e(TAG, "Could not retrieve user" + e.getMessage());
-
-        }
     }
 
     @Override
