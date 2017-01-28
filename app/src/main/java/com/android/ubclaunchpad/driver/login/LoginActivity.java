@@ -1,10 +1,17 @@
 package com.android.ubclaunchpad.driver.login;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.util.ActivityUtils;
+import com.android.ubclaunchpad.driver.util.GPSchecker;
 import com.android.ubclaunchpad.driver.util.Injection;
 
 /**
@@ -15,6 +22,8 @@ import com.android.ubclaunchpad.driver.util.Injection;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginPresenter mLoginPresenter;
+    private LocationManager locationManagerContext;
+    private GPSchecker locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,16 @@ public class LoginActivity extends AppCompatActivity {
             loginFragment = LoginFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), loginFragment, R.id.content_frame);
+
+            locationManagerContext = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+            if(locationManager == null) {
+                                locationManager = new GPSchecker(locationManagerContext);
+                           }
+
+            if(!locationManager.isLocationEnabled()){
+                            showAlert();
+            }
         }
 
         // create the presenter
@@ -36,6 +55,26 @@ public class LoginActivity extends AppCompatActivity {
         // Context to the presenter as we want to decouple it as much as
         // possible from the Android framework.
         mLoginPresenter.setGoogleApiClient(Injection.provideGoogleApiClient(this, mLoginPresenter));
+                   }
 
+
+                public void showAlert() {
+             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Enable Location")
+                                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                                        "use this app")
+                                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                               @Override
+                                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                        startActivity(myIntent);
+                                    }
+                            })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                               @Override
+                                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                                    }
+                            });
+              dialog.show();
     }
 }
