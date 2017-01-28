@@ -11,23 +11,24 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static String TAG = MainActivity.class.getSimpleName();
+    private static Context context;
     private Button mPassengerButton;
     private Button mDriverButton;
     private Button mSessionButton;
 
-    private static Context context;
-    private final static String TAG = MainActivity.class.getSimpleName();
+    public static Context getContext() {
+        return MainActivity.context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     try {
                         User user = UserManager.getInstance().getUser();
-                        if(user != null){
+                        if (user != null) {
                             user.setAddress(place.getAddress().toString());
                             user.setLatLngAsString(place.getLatLng());
                         }
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         Log.e(TAG, "Could not retrieve user" + e.getMessage());
                     }
 
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     Log.d(TAG, e.getMessage());
                 }
             }
@@ -105,9 +105,5 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
-
-    public static Context getContext(){
-        return MainActivity.context;
     }
 }

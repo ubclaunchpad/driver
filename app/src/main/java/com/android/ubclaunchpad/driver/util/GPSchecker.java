@@ -7,15 +7,15 @@ import android.location.LocationManager;
  */
 
 public class GPSchecker {
-    public LocationManager locationManager;
-        public GPSchecker(LocationManager locationManager){
-                this.locationManager = locationManager;
+    public LocationManager mGPSchecker;
+        public GPSchecker(LocationManager mGPSchecker){
+                this.mGPSchecker = mGPSchecker;
            }
 
 
                 public boolean isLocationEnabled() {
-                    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                    return mGPSchecker.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                            mGPSchecker.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
             }
 
 
