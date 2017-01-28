@@ -68,11 +68,8 @@ public class SessionCreateDialog extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-              //  Log.d("session_name",txtDescription.getText().toString());
                 dSessionName = txtDescription.getText().toString();
-                checkUniqueAndCreateSession();
-              //  createSession();
-              //  c.finish();
+                createUniqueSession();
                 break;
             case R.id.btn_no:
                 dismiss();
@@ -81,10 +78,9 @@ public class SessionCreateDialog extends Dialog implements
                 dismiss();
                 break;
         }
-       // dismiss();
     }
 
-    private void checkUniqueAndCreateSession() {
+    private void createUniqueSession() {
         mDatabase.child("Session group").child(dSessionName)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
