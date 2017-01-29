@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginPresenter mLoginPresenter;
     private LocationManager locationManagerContext;
-    private GPSchecker locationManager;
+    private GPSchecker mGPSchecker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,11 @@ public class LoginActivity extends AppCompatActivity {
 
             locationManagerContext = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-            if(locationManager == null) {
-                                locationManager = new GPSchecker(locationManagerContext);
+            if(mGPSchecker == null) {
+                mGPSchecker = new GPSchecker(locationManagerContext);
                            }
 
-            if(!locationManager.isLocationEnabled()){
+            if(!mGPSchecker.isLocationEnabled()){
                             showAlert();
             }
         }
