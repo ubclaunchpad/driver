@@ -100,7 +100,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(SessionIntent);
             }
         });
-
+/**
+ * TODO this button is only used to test the map
+ */
+        Button showMapButton = (Button) findViewById(R.id.mapButton);
+        final Intent mapIntent = new Intent(this, MapsActivity.class);
+        showMapButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(mapIntent);
+            }
+        });
     }
 
     @Override
