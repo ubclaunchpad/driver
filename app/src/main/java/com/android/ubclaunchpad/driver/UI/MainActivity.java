@@ -93,22 +93,11 @@ public class MainActivity extends AppCompatActivity {
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
         mSessionButton = (Button) findViewById(R.id.button3);
-        final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
+        final Intent SessionIntent = new Intent(this, SessionActivity.class);// session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(SessionIntent);
-            }
-        });
-/**
- * TODO this button is only used to test the map
- */
-        Button showMapButton = (Button) findViewById(R.id.mapButton);
-        final Intent mapIntent = new Intent(this, MapsActivity.class);
-        showMapButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(mapIntent);
             }
         });
     }
