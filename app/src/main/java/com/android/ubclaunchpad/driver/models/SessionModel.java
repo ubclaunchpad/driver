@@ -27,6 +27,12 @@ public class SessionModel {
         location = new LatLng(0, 0);
     }
 
+    public SessionModel(LatLng latLng){
+        drivers = new ArrayList<String>();
+        passengers = new ArrayList<String>();
+        location = latLng;
+    }
+
     public void setDrivers(List<String> drivers) {
         this.drivers = drivers;
     }
@@ -64,7 +70,7 @@ public class SessionModel {
     // other than the creator lists are empty, and latlng should be calculated based on creator's location
     public static SessionModel createNewSession(LatLng latLng) {
 
-        SessionModel sessionModel = new SessionModel();
+        SessionModel sessionModel = new SessionModel(latLng);
 
         try {
             User user = UserManager.getInstance().getUser();
@@ -78,8 +84,6 @@ public class SessionModel {
             } else {
                 sessionModel.addPassenger(uid);
             }
-
-            sessionModel.setLocation(latLng);
 
         } catch (Exception e) {
             e.printStackTrace();
