@@ -62,7 +62,7 @@ public class SessionModel {
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
     // other than the creator lists are empty, and latlng should be calculated based on creator's location
-    public static SessionModel createNewSession() {
+    public static SessionModel createNewSession(LatLng latLng) {
 
         SessionModel sessionModel = new SessionModel();
 
@@ -78,6 +78,9 @@ public class SessionModel {
             } else {
                 sessionModel.addPassenger(uid);
             }
+
+            sessionModel.setLocation(latLng);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
