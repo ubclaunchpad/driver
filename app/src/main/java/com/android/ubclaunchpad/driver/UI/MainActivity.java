@@ -20,13 +20,14 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mPassengerButton;
-    private Button mDriverButton;
-    private Button mSessionButton;
+    @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
+    @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
+    @BindView(R.id.button3) Button mSessionButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         context = getApplicationContext();
+
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mPassengerButton = (Button) findViewById(R.id.i_am_a_passenger_button);
         mPassengerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mDriverButton = (Button) findViewById(R.id.i_am_a_driver_button);
         mDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
-        mSessionButton = (Button) findViewById(R.id.button3);
         final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
