@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 23
@@ -43,6 +44,10 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.9.0'
     compile 'com.google.android.gms:play-services-location:9.0.1'
     compile 'com.android.support:support-v4:23.4.0'
+
+    // Dependencies for Android Butterknife
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
 
     //JSON serialize/deserialize
     compile 'com.google.code.gson:gson:2.7'
