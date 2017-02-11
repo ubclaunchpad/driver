@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,7 +26,7 @@ public class SessionActivity extends AppCompatActivity {
     private SessionObj mSession;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private Button CreateSession;
+    @BindView(R.id.create_session) Button CreateSession;
     private String sessionName;
     private SessionCreateDialog scd;
 
@@ -40,7 +41,6 @@ public class SessionActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
 
-        CreateSession = (Button) findViewById(R.id.create_session);
         scd = new SessionCreateDialog(this);
         Intent intent1 = getIntent();
         Intent SessionIntent = new Intent(this, SessionCreateDialog.class);   // session intent
