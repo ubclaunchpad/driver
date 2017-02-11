@@ -35,14 +35,6 @@ import butterknife.ButterKnife;
 
 public class RegisterActivity extends AppCompatActivity {
 
-//    EditText mName;
-//    EditText mEmail;
-//    EditText mPostalCode;
-//    EditText mStreetAddress;
-//    EditText mPassword1;
-//    EditText mPassword2;
-//    Button mRegister;
-
     @BindView(R.id.etName) EditText mName;
     @BindView(R.id.etEmail) EditText mEmail;
     @BindView(R.id.etPostalCode) EditText mPostalCode;
@@ -50,8 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.etPassword) EditText mPassword1;
     @BindView(R.id.etPasswordConfirm) EditText mPassword2;
     @BindView(R.id.bSignUp) Button mRegister;
-
-
+    
     private User user;
 
     private FirebaseAuth mAuth;
