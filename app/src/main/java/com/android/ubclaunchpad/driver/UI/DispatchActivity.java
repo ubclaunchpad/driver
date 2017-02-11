@@ -38,7 +38,8 @@ public class DispatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        // ButterKnife.bind(this);
+        // removing butterknife binding until refactoring things other than buttons
 
         final String savedUid;
 

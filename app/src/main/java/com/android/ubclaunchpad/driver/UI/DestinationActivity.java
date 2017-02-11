@@ -33,7 +33,8 @@ public class DestinationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
-        ButterKnife.bind(this);
+        // ButterKnife.bind(this);
+        // removing ButterKnife binding until we refactoring things other than buttons
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
