@@ -65,7 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
 
-        // assignValues();
 
         // Firebase values
         mAuth = FirebaseAuth.getInstance();
@@ -139,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         createAccount(name, email, postalCode, address, password1);
     }
-    
+
 
     /**
      * Creates account after checking that all edit text's are properly filled.
