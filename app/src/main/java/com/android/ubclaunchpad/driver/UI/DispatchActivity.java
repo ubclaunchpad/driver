@@ -38,9 +38,7 @@ public class DispatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // ButterKnife.bind(this);
-        // removing butterknife binding until refactoring things other than buttons
-
+        
         final String savedUid;
 
         //If firebase user is cached on the device, get uid from that
