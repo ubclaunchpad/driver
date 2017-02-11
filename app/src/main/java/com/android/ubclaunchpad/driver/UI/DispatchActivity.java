@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import butterknife.ButterKnife;
+
 /**
  * A view-less activity in charge of dispatching to the correct
  * activity in order to prevent users from having to log in repeatedly
@@ -36,6 +38,7 @@ public class DispatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
 
         final String savedUid;
 

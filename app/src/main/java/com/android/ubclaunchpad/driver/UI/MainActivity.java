@@ -20,6 +20,8 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button mPassengerButton;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         context = getApplicationContext();
 

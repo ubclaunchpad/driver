@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.ButterKnife;
+
 /**
  * This activity asks the user where is the destination and goes to the passenger/driver
  * screen when "ok" is clicked on
@@ -31,6 +33,7 @@ public class DestinationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
+        ButterKnife.bind(this);
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();

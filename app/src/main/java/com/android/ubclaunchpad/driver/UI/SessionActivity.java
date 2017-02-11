@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.ButterKnife;
+
 /**
  * TODO - This ENTIRE activity is for DEMO ONLY. UI team will REMOVE this
  */
@@ -32,6 +34,7 @@ public class SessionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
         Intent intent = getIntent();
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
