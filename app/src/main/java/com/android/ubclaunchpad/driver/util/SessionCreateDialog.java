@@ -7,12 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,32 +68,49 @@ public class SessionCreateDialog extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                Log.d("session_name",txtDescription.getText().toString());
                 dSessionName = txtDescription.getText().toString();
-                createSession();
-                c.finish();
+                createUniqueSession();
                 break;
             case R.id.btn_no:
                 dismiss();
                 break;
             default:
+                dismiss();
                 break;
         }
-        dismiss();
     }
 
+    private void createUniqueSession() {
+        mDatabase.child("Session group").child(dSessionName)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                       if(dataSnapshot.exists()){
+                           Toast.makeText(getContext(),"session exists, change session name",Toast.LENGTH_LONG).show();
+                       }
+                       else {
+                           createSession();
+                           Toast.makeText(getContext(),"session created",Toast.LENGTH_LONG).show();
+                           c.finish();
+                       }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("Cancelled", databaseError.toException());
+                    }
+                });
+
+    }
     private void createSession () {
         String uniqueID = UUID.randomUUID().toString();
 
         // hashmap to store the list of users
         Map<String, String> userSessionHashMap = new HashMap<>();
-
-
         userSessionHashMap.put(mUser.getUid(), mUser.getUid());
 
         scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getUid());
 
-        mDatabase.child("Session group").child(scdSession.getSessionID()).setValue(userSessionHashMap);
+        mDatabase.child("Session group").child(scdSession.getSessionName()).setValue(userSessionHashMap);
         // Lat Lon should be changed to the real lat lon of the current session
         mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }
