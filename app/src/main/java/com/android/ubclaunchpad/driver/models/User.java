@@ -15,7 +15,7 @@ public class User {
 
     public String name;
     public String email;
-    public String address;
+ //   public String address;
     public String latLngAsString;
     public Boolean isDriver;
     public Integer seatNum;
@@ -33,7 +33,7 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.address = "";
+//        this.address = "";
         this.latLngAsString = "";
         isDriver = false;
         seatNum = null;
@@ -67,9 +67,9 @@ public class User {
         this.email = email;
     }
 
-    public void setAddress(String address){
-        this.address = address;
-    }
+//    public void setAddress(String address){
+//        this.address = address;
+//    }
 
     @Exclude
     public void setLatLngAsString(LatLng latLng) {
@@ -103,9 +103,9 @@ public class User {
         return email;
     }
 
-    public String getAddress() {
-        return address;
-    }
+//    public String getAddress() {
+//        return address;
+//    }
 
     public String getLatLngAsString() {
         return latLngAsString;
