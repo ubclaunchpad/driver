@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
+
         final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(SessionIntent);
             }
         });
-
     }
 
     @Override
