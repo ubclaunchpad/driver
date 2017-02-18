@@ -14,7 +14,7 @@ import com.google.android.gms.location.LocationServices;
 
 
 /**
- * Fragment to retrieve user's current location and prompt user to confirm the location
+ * Activity to retrieve user's current location and prompt user to confirm the location
  * Created by Yonni Luu on 2017-01-21.
  */
 
