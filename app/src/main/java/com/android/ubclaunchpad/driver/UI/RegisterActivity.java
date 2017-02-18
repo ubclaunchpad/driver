@@ -26,20 +26,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Java for the Register View, allows user to create an account.
  */
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText mName;
-    EditText mEmail;
-    EditText mPostalCode;
-    EditText mStreetAddress;
-    EditText mPassword1;
-    EditText mPassword2;
-    Button mRegister;
-
+    @BindView(R.id.etName) EditText mName;
+    @BindView(R.id.etEmail) EditText mEmail;
+    @BindView(R.id.etPostalCode) EditText mPostalCode;
+    @BindView(R.id.etStreetAddress) EditText mStreetAddress;
+    @BindView(R.id.etPassword) EditText mPassword1;
+    @BindView(R.id.etPasswordConfirm) EditText mPassword2;
+    @BindView(R.id.bSignUp) Button mRegister;
+    
     private User user;
 
     private FirebaseAuth mAuth;
@@ -51,8 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
-        assignValues();
 
         // Firebase values
         mAuth = FirebaseAuth.getInstance();
@@ -127,20 +130,6 @@ public class RegisterActivity extends AppCompatActivity {
         createAccount(name, email, postalCode, address, password1);
     }
 
-
-    /**
-     *  Assigns necessary class values, such as Firebase instance, buttons, and EditTexts
-     */
-    private void assignValues() {
-        // Edit texts and buttons
-        mName = (EditText) findViewById(R.id.etName);
-        mEmail = (EditText) findViewById(R.id.etEmail);
-        mPostalCode = (EditText) findViewById(R.id.etPostalCode);
-        mStreetAddress = (EditText) findViewById(R.id.etStreetAddress);
-        mPassword1 = (EditText) findViewById(R.id.etPassword);
-        mPassword2 = (EditText) findViewById(R.id.etPasswordConfirm);
-        mRegister = (Button) findViewById(R.id.bSignUp);
-    }
 
     /**
      * Creates account after checking that all edit text's are properly filled.

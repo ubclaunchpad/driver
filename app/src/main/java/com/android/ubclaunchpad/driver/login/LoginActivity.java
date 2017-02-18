@@ -14,6 +14,8 @@ import com.android.ubclaunchpad.driver.util.ActivityUtils;
 import com.android.ubclaunchpad.driver.util.GPSchecker;
 import com.android.ubclaunchpad.driver.util.Injection;
 
+import butterknife.ButterKnife;
+
 /**
  * This activity is the overall controller that creates and connects views and presenters.
  * Performs the binding of the presenter and the view. Could eventually be extended to
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
+        ButterKnife.bind(this);
 
         LoginFragment loginFragment =
                 (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
