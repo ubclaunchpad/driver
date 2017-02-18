@@ -3,6 +3,8 @@ package com.android.ubclaunchpad.driver.UI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,12 +17,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * TODO - This ENTIRE activity is for DEMO ONLY. UI team will REMOVE this
- */
 public class SessionActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
@@ -28,23 +30,34 @@ public class SessionActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     @BindView(R.id.create_session) Button CreateSession;
+    @BindView(R.id.list_existing_sessions) RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private String sessionName;
     private SessionCreateDialog scd;
+
+    private List<SessionObj> sessions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
-        Intent intent = getIntent();
         ButterKnife.bind(this);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new SessionAdapter(sessions);
+        mRecyclerView.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
 
         scd = new SessionCreateDialog(this);
-        Intent intent1 = getIntent();
-        Intent SessionIntent = new Intent(this, SessionCreateDialog.class);   // session intent
 
         CreateSession.setOnClickListener(new View.OnClickListener() {
             @Override
