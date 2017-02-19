@@ -89,7 +89,7 @@ public class User {
         return seatNum;
     }
 
-    public String getUserName(){
+    public String getName(){
         return name;
     }
 
