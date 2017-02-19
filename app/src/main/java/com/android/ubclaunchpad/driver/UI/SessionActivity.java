@@ -124,48 +124,22 @@ public class SessionActivity extends AppCompatActivity {
 
     List<String> getLatSessionNames(List<LatLng> nearbySessionLatLngs) {
         final List<String> nearbySessionNames = new ArrayList<String>();
-        final List<String> nearbyLatSessionNames = new ArrayList<String>();
-        final List<String> nearbyLngSessionNames = new ArrayList<String>();
         Log.v("tag","ENTERING GET SESSION NAME");
 
         for( LatLng latLng : nearbySessionLatLngs) {
-            mDatabase.child("Users").orderByChild("latLng/latitude").equalTo(latLng.latitude)
+            final double latitude = latLng.latitude;
+            final double longitude = latLng.longitude;
+            mDatabase.child("Users").orderByChild("latLng/latitude").equalTo(latitude)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot latLngSnapShot : dataSnapshot.getChildren()) {
-                                DatabaseReference latLngRef = latLngSnapShot.getRef();
-                                String sessionName = latLngRef.getKey();
-                                if(!nearbyLatSessionNames.contains(sessionName)) {
-                                    nearbyLatSessionNames.add(sessionName);
+                            for (DataSnapshot sessionSnapShot : dataSnapshot.getChildren()) {
+                                Double lng = sessionSnapShot.child("latLng").child("longitude").getValue(Double.class);
+                                DatabaseReference sessionRef = sessionSnapShot.getRef();
+                                String sessionName = sessionRef.getKey();
+                                if(!nearbySessionNames.contains(sessionName) && lng.equals(longitude)) {
+                                    nearbySessionNames.add(sessionName);
                                 }
-                             /*   Log.v("tag","-----------------");
-                                for(String name: nearbyLatSessionNames) {
-                                    Log.v("tag", name);
-                                } */
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("Cancelled", databaseError.toException());
-                        }
-                    });
-
-            mDatabase.child("Users").orderByChild("latLng/longitude").equalTo(latLng.longitude)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot latLngSnapShot : dataSnapshot.getChildren()) {
-                                DatabaseReference latLngRef = latLngSnapShot.getRef();
-                                String sessionName = latLngRef.getKey();
-                                if(!nearbyLngSessionNames.contains(sessionName)) {
-                                    nearbyLngSessionNames.add(sessionName);
-                                }
-                           /*     Log.v("tag","***************");
-                                for(String name: nearbyLngSessionNames) {
-                                    Log.v("tag", name);
-                                } */
                             }
 
                         }
@@ -178,7 +152,7 @@ public class SessionActivity extends AppCompatActivity {
         }
 
 
-        return nearbyLatSessionNames;
+        return nearbySessionNames;
 
     }
 
