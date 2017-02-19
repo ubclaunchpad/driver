@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.UI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.util.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.SessionObj;
+import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,23 +86,25 @@ public class SessionActivity extends AppCompatActivity {
         /**
          * get a list of all session latlngs
          */
-
         mDatabase.child("Users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<LatLng> latLngList = getAllSessionLatLngs(dataSnapshot);
-                        Log.v("tag", "!!!!!!!!!!!!!!!! after calling function !!!!!!!!!!!!!");
-                        for( LatLng latLng : latLngList) {
-                            Log.v("tag", latLng.latitude + " " + latLng.longitude);
-                        }
-
+                        List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
+                        UserUtils userUtils = new UserUtils();
+                        List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
+                        List<String> testSNames = getSessionNames(allSessionlatLngs);
+                    //    for(String name : testSNames ) {
+                    //        Log.v("tag", "NAME IS " + name);
+                     //   }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.w("Cancelled", databaseError.toException());
                     }
                 });
+
+
 
     }
 
@@ -116,6 +120,76 @@ public class SessionActivity extends AppCompatActivity {
             }
         }
         return latLngList;
+    }
+
+    List<String> getLatSessionNames(List<LatLng> nearbySessionLatLngs) {
+        final List<String> nearbySessionNames = new ArrayList<String>();
+        final List<String> nearbyLatSessionNames = new ArrayList<String>();
+        final List<String> nearbyLngSessionNames = new ArrayList<String>();
+        Log.v("tag","ENTERING GET SESSION NAME");
+
+        for( LatLng latLng : nearbySessionLatLngs) {
+            mDatabase.child("Users").orderByChild("latLng/latitude").equalTo(latLng.latitude)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot latLngSnapShot : dataSnapshot.getChildren()) {
+                                DatabaseReference latLngRef = latLngSnapShot.getRef();
+                                String sessionName = latLngRef.getKey();
+                                if(!nearbyLatSessionNames.contains(sessionName)) {
+                                    nearbyLatSessionNames.add(sessionName);
+                                }
+                             /*   Log.v("tag","-----------------");
+                                for(String name: nearbyLatSessionNames) {
+                                    Log.v("tag", name);
+                                } */
+                            }
+
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Cancelled", databaseError.toException());
+                        }
+                    });
+
+            mDatabase.child("Users").orderByChild("latLng/longitude").equalTo(latLng.longitude)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot latLngSnapShot : dataSnapshot.getChildren()) {
+                                DatabaseReference latLngRef = latLngSnapShot.getRef();
+                                String sessionName = latLngRef.getKey();
+                                if(!nearbyLngSessionNames.contains(sessionName)) {
+                                    nearbyLngSessionNames.add(sessionName);
+                                }
+                           /*     Log.v("tag","***************");
+                                for(String name: nearbyLngSessionNames) {
+                                    Log.v("tag", name);
+                                } */
+                            }
+
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Cancelled", databaseError.toException());
+                        }
+                    });
+
+        }
+
+
+        return nearbyLatSessionNames;
+
+    }
+
+    List<String> getSessionNames(List<LatLng> nearbySessionLatLngs){
+        Log.v("tag","sssssssssssssssssss");
+        List<String> names = getLatSessionNames(nearbySessionLatLngs);
+        for(String name : names) {
+
+            Log.v("tag", name);
+        }
+        return new ArrayList<String>();
     }
 
 }
