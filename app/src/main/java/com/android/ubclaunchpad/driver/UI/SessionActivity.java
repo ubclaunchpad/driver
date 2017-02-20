@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.SessionObj;
 import com.android.ubclaunchpad.driver.util.UserUtils;
+import com.google.android.gms.fitness.data.Session;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +43,7 @@ public class SessionActivity extends AppCompatActivity {
     private String sessionName;
     private SessionCreateDialog scd;
 
-    private List<String> nearbySessionNames = new ArrayList<>();
+    private List<SessionModel> allSessions = new ArrayList<>();
 
 
     @Override
@@ -93,14 +95,14 @@ public class SessionActivity extends AppCompatActivity {
     private void getNearbySessionNames(){
         //"Users" is only used for testing, needs to be changed to "Session group"
         //after Firebase session group structure is set up
-        mDatabase.child("Users")
+        mDatabase.child("Session group")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
-                        getSessionNames(allSessionlatLngs);
+                        onLoadedAllSessionNames(getSessionNames(allSessionlatLngs));
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -110,56 +112,33 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     /**
-     * This function assumes Firebase is structured as
-     * Session group -> session name -> latLng -> latitude/longitude (stored as two doubles)
+     * This function assumes SessionModel contains a name field and a name getter method
+     * It gets saves all session LatLngs and all session models into two lists
      * @param dataSnapshot the DataSnapshot of Session group
      * @return a list of LatLngs of all sessions
      */
     private List<LatLng> getAllSessionLatLngs( DataSnapshot dataSnapshot) {
         final List<LatLng> latLngList = new ArrayList<>();
-        for(DataSnapshot session : dataSnapshot.getChildren()) {
-            DataSnapshot sessionLatLng = session.child("latLng");
-            if( sessionLatLng.exists()) {
-                Double lat = sessionLatLng.child("latitude").getValue(Double.class);
-                Double lng = sessionLatLng.child("longitude").getValue(Double.class);
-                LatLng latLng = new LatLng(lat, lng);
-                latLngList.add(latLng);
-            }
+        for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
+            //TODO - test this
+            SessionModel sessionModel = sessionSnapshot.getValue(SessionModel.class);
+            latLngList.add(sessionModel.getLocation());
+            allSessions.add(sessionModel);
         }
         return latLngList;
     }
 
     /**
-     * Search through Firebase to find the LatLngs' corresponding session names
-     * @param nearbySessionLatLngs
+     * Get the names of the sessions whose LatLng is close to the user's current latLng
+     * @param nearbySessionLatLngs all session LatLngs close to the user's current LatLng
      */
-    private void getSessionNames(final List<LatLng> nearbySessionLatLngs) {
-        for( LatLng latLng : nearbySessionLatLngs) {
-            final double latitude = latLng.latitude;
-            final double longitude = latLng.longitude;
-            mDatabase.child("Users").orderByChild("latLng/latitude").equalTo(latitude)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot sessionSnapShot : dataSnapshot.getChildren()) {
-                                Double lng = sessionSnapShot.child("latLng").child("longitude").getValue(Double.class);
-                                String sessionName = sessionSnapShot.getKey();
-                                if(!nearbySessionNames.contains(sessionName) && lng.equals(longitude)) {
-                                    nearbySessionNames.add(sessionName);
-                                }
-                                if( nearbySessionNames.size() == nearbySessionLatLngs.size()) {
-                                    onLoadedAllSessionNames(nearbySessionNames);
-                                }
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("Cancelled", databaseError.toException());
-                        }
-                    });
+    private List<String> getSessionNames(final List<LatLng> nearbySessionLatLngs) {
+        List<String> sessionNames = new ArrayList<>();
+        for( SessionModel sessionModel : allSessions ) {
+            if( nearbySessionLatLngs.contains(sessionModel.getLocation()))
+                sessionNames.add(sessionModel.getName());
         }
-
+        return sessionNames;
     }
 
     /**
