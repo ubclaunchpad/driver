@@ -41,6 +41,9 @@ public class SessionActivity extends AppCompatActivity {
     private String sessionName;
     private SessionCreateDialog scd;
 
+    private List<String> nearbySessionNames = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +83,16 @@ public class SessionActivity extends AppCompatActivity {
             }
         });
 
+        getNearbySessionNames();
+    }
 
-        Log.v("tag", "!!!!!!!!!!!!!!!!starting session latlngs!!!!!!!!!!!!!");
-
-        /**
-         * get a list of all session latlngs
-         */
+    /**
+     * Get a list of names of nearby sessions
+     * Displaying the list will also be handled here
+     */
+    private void getNearbySessionNames(){
+        //"Users" is only used for testing, needs to be changed to "Session group"
+        //after Firebase session group structure is set up
         mDatabase.child("Users")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -93,22 +100,22 @@ public class SessionActivity extends AppCompatActivity {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
-                        List<String> testSNames = getSessionNames(allSessionlatLngs);
-                    //    for(String name : testSNames ) {
-                    //        Log.v("tag", "NAME IS " + name);
-                     //   }
+                        getSessionNames(allSessionlatLngs);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.w("Cancelled", databaseError.toException());
                     }
                 });
-
-
-
     }
 
-    List<LatLng> getAllSessionLatLngs( DataSnapshot dataSnapshot) {
+    /**
+     * This function assumes Firebase is structured as
+     * Session group -> session name -> latLng -> latitude/longitude (stored as two doubles)
+     * @param dataSnapshot the DataSnapshot of Session group
+     * @return a list of LatLngs of all sessions
+     */
+    private List<LatLng> getAllSessionLatLngs( DataSnapshot dataSnapshot) {
         final List<LatLng> latLngList = new ArrayList<>();
         for(DataSnapshot session : dataSnapshot.getChildren()) {
             DataSnapshot sessionLatLng = session.child("latLng");
@@ -122,10 +129,11 @@ public class SessionActivity extends AppCompatActivity {
         return latLngList;
     }
 
-    List<String> getLatSessionNames(List<LatLng> nearbySessionLatLngs) {
-        final List<String> nearbySessionNames = new ArrayList<String>();
-        Log.v("tag","ENTERING GET SESSION NAME");
-
+    /**
+     * Search through Firebase to find the LatLngs' corresponding session names
+     * @param nearbySessionLatLngs
+     */
+    private void getSessionNames(final List<LatLng> nearbySessionLatLngs) {
         for( LatLng latLng : nearbySessionLatLngs) {
             final double latitude = latLng.latitude;
             final double longitude = latLng.longitude;
@@ -135,10 +143,12 @@ public class SessionActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot sessionSnapShot : dataSnapshot.getChildren()) {
                                 Double lng = sessionSnapShot.child("latLng").child("longitude").getValue(Double.class);
-                                DatabaseReference sessionRef = sessionSnapShot.getRef();
-                                String sessionName = sessionRef.getKey();
+                                String sessionName = sessionSnapShot.getKey();
                                 if(!nearbySessionNames.contains(sessionName) && lng.equals(longitude)) {
                                     nearbySessionNames.add(sessionName);
+                                }
+                                if( nearbySessionNames.size() == nearbySessionLatLngs.size()) {
+                                    onLoadedAllSessionNames(nearbySessionNames);
                                 }
                             }
 
@@ -148,22 +158,16 @@ public class SessionActivity extends AppCompatActivity {
                             Log.w("Cancelled", databaseError.toException());
                         }
                     });
-
         }
-
-
-        return nearbySessionNames;
 
     }
 
-    List<String> getSessionNames(List<LatLng> nearbySessionLatLngs){
-        Log.v("tag","sssssssssssssssssss");
-        List<String> names = getLatSessionNames(nearbySessionLatLngs);
-        for(String name : names) {
+    /**
+     * TODO - Use the list of nearby session names here
+     * @param nearbySessionNames
+     */
+    void onLoadedAllSessionNames(List<String> nearbySessionNames){
 
-            Log.v("tag", name);
-        }
-        return new ArrayList<String>();
     }
 
 }
