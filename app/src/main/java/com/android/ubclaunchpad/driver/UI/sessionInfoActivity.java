@@ -35,6 +35,9 @@ public class sessionInfoActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         Intent intent = getIntent();
+        String session_Name = getString(R.string.dSessionName);
+
+
 
     }
 }
