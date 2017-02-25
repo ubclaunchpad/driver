@@ -79,7 +79,6 @@ public class SessionModel {
     public static SessionModel createNewSession(String name, LatLng latLng) {
 
         SessionModel sessionModel = new SessionModel(latLng);
-        sessionModel.setName(name);
 
         try {
             User user = UserManager.getInstance().getUser();
