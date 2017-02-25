@@ -32,13 +32,13 @@ public class SessionActivity extends AppCompatActivity {
     private SessionCreateDialog scd;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_session);
-        Intent intent = getIntent();
-        ButterKnife.bind(this);
+     protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_session);
+            Intent intent = getIntent();
+            ButterKnife.bind(this);
 
-        mAuth = FirebaseAuth.getInstance();
+            mAuth= FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = mAuth.getCurrentUser();
 
