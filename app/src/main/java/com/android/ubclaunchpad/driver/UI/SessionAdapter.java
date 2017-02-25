@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.SessionObj;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 
 // RecyclerView.Adapter class for the RecyclerView in SessionActivity
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionViewHolder> {
-    private List<SessionObj> sessions;
+    private List<SessionModel> sessions;
 
     // Custom ViewHolder
     public class SessionViewHolder extends RecyclerView.ViewHolder {
@@ -29,8 +30,8 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         }
     }
 
-    public SessionAdapter(List<SessionObj> sessionObjList) {
-        this.sessions = sessionObjList;
+    public SessionAdapter(List<SessionModel> sessionModelList) {
+        this.sessions = sessionModelList;
     }
 
     @Override
@@ -43,8 +44,8 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
 
     @Override
     public void onBindViewHolder(SessionViewHolder holder, int position) {
-        SessionObj sessionObj = sessions.get(position);
-        holder.sessionName.setText(sessionObj.getSessionName());
+        SessionModel sessionModel = sessions.get(position);
+        holder.sessionName.setText(sessionModel.getName());
     }
 
     @Override

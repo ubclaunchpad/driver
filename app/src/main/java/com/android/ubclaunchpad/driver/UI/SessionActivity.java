@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.SessionObj;
 import com.google.android.gms.maps.model.LatLng;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 public class SessionActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private SessionObj mSession;
+    private SessionModel mSession;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     @BindView(R.id.create_session) Button CreateSession;
@@ -37,7 +38,7 @@ public class SessionActivity extends AppCompatActivity {
     private String sessionName;
     private SessionCreateDialog scd;
 
-    private List<SessionObj> sessions = new ArrayList<>();
+    private List<SessionModel> sessions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
