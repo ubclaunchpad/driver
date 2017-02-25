@@ -14,7 +14,6 @@ import java.util.List;
 
 public class SessionModel {
 
-    private String name;
     // list of strings representing driver users' unique IDs
     private List<String> drivers;
     // list of strings representing passenger users' unique IDs
@@ -25,7 +24,6 @@ public class SessionModel {
 
 
     public SessionModel(){
-        name = "";
         drivers = new ArrayList<String>();
         passengers = new ArrayList<String>();
         location = new LatLng(0, 0);
@@ -35,14 +33,6 @@ public class SessionModel {
         drivers = new ArrayList<String>();
         passengers = new ArrayList<String>();
         location = latLng;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
     }
 
     public void setDrivers(List<String> drivers) {
