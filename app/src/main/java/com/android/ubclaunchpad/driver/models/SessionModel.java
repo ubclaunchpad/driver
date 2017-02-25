@@ -23,6 +23,7 @@ public class SessionModel {
     private String name;
 
 
+
     public SessionModel(){
         drivers = new ArrayList<String>();
         passengers = new ArrayList<String>();
@@ -70,6 +71,7 @@ public class SessionModel {
     public LatLng getLocation() {
         return location;
     }
+    
 
     public String getName() { return name; }
 
