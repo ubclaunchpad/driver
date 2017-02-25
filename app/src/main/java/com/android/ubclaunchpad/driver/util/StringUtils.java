@@ -21,11 +21,10 @@ public class StringUtils {
      */
     public static final String FirebaseUserEndpoint = "Users";
 
-    public static final String FirebaseLatlngEndpoint = "latLng";
-    public static final String FirebaseLatEndpoint = "latitude";
-    public static final String FirebaseLonEndpoint ="longitude";
+    public static final String FirebaseDestinationLatlngEndpoint = "destinationLatLng";
+    public static final String FirebaseCurrentLatlngEndpoint = "currentLatLng";
     public static final String isDriverEndpoint = "isDriver";
-    public static final String numPassengersEndpoint = "numPassengers";
+    public static final String numPassengersEndpoint = "seatNum";
     /**
      * Shared pref keys
      * TODO turn to enum

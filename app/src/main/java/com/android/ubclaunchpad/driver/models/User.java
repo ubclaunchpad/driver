@@ -15,7 +15,8 @@ public class User {
 
     public String name;
     public String email;
-    public String latLngAsString;
+    public LatLng destinationLatLng;
+    public LatLng currentLatLng;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -32,7 +33,8 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.latLngAsString = "";
+        destinationLatLng = new LatLng(0, 0);
+        currentLatLng = new LatLng(0, 0);
         isDriver = false;
         seatNum = null;
     }
@@ -65,15 +67,12 @@ public class User {
         this.email = email;
     }
 
-    @Exclude
-    public void setLatLngAsString(LatLng latLng) {
-        Double lat = latLng.latitude;
-        Double lng = latLng.longitude;
-        this.latLngAsString = lat.toString() + "," + lng.toString();
+    public void setDestinationLatLng(LatLng latLng) {
+        this.destinationLatLng = latLng;
     }
 
-    public void setLatLngAsString(String latLng) {
-        this.latLngAsString = latLng;
+    public void setCurrentLatLng(LatLng latLng) {
+        this.currentLatLng = latLng;
     }
 
     /**
@@ -89,7 +88,7 @@ public class User {
         return seatNum;
     }
 
-    public String getUserName(){
+    public String getName(){
         return name;
     }
 
@@ -97,26 +96,11 @@ public class User {
         return email;
     }
 
-    public String getLatLngAsString() {
-        return latLngAsString;
+    public LatLng getDestinationLatLng() {
+        return destinationLatLng;
     }
 
-//    public JSONObject userToString() {
-//
-//        JSONObject userJSON = new JSONObject();
-//
-//        try {
-//            userJSON.put("name", name);
-//            userJSON.put("address", address);
-//            userJSON.put("isDriver", isDriver);
-//            userJSON.put("seatNum", seatNum);
-//            userJSON.put("email", email);
-//
-//        }
-//        catch (JSONException e) {
-//        //
-//        }
-//
-//        return userJSON;
-//    }
+    public LatLng getCurrentLatLng() {
+        return currentLatLng;
+    }
 }
