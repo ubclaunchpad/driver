@@ -44,7 +44,7 @@
             android:layout_height="30dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="Yes"
+            android:text="OK"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
             android:layout_marginLeft="5dp"
             android:background="@android:color/white"
             android:clickable="true"
-            android:text="No"
+            android:text="Cancel"
             android:textColor="#5DBCD2"
             android:textStyle="bold" />
     </LinearLayout>
