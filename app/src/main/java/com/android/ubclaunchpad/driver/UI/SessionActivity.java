@@ -45,7 +45,6 @@ public class SessionActivity extends AppCompatActivity {
 
     private List<SessionModel> allSessions = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +57,6 @@ public class SessionActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
 
         scd = new SessionCreateDialog(this);
-        Intent intent1 = getIntent();
-        Intent SessionIntent = new Intent(this, SessionCreateDialog.class);   // session intent
 
         CreateSession.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,16 +82,14 @@ public class SessionActivity extends AppCompatActivity {
             }
         });
 
-        getNearbySessionNames();
+        displayNearbySessions();
     }
 
     /**
      * Get a list of names of nearby sessions
      * Displaying the list will also be handled here
      */
-    private void getNearbySessionNames(){
-        //"Users" is only used for testing, needs to be changed to "Session group"
-        //after Firebase session group structure is set up
+    private void displayNearbySessions(){
         mDatabase.child("Session group")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -102,7 +97,7 @@ public class SessionActivity extends AppCompatActivity {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
-                        onLoadedAllSessionNames(getSessionNames(allSessionlatLngs));
+                        List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -129,24 +124,16 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     /**
-     * Get the names of the sessions whose LatLng is close to the user's current latLng
+     * Get the sessions whose LatLng is close to the user's current latLng
      * @param nearbySessionLatLngs all session LatLngs close to the user's current LatLng
      */
-    private List<String> getSessionNames(final List<LatLng> nearbySessionLatLngs) {
-        List<String> sessionNames = new ArrayList<>();
+    private List<SessionModel> getNearbySessions(final List<LatLng> nearbySessionLatLngs) {
+        List<SessionModel> nearbySessions = new ArrayList<>();
         for( SessionModel sessionModel : allSessions ) {
             if( nearbySessionLatLngs.contains(sessionModel.getLocation()))
-                sessionNames.add(sessionModel.getName());
+                nearbySessions.add(sessionModel);
         }
-        return sessionNames;
-    }
-
-    /**
-     * TODO - Use the list of nearby session names here
-     * @param nearbySessionNames
-     */
-    void onLoadedAllSessionNames(List<String> nearbySessionNames){
-
+        return nearbySessions;
     }
 
 }
