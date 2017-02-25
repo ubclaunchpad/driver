@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         User user = UserManager.getInstance().getUser();
                         if(user != null){
-                            user.setAddress(place.getAddress().toString());
-                            user.setLatLngAsString(place.getLatLng());
+                            user.setCurrentLatLng(place.getLatLng());
                         }
                     }
                     catch (Exception e){

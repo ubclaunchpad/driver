@@ -37,8 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.etName) EditText mName;
     @BindView(R.id.etEmail) EditText mEmail;
-    @BindView(R.id.etPostalCode) EditText mPostalCode;
-    @BindView(R.id.etStreetAddress) EditText mStreetAddress;
     @BindView(R.id.etPassword) EditText mPassword1;
     @BindView(R.id.etPasswordConfirm) EditText mPassword2;
     @BindView(R.id.bSignUp) Button mRegister;
@@ -70,8 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
                     //Create the newly successfully registered user
                     String name = mName.getText().toString();
                     String email = mEmail.getText().toString();
-//                    String streetAddress = mStreetAddress.getText().toString();
-//                    String postalCode = mPostalCode.getText().toString();
                     User user = new User(name, email);
 
                     //Set user to UserManager
@@ -115,11 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view
      */
     public void signUpClick(View view) {
-        String name, email, postalCode, address, password1, password2;
+        String name, email, password1, password2;
         name = mName.getText().toString();
         email = mEmail.getText().toString();
-        postalCode = mPostalCode.getText().toString();
-        address = mStreetAddress.getText().toString();
         password1 = mPassword1.getText().toString();
         password2 = mPassword2.getText().toString();
 
@@ -127,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        createAccount(name, email, postalCode, address, password1);
+        createAccount(name, email, password1);
     }
 
 
@@ -138,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      * @param password
      */
-    private void createAccount(final String name, final String email, final String postalCode, final String streetAddress, final String password) {
+    private void createAccount(final String name, final String email, final String password) {
         Log.d(StringUtils.RegisterActivity, "createAccount:" + email);
 
         mAuth.createUserWithEmailAndPassword(email, password)
