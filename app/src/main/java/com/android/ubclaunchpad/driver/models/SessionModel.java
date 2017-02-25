@@ -20,7 +20,7 @@ public class SessionModel {
     private List<String> passengers;
     // location of the starting location
     private LatLng location;
-    private String sessionName = "test name";
+    private String name;
 
 
     public SessionModel(){
@@ -55,6 +55,10 @@ public class SessionModel {
         this.location = location;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<String> getDrivers() {
         return drivers;
     }
@@ -67,14 +71,15 @@ public class SessionModel {
         return location;
     }
 
-    public String getName() { return sessionName; }
+    public String getName() { return name; }
 
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
     // other than the creator lists are empty, and latlng should be calculated based on creator's location
-    public static SessionModel createNewSession(LatLng latLng) {
+    public static SessionModel createNewSession(String name, LatLng latLng) {
 
         SessionModel sessionModel = new SessionModel(latLng);
+        sessionModel.setName(name);
 
         try {
             User user = UserManager.getInstance().getUser();
