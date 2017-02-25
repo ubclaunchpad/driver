@@ -20,8 +20,7 @@ public class SessionModel {
     private List<String> passengers;
     // location of the starting location
     private LatLng location;
-    // TODO - added name of session
-    private String sessionName = "";
+
 
     public SessionModel(){
         drivers = new ArrayList<String>();
@@ -66,9 +65,7 @@ public class SessionModel {
     public LatLng getLocation() {
         return location;
     }
-
-    //TODO - added name getter
-    public String getName() { return sessionName; }
+    
 
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
