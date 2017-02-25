@@ -88,9 +88,6 @@ public class NumPassengersFragment extends DialogFragment {
                                 (numPassengers > 1 ? " passengers" : " passenger"),
                         Toast.LENGTH_SHORT)
                         .show();
-
-                // TODO: at this point, value chosen by user should be saved in the User object
-                // that is accessible everywhere in the app.
             }
         });
 

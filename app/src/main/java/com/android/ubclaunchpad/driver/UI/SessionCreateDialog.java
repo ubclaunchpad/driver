@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.UI;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.SessionObj;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -111,8 +112,6 @@ public class SessionCreateDialog extends Dialog implements
         scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getUid());
 
         mDatabase.child("Session group").child(scdSession.getSessionName()).setValue(userSessionHashMap);
-        // Lat Lon should be changed to the real lat lon of the current session
-        mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }
 }
 
