@@ -36,7 +36,7 @@ public class DestinationActivity extends AppCompatActivity {
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        final User user;
+        User user;
 
         try {
             user = UserManager.getInstance().getUser();
