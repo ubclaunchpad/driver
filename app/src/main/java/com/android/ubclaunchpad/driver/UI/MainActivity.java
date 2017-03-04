@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         User user = UserManager.getInstance().getUser();
                         if(user != null){
-                            user.setLatLngAsString(place.getLatLng());
+                            user.setCurrentLatLngStr(place.getLatLng());
                         }
                     }
                     catch (Exception e){

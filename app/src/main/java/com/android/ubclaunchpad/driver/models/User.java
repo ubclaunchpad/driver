@@ -15,7 +15,8 @@ public class User {
 
     public String name;
     public String email;
-    public String latLngAsString;
+    public String destinationLatLngStr;
+    public String currentLatLngStr;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -32,7 +33,8 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.latLngAsString = "";
+        this.destinationLatLngStr = "";
+        this.currentLatLngStr = "";
         isDriver = false;
         seatNum = null;
     }
@@ -66,19 +68,28 @@ public class User {
     }
 
     @Exclude
-    public void setLatLngAsString(LatLng latLng) {
+    public void setDestinationLatLngStr(LatLng latLng) {
         Double lat = latLng.latitude;
         Double lng = latLng.longitude;
-        this.latLngAsString = lat.toString() + "," + lng.toString();
+        this.destinationLatLngStr = lat.toString() + "," + lng.toString();
     }
 
-    public void setLatLngAsString(String latLng) {
-        this.latLngAsString = latLng;
+    public void setDestinationLatLngStr(String latLng) {
+        this.destinationLatLngStr = latLng;
     }
 
+    @Exclude
+    public void setCurrentLatLngStr(LatLng latLng) {
+        Double lat = latLng.latitude;
+        Double lng = latLng.longitude;
+        this.currentLatLngStr = lat.toString() + "," + lng.toString();
+    }
+
+    public void setCurrentLatLngStr(String latLng) {
+        this.currentLatLngStr = latLng;
+    }
     /**
-     * Just a bunch of getter methods
-     * @return
+     * A bunch of getter methods
      */
 
     public Boolean isDriver() {
@@ -89,7 +100,7 @@ public class User {
         return seatNum;
     }
 
-    public String getUserName(){
+    public String getName(){
         return name;
     }
 
@@ -97,26 +108,11 @@ public class User {
         return email;
     }
 
-    public String getLatLngAsString() {
-        return latLngAsString;
+    public String getDestinationLatLngStr() {
+        return destinationLatLngStr;
     }
 
-//    public JSONObject userToString() {
-//
-//        JSONObject userJSON = new JSONObject();
-//
-//        try {
-//            userJSON.put("name", name);
-//            userJSON.put("address", address);
-//            userJSON.put("isDriver", isDriver);
-//            userJSON.put("seatNum", seatNum);
-//            userJSON.put("email", email);
-//
-//        }
-//        catch (JSONException e) {
-//        //
-//        }
-//
-//        return userJSON;
-//    }
+    public String getCurrentLatLngStr() {
+        return currentLatLngStr;
+    }
 }
