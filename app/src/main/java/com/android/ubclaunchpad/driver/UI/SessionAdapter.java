@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.util.SessionObj;
 
 import java.util.List;
 

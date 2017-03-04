@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.util;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,26 +10,35 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.SessionModel;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Marina on 10/22/16.
+ * TODO this activity is for DEMO ONLY. UI please REMOVE
  */
 public class SessionCreateDialog extends Dialog implements
         android.view.View.OnClickListener {
 
     public Activity c;
+    public Dialog d;
     public Button yes, no;
     public String dSessionName;
     private EditText txtDescription;
-    public SessionModel scdSession;
+    public SessionObj scdSession;
     private DatabaseReference mDatabase;
+    private FirebaseUser mUser;
+    private FirebaseAuth mAuth;
 
     public SessionCreateDialog (Activity a) {
         super(a);
@@ -41,7 +50,9 @@ public class SessionCreateDialog extends Dialog implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.session_create_dialog);
 
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser = mAuth.getCurrentUser();
 
         txtDescription = (EditText) findViewById(R.id.session_name);
 
@@ -91,11 +102,17 @@ public class SessionCreateDialog extends Dialog implements
 
     }
     private void createSession () {
+        String uniqueID = UUID.randomUUID().toString();
 
-        // TODO: store phone's latLng instead
-        scdSession = SessionModel.createNewSession(dSessionName, new LatLng(0, 0));
+        // hashmap to store the list of users
+        Map<String, String> userSessionHashMap = new HashMap<>();
+        userSessionHashMap.put(mUser.getUid(), mUser.getUid());
 
-        mDatabase.child("Session group").child(scdSession.getName()).setValue(scdSession);
+        scdSession = new SessionObj(dSessionName, uniqueID, "Lat Long", mUser.getUid());
+
+        mDatabase.child("Session group").child(scdSession.getSessionName()).setValue(userSessionHashMap);
+        // Lat Lon should be changed to the real lat lon of the current session
+        mDatabase.child("Geo point").child("Lat Long").setValue(scdSession);
     }
 }
 
