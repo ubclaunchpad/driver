@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -63,24 +64,16 @@ public class DestinationActivity extends AppCompatActivity {
 
                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                Double latitude = place.getLatLng().latitude;
-                Double longitude = place.getLatLng().longitude;
+                LatLng latLng = place.getLatLng();
 
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
-                            .child(StringUtils.FirebaseLatlngEndpoint)
-                            .child(StringUtils.FirebaseLatEndpoint)
-                            .setValue(latitude);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint)
-                            .child(uid)
-                            .child(StringUtils.FirebaseLatlngEndpoint)
-                            .child(StringUtils.FirebaseLonEndpoint)
-                            .setValue(longitude);
+                            .child(StringUtils.FirebaseDestinationLatlngEndpoint)
+                            .setValue(latLng);
                 }
-
             }
 
             @Override
