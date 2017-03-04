@@ -13,6 +13,10 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.appindexing.AppIndex;
+
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -29,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
 
-    private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -38,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        context = getApplicationContext();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
-
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+      PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -90,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
+        MainApplication app = ((MainApplication)getApplicationContext());
+        try {
+            user = UserManager.getInstance().getUser();
+
+            if (user == null) {
+                //Something went wrong, go back to login
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
 
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
@@ -111,4 +125,5 @@ public class MainActivity extends AppCompatActivity {
     public static Context getContext(){
         return MainActivity.context;
     }
+
 }

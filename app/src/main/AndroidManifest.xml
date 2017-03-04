@@ -26,15 +26,20 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBviR5jNBd9ktpZMb25bmb8ZlK1MOJMEyY" />
 
         <!-- Facebook Configuration -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".UI.DestinationActivity">
 
         </activity>
-
-
         <!--
              The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
              Google Maps Android API v2, but you must specify either coarse or fine
@@ -46,6 +51,7 @@
 
         </activity>
     </application>
+
 
 
 </manifest>

@@ -69,9 +69,20 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/signIn_bRegister"
         android:id="@+id/registerButton"
+        android:layout_marginTop="26dp"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="35dp"
         android:layout_below="@+id/signInButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textColor="#ffffff"/>
+        android:layout_alignLeft="@+id/registerButton"
+        android:layout_alignStart="@+id/registerButton" />
+
 
 </RelativeLayout>

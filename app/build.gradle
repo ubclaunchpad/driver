@@ -21,6 +21,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -46,6 +50,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
 
+    compile 'com.google.android.gms:play-services-appindexing:9.0.1'
     //JSON serialize/deserialize
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.google.android.gms:play-services:9.0.1'

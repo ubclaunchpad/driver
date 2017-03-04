@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.DestinationActivity;
@@ -18,10 +19,17 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.RegisterActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import java.util.Collection;
 import java.util.Map;
+
+import static com.facebook.internal.FacebookDialogFragment.TAG;
 
 
 /**
@@ -39,6 +47,26 @@ import java.util.Map;
 public class LoginFragment extends Fragment implements LoginContract.View, View.OnClickListener {
 
     private LoginContract.Presenter mPresenter;
+    private CallbackManager callbackManager;
+
+    //To recieve the callback when the user attempts to sign in using facebook
+    private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+
+            Log.d(TAG, "facebook:onSuccess:" + loginResult.getAccessToken().getUserId());
+        }
+
+        @Override
+        public void onCancel() {
+            Log.d(TAG, "Cancelling");
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+            Log.d(TAG, "ERROR with EXCEPTION");
+        }
+    };
 
     public LoginFragment() {
         // Requires empty public constructor
@@ -59,14 +87,23 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        // Setup UI
+
         view.findViewById(R.id.signInButton).setOnClickListener(this /* the LoginFragment */);
         view.findViewById(R.id.registerButton).setOnClickListener(this /* the LoginFragment */);
-
         mPresenter.onCreate(getActivity());
 
         return view;
     }
+
+    public void OnViewCreated(View view, Bundle savedInstanceState){
+    super.onViewCreated(view, savedInstanceState);
+        LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+        loginButton.setFragment(this);
+        loginButton.registerCallback(callbackManager, mCallback);
+    }
+
+
 
     @Override
     public void onResume() {
@@ -87,11 +124,13 @@ public class LoginFragment extends Fragment implements LoginContract.View, View.
         super.onStop();
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // passing data from the Android framework to the presenter.
         mPresenter.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
