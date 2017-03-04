@@ -26,11 +26,6 @@ dependencies {
 
     // Android Testing Support Library's runner and rules
 
-
-    // Dependencies for Android unit tests
-
-
-    //JSON serialize/deserialize
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.1'
     compile 'com.google.firebase:firebase-database:9.0.1'
@@ -48,6 +43,8 @@ dependencies {
 
     //JSON serialize/deserialize
     compile 'com.google.code.gson:gson:2.7'
+
+    // Dependencies for Android unit tests
     compile 'com.google.android.gms:play-services:9.0.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
@@ -61,6 +58,9 @@ dependencies {
 
     // RecyclerView
     compile 'com.android.support:recyclerview-v7:24.0.0'
+
+    //OkHttp for http web requests
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }
 
 
