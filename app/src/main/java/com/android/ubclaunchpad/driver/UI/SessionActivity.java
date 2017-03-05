@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
-import com.android.ubclaunchpad.driver.util.SessionCreateDialog;
-import com.android.ubclaunchpad.driver.util.SessionObj;
+import com.android.ubclaunchpad.driver.UI.SessionCreateDialog;
+
 import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.fitness.data.Session;
 
