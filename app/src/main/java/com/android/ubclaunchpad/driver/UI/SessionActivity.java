@@ -100,8 +100,7 @@ public class SessionActivity extends AppCompatActivity {
             }
         });
 
-        testParseString();
-       // displayNearbySessions();
+        displayNearbySessions();
     }
 
     /**
@@ -136,21 +135,13 @@ public class SessionActivity extends AppCompatActivity {
         for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
             //TODO - test this
             SessionModel sessionModel = sessionSnapshot.getValue(SessionModel.class);
-          //  String latLngString = sessionModel.getLocation();
-          //  latLngList.add(parseLatLngString(latLngString));
+            String latLngString = sessionModel.getLocation();
+            latLngList.add(parseLatLngString(latLngString));
             allSessions.add(sessionModel);
         }
         return latLngList;
     }
 
-    public void testParseString() {
-        LatLng obj1 = new LatLng(0.44567, -3.99);
-        LatLng obj2 = new LatLng(-0.00003, 90.345);
-        List<LatLng> list = new ArrayList<>();
-        list.add(obj1);
-        list.add(obj2);
-        Log.v("session activity", "list contains obj: " + list.contains(new LatLng(-0.00003,90.345)));
-    }
     public static LatLng parseLatLngString(String latLngString){
         String[] latLng = latLngString.split(",");
         double lat = Double.parseDouble(latLng[0]);
@@ -165,10 +156,10 @@ public class SessionActivity extends AppCompatActivity {
     private List<SessionModel> getNearbySessions(final List<LatLng> nearbySessionLatLngs) {
         List<SessionModel> nearbySessions = new ArrayList<>();
         for( SessionModel sessionModel : allSessions ) {
-          //  String latLngString = sessionModel.getLocation();
-          //  LatLng latLngObj = parseLatLngString(latLngString);
-          //  if( nearbySessionLatLngs.contains(latLngObj))
-          //      nearbySessions.add(sessionModel);
+            String latLngString = sessionModel.getLocation();
+            LatLng latLngObj = parseLatLngString(latLngString);
+           if( nearbySessionLatLngs.contains(latLngObj))
+               nearbySessions.add(sessionModel);
         }
         return nearbySessions;
     }
