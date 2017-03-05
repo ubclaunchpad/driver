@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
+    
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
