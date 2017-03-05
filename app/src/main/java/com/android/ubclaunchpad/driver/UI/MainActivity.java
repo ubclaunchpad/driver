@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
-    
+    @BindView(R.id.sign_out_button) Button mSignOutButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -88,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
                 numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
+            }
+        });
+
+        mSignOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
+                // TODO: discuss what where we should store whether a user is logged in or not
             }
         });
 
