@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.ubclaunchpad.driver.UI.DestinationActivity;
 import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
@@ -119,7 +120,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                                     Log.e(TAG, "Could not save firebase key:" + e.getMessage());
                                 }
 
-                                mContext.startActivity(new Intent(mContext, MainActivity.class));
+                                mContext.startActivity(new Intent(mContext, DestinationActivity.class));
                                 mContext.finish();
                             }
                             else{
@@ -248,7 +249,10 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            //TODO unsuccessful login error message to user
+                            Toast.makeText(mContext, "Incorrect email or password", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mContext.startActivity(new Intent(mContext, DestinationActivity.class));
+                            mContext.finish();
                         }
 
                         mLoginView.hideProgressDialog();
