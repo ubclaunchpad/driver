@@ -5,6 +5,8 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -18,6 +20,8 @@ public class User {
     public String latLngAsString;
     public Boolean isDriver;
     public Integer seatNum;
+    private List<User> passengers;
+    private LatLng destination;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -42,6 +46,11 @@ public class User {
         return gson.fromJson(json, User.class);
     }
 
+    public void addPassenger(User passenger) {
+
+        passengers.add(passenger);
+    }
+
     public String serializeUser(){
         Gson gson = new Gson();
         return gson.toJson(this);
@@ -51,6 +60,7 @@ public class User {
      * Setter methods
      * @param
      */
+
 
     public void setSeatNum(Integer seatNum) {
         isDriver = true;
@@ -65,6 +75,10 @@ public class User {
         this.email = email;
     }
 
+    public void setPassengers(List<User> passengers) {
+        this.passengers = passengers;
+    }
+
     @Exclude
     public void setLatLngAsString(LatLng latLng) {
         Double lat = latLng.latitude;
@@ -76,10 +90,19 @@ public class User {
         this.latLngAsString = latLng;
     }
 
+
+    public void setDestination(LatLng destination) {
+        this.destination = destination;
+    }
+
     /**
      * Just a bunch of getter methods
      * @return
      */
+
+    public List<User> getPassengers() {
+        return passengers;
+    }
 
     public Boolean isDriver() {
         return isDriver;
@@ -101,7 +124,11 @@ public class User {
         return latLngAsString;
     }
 
-//    public JSONObject userToString() {
+    public LatLng getDestination() {
+        return destination;
+    }
+
+    //    public JSONObject userToString() {
 //
 //        JSONObject userJSON = new JSONObject();
 //
