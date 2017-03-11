@@ -13,12 +13,16 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +81,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // this is a debug statement, delete this when load screen view is implemented
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
+                if (firebaseUser != null) {
+                    String uid = firebaseUser.getUid();
+                    Log.d(TAG, "got uid: " + uid);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }
         });
