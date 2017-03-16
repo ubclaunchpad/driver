@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,9 +33,7 @@ public class SessionModel {
     public SessionModel(LatLng latLng){
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
-        Double lat = latLng.latitude;
-        Double lng = latLng.longitude;
-        this.location = lat.toString() + "," + lng.toString();
+        this.location = StringUtils.latLngToString(latLng);
     }
 
     public void setDrivers(List<String> drivers) {
@@ -54,9 +53,7 @@ public class SessionModel {
     }
 
     public void setLocation(LatLng latLng) {
-        Double lat = latLng.latitude;
-        Double lng = latLng.longitude;
-        this.location = lat.toString() + "," + lng.toString();
+        this.location = StringUtils.latLngToString(latLng);
     }
 
     public void setName(String name) {
