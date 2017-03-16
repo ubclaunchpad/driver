@@ -67,6 +67,11 @@ public class DestinationActivity extends AppCompatActivity {
 
                     if (innerUser != null) {
                         innerUser.setDestinationLatLngStr(place.getLatLng());
+                    } else {
+                        //Something went wrong, go back to login
+                        mAuth.signOut();
+                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                        finish();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
@@ -74,16 +79,13 @@ public class DestinationActivity extends AppCompatActivity {
 
                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                Double latitude = place.getLatLng().latitude;
-                Double longitude = place.getLatLng().longitude;
-
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
                             .child(StringUtils.FirebaseDestinationLatLngEndpoint)
-                            .setValue(latitude.toString() + "," + longitude.toString());
+                            .setValue(StringUtils.latLngToString(place.getLatLng()));
                 }
             }
 

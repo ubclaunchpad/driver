@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     String uid = firebaseUser.getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
                 }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }

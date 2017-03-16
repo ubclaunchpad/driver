@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,21 +20,20 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Marina on 10/22/16.
- * TODO this activity is for DEMO ONLY. UI please REMOVE
  */
 public class SessionCreateDialog extends Dialog implements
         android.view.View.OnClickListener {
 
-    public Activity c;
-    public Button yes, no;
-    public String dSessionName;
-    private EditText txtDescription;
-    public SessionModel sessionModel;
+    public Activity mActivity;
+    public Button okButton, cancelButton;
+    public String mSessionName;
+    private EditText mTextDescription;
+    public SessionModel mSessionModel;
     private DatabaseReference mDatabase;
 
-    public SessionCreateDialog (Activity a) {
-        super(a);
-        this.c = a;
+    public SessionCreateDialog (Activity activity) {
+        super(activity);
+        this.mActivity = activity;
     }
 
     @Override
@@ -45,13 +43,12 @@ public class SessionCreateDialog extends Dialog implements
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        txtDescription = (EditText) findViewById(R.id.session_name);
+        mTextDescription = (EditText) findViewById(R.id.session_name);
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        yes = (Button) findViewById(R.id.btn_yes);
-        no = (Button) findViewById(R.id.btn_no);
-        yes.setOnClickListener(this);
-        no.setOnClickListener(this);
+        okButton = (Button) findViewById(R.id.btn_yes);
+        cancelButton = (Button) findViewById(R.id.btn_no);
+        okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
     }
 
@@ -59,7 +56,7 @@ public class SessionCreateDialog extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                dSessionName = txtDescription.getText().toString();
+                mSessionName = mTextDescription.getText().toString();
                 createUniqueSession();
                 break;
             case R.id.btn_no:
@@ -72,31 +69,36 @@ public class SessionCreateDialog extends Dialog implements
     }
 
     private void createUniqueSession() {
-        mDatabase.child("Session group").child(dSessionName)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                       if(dataSnapshot.exists()){
-                           Toast.makeText(getContext(),"session exists, change session name",Toast.LENGTH_LONG).show();
-                       }
-                       else {
-                           createSession();
-                           Toast.makeText(getContext(),"session created",Toast.LENGTH_LONG).show();
-                           c.finish();
-                       }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w("Cancelled", databaseError.toException());
-                    }
-                });
+        if (mDatabase != null) {
+            mDatabase.child("Session group").child(mSessionName)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                Toast.makeText(getContext(), "session exists, change session name", Toast.LENGTH_LONG).show();
+                            } else {
+                                createSession();
+                                Toast.makeText(getContext(), "session created", Toast.LENGTH_LONG).show();
+                                mActivity.finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Cancelled", databaseError.toException());
+                        }
+                    });
+        }
 
     }
+
     private void createSession () {
 
-        sessionModel = SessionModel.createNewSession(dSessionName, new LatLng(0, 0));
+        mSessionModel = SessionModel.createNewSession(mSessionName, new LatLng(0, 0));
 
-        mDatabase.child("Session group").child(dSessionName).setValue(sessionModel);
+        if (mDatabase != null) {
+            mDatabase.child("Session group").child(mSessionName).setValue(mSessionModel);
+        }
     }
 }
 

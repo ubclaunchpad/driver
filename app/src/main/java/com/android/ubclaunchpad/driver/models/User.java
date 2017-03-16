@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -27,6 +28,7 @@ public class User {
 
     /**
      * User contructor
+     *
      * @param name
      * @param email
      */
@@ -39,18 +41,19 @@ public class User {
         seatNum = null;
     }
 
-    public static User createUser(String json){
+    public static User createUser(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, User.class);
     }
 
-    public String serializeUser(){
+    public String serializeUser() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     /**
      * Setter methods
+     *
      * @param
      */
 
@@ -59,7 +62,7 @@ public class User {
         this.seatNum = seatNum;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -69,9 +72,7 @@ public class User {
 
     @Exclude
     public void setDestinationLatLngStr(LatLng latLng) {
-        Double lat = latLng.latitude;
-        Double lng = latLng.longitude;
-        this.destinationLatLngStr = lat.toString() + "," + lng.toString();
+        this.destinationLatLngStr = StringUtils.latLngToString(latLng);
     }
 
     public void setDestinationLatLngStr(String latLng) {
@@ -80,14 +81,13 @@ public class User {
 
     @Exclude
     public void setCurrentLatLngStr(LatLng latLng) {
-        Double lat = latLng.latitude;
-        Double lng = latLng.longitude;
-        this.currentLatLngStr = lat.toString() + "," + lng.toString();
+        this.currentLatLngStr = StringUtils.latLngToString(latLng);
     }
 
     public void setCurrentLatLngStr(String latLng) {
         this.currentLatLngStr = latLng;
     }
+
     /**
      * A bunch of getter methods
      */
@@ -100,7 +100,7 @@ public class User {
         return seatNum;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
