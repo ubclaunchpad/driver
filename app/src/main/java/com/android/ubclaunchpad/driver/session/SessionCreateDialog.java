@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.session;
 
 import android.app.Activity;
 import android.app.Dialog;
