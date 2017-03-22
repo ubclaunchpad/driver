@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         User user = UserManager.getInstance().getUser();
                         if(user != null){
-                            user.setLatLngAsString(place.getLatLng());
+                            user.setCurrentLatLngStr(place.getLatLng());
                         }
                     }
                     catch (Exception e){
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     String uid = firebaseUser.getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
                 }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }

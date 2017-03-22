@@ -21,7 +21,7 @@
         <activity android:name=".UI.MainActivity" android:screenOrientation="portrait" />
         <activity android:name=".UI.RegisterActivity" />
         <activity android:name=".login.LoginActivity" android:screenOrientation="portrait" />
-        <activity android:name=".UI.SessionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".session.SessionActivity" android:screenOrientation="portrait" />
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBviR5jNBd9ktpZMb25bmb8ZlK1MOJMEyY" />
 

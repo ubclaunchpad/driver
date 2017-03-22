@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.session;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
-import com.android.ubclaunchpad.driver.util.SessionObj;
 
 import java.util.List;
 
