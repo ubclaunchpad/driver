@@ -30,6 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
+
 public class SessionActivity extends AppCompatActivity {
 
     private static final String TAG = SessionActivity.class.toString();
@@ -147,12 +149,7 @@ public class SessionActivity extends AppCompatActivity {
         return latLngList;
     }
 
-    public static LatLng stringToLatLng(String latLngString){
-        String[] latLng = latLngString.split(",");
-        double lat = Double.parseDouble(latLng[0]);
-        double lng = Double.parseDouble(latLng[1]);
-        return new LatLng(lat, lng);
-    }
+
 
     /**
      * Get the sessions whose LatLng is close to the user's current latLng
