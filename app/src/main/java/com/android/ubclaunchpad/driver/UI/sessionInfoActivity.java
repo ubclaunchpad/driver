@@ -47,9 +47,9 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsArray);
         listView.setAdapter(adapter);
 
-      //  Intent intent = getIntent();
+    //    Intent intent = getIntent();
       //  String session_Name = intent.getStringExtra("SESSION_NAME");
-        String session_Name = "UBC";
+       String session_Name = "UBC";
         final String passengerDistance = "\t\t\t\t\t\tP";
         final String driverDistance = "\t\t\t\t\t\tD";
         TextView textView = (TextView) findViewById(R.id.sessionName);
@@ -131,6 +131,9 @@ public class sessionInfoActivity extends AppCompatActivity {
 
 
         //Testing
-     //   mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 1");
-       }
+        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 1");
+           mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("i am a Passenger 1");
+           mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 2");
+
+    }
 }
