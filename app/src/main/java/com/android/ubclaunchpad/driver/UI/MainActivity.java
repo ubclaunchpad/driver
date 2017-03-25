@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this, DispatchActivity.class));
                 finish();
-                // TODO: discuss what where we should store whether a user is logged in or not
             }
         });
 
