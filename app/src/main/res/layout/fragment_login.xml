@@ -3,81 +3,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#171618"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.android.ubclaunchpad.driver.login.LoginActivity"
-    android:background="#171618"
-    >
+    tools:context="com.android.ubclaunchpad.driver.login.LoginActivity">
 
 
     <Button
+        android:id="@+id/signInButton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/signIn_bEnter"
-        android:id="@+id/signInButton"
-        android:textColor="#C0C0C0"
-        android:onClick="signInClick"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="440dp"
+        android:backgroundTint="#5c505c"
         android:elevation="0dp"
         android:fontFamily="serif-monospace"
-        android:layout_marginTop="440dp"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="#2d252d"
-        style="@style/Widget.AppCompat.Button"/>
+        android:onClick="signInClick"
+        android:text="@string/signIn_bEnter"
+        android:textColor="#ffffff" />
 
 
     <TextView
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/signIn_bRegister"
-        android:id="@+id/registerButton"
-        android:layout_marginTop="33dp"
-        android:textColor="#ffffff"
-        android:fontFamily="serif-monospace"
         android:layout_below="@+id/signInButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:fontFamily="serif-monospace"
+        android:text="@string/signIn_bRegister"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ffffff" />
 
 
     <ImageView
-        android:contentDescription="@null"
+        android:id="@+id/imgCar"
         android:layout_width="190dp"
         android:layout_height="150dp"
-        android:id="@+id/imgCar"
-        android:src="@drawable/launchpadicon"
-        android:backgroundTint="#00ffffff"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:layout_marginTop="85dp"
+        android:layout_alignEnd="@+id/signInButton"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/signInButton"
-        android:layout_alignEnd="@+id/signInButton" />
+        android:layout_marginTop="85dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00ffffff"
+        android:contentDescription="@null"
+        android:cropToPadding="false"
+        android:src="@drawable/launchpadicon" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imgCar"
+        android:layout_marginTop="37dp"
+
         android:orientation="vertical"
         android:paddingTop="10dp"
-        android:weightSum="1"
-
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/imgCar"
-        android:layout_alignParentStart="true">
+        android:weightSum="1">
 
 
         <EditText
+            android:id="@+id/emailSignInEditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/emailSignInEditText"
-            android:inputType="textEmailAddress"
-            android:hint="@string/signIn_email"
-            android:textColorHint="#C0C0C0"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="0.20"
             android:fontFamily="serif-monospace"
+            android:hint="@string/signIn_email"
+            android:inputType="textEmailAddress"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:textAlignment="viewStart"
-            android:layout_weight="0.20"/>
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
 
         <View
             android:layout_width="fill_parent"
@@ -86,18 +86,18 @@
 
 
         <EditText
+            android:id="@+id/signInPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:inputType="textPassword"
-            android:id="@+id/signInPasswordEditText"
-            android:hint="@string/signIn_password"
-            android:textColorHint="#C0C0C0"
-
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_weight="0.20"
             android:fontFamily="serif-monospace"
+            android:hint="@string/signIn_password"
+            android:inputType="textPassword"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:textAlignment="viewStart"
-            android:layout_weight="0.20" />
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
 
         <View
             android:layout_width="fill_parent"

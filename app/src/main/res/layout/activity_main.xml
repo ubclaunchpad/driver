@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#171618">
 
     <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create/find session"
-        android:id="@+id/button3"
-        android:fontFamily="serif-monospace"
-        android:backgroundTint="#2d252d"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="26dp"
-        android:textStyle="normal|bold"
-        android:textColor="#C0C0C0"/>
+        android:backgroundTint="#5c505c"
+        android:fontFamily="serif-monospace"
+        android:text="Create/find session"
+        android:textColor="#ffffff"
+        android:textStyle="normal|bold" />
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sign out"
-        android:fontFamily="serif-monospace"
-        android:backgroundTint="#2d252d"
-        android:textStyle="normal|bold"
-        android:textColor="#C0C0C0"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="7dp" />
+        android:layout_marginBottom="7dp"
+        android:backgroundTint="#5c505c"
+        android:fontFamily="serif-monospace"
+        android:text="sign out"
+        android:textColor="#ffffff"
+        android:textStyle="normal|bold" />
 
     <LinearLayout
-      android:layout_height="wrap_content"
-      android:layout_width="fill_parent"
-      android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
+
         <Button
+            android:id="@+id/i_am_a_passenger_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:id="@+id/i_am_a_passenger_button"
-            android:text="@string/passenger_bttn_text"
-            android:fontFamily="serif-monospace"
-            android:backgroundTint="#2d252d"
-            android:textStyle="normal|bold"
-            android:textColor="#C0C0C0"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="#5c505c"
+            android:fontFamily="serif-monospace"
+            android:text="@string/passenger_bttn_text"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold" />
 
 
         <Button
+            android:id="@+id/i_am_a_driver_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/i_am_a_driver_button"
-            android:text="@string/driver_bttn_text"
-            android:fontFamily="serif-monospace"
-            android:backgroundTint="#2d252d"
-            android:textStyle="normal|bold"
-            android:textColor="#C0C0C0"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
-
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#5c505c"
+            android:fontFamily="serif-monospace"
+            android:text="@string/driver_bttn_text"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold" />
 
 
         <fragment
-            android:layout_marginTop="40dp"
             android:id="@+id/place_autocomplete_fragment"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+            android:layout_marginTop="40dp" />
 
     </LinearLayout>
 

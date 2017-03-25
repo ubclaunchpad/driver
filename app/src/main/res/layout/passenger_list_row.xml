@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#171618">
 
     <TextView
         android:id="@+id/passenger_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="first last"
-        android:textSize="25dp"
-        android:textColor="#C0C0C0"
-        android:maxLines="1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="13dp"
         android:layout_marginStart="33dp"
         android:layout_marginTop="64dp"
+        android:background="#171618"
         android:fontFamily="serif-monospace"
+        android:maxLines="1"
+        android:text="first last"
         android:textAllCaps="true"
-
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="#171618"/>
+        android:textColor="#ffffff"
+        android:textSize="25dp" />
 
 
 </RelativeLayout>
