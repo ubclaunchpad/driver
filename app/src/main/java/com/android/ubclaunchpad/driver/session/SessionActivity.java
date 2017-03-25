@@ -110,17 +110,12 @@ public class SessionActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
-                        for(LatLng latLng : allSessionlatLngs){
-                            Log.v(TAG, "all session latlng is " + latLng.latitude + " " + latLng.longitude);
-                        }
+
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
 
-                        for(LatLng latLng : nearbySessionLatLngs){
-                            Log.v(TAG, "nearby session latlng is " + latLng.latitude + " " + latLng.longitude);
-                        }
-
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
+                        //TODO user nearbySessions here
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
