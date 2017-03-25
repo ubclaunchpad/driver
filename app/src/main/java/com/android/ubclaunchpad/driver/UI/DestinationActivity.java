@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
@@ -16,7 +15,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +28,7 @@ import butterknife.ButterKnife;
  */
 public class DestinationActivity extends AppCompatActivity {
     private final static String TAG = DestinationActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,7 @@ public class DestinationActivity extends AppCompatActivity {
         User user;
 
         try {
-             user = UserManager.getInstance().getUser();
+            user = UserManager.getInstance().getUser();
 
             if (user == null) {
                 //Something went wrong, go back to login
@@ -48,10 +47,8 @@ public class DestinationActivity extends AppCompatActivity {
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
-
         }
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
@@ -62,17 +59,33 @@ public class DestinationActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
 
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                // get the singleton User again because user from the outer class may not be initialized
+                User innerUser;
 
-                LatLng latLng = place.getLatLng();
+                try {
+                    innerUser = UserManager.getInstance().getUser();
+
+                    if (innerUser != null) {
+                        innerUser.setDestinationLatLngStr(place.getLatLng());
+                    } else {
+                        //Something went wrong, go back to login
+                        mAuth.signOut();
+                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                }
+
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                 if (firebaseUser != null) {
                     String uid = firebaseUser.getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
-                            .child(StringUtils.FirebaseDestinationLatlngEndpoint)
-                            .setValue(latLng);
+                            .child(StringUtils.FirebaseDestinationLatLngEndpoint)
+                            .setValue(StringUtils.latLngToString(place.getLatLng()));
                 }
             }
 
@@ -84,7 +97,7 @@ public class DestinationActivity extends AppCompatActivity {
 
     }
 
-    public void goToMainActivity(View view){
+    public void goToMainActivity(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
         startActivity(intent);

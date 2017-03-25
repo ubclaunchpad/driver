@@ -1,24 +1,20 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.session;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
-import com.android.ubclaunchpad.driver.UI.SessionCreateDialog;
-
+import com.android.ubclaunchpad.driver.session.SessionAdapter;
+import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.UserUtils;
-import com.google.android.gms.fitness.data.Session;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,14 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SessionActivity extends AppCompatActivity {
 
+    private static final String TAG = SessionActivity.class.toString();
     private DatabaseReference mDatabase;
     private SessionModel mSession;
     private FirebaseAuth mAuth;
@@ -54,7 +48,6 @@ public class SessionActivity extends AppCompatActivity {
 
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +94,9 @@ public class SessionActivity extends AppCompatActivity {
         });
 
         displayNearbySessions();
+
     }
+
 
     /**
      * Get a list of names of nearby sessions
@@ -113,8 +108,16 @@ public class SessionActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
+                        for(LatLng latLng : allSessionlatLngs){
+                            Log.v(TAG, "all session latlng is " + latLng.latitude + " " + latLng.longitude);
+                        }
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
+
+                        for(LatLng latLng : nearbySessionLatLngs){
+                            Log.v(TAG, "nearby session latlng is " + latLng.latitude + " " + latLng.longitude);
+                        }
+
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
                     }
                     @Override
@@ -133,16 +136,18 @@ public class SessionActivity extends AppCompatActivity {
     private List<LatLng> getAllSessionLatLngs( DataSnapshot dataSnapshot) {
         final List<LatLng> latLngList = new ArrayList<>();
         for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
-            //TODO - test this
             SessionModel sessionModel = sessionSnapshot.getValue(SessionModel.class);
             String latLngString = sessionModel.getLocation();
-            latLngList.add(parseLatLngString(latLngString));
+
+            Log.v(TAG, "latlng string is "+latLngString);
+            latLngList.add(stringToLatLng(latLngString));
             allSessions.add(sessionModel);
+
         }
         return latLngList;
     }
 
-    public static LatLng parseLatLngString(String latLngString){
+    public static LatLng stringToLatLng(String latLngString){
         String[] latLng = latLngString.split(",");
         double lat = Double.parseDouble(latLng[0]);
         double lng = Double.parseDouble(latLng[1]);
@@ -157,11 +162,10 @@ public class SessionActivity extends AppCompatActivity {
         List<SessionModel> nearbySessions = new ArrayList<>();
         for( SessionModel sessionModel : allSessions ) {
             String latLngString = sessionModel.getLocation();
-            LatLng latLngObj = parseLatLngString(latLngString);
-           if( nearbySessionLatLngs.contains(latLngObj))
-               nearbySessions.add(sessionModel);
+            LatLng latLngObj = stringToLatLng(latLngString);
+            if( nearbySessionLatLngs.contains(latLngObj))
+                nearbySessions.add(sessionModel);
         }
         return nearbySessions;
     }
-
 }

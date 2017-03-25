@@ -2,6 +2,8 @@ package com.android.ubclaunchpad.driver.util;
 
 import android.support.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.regex.Pattern;
 
 /**
@@ -21,8 +23,8 @@ public class StringUtils {
      */
     public static final String FirebaseUserEndpoint = "Users";
 
-    public static final String FirebaseDestinationLatlngEndpoint = "destinationLatLng";
-    public static final String FirebaseCurrentLatlngEndpoint = "currentLatLng";
+    public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLng";
+    public static final String FirebaseCurrentLatLng = "currentLatLng";
     public static final String isDriverEndpoint = "isDriver";
     public static final String numPassengersEndpoint = "seatNum";
     /**
@@ -64,10 +66,13 @@ public class StringUtils {
      * @return true if str is null or zero length
      */
     public static boolean isEmpty(@Nullable CharSequence str) {
-        if (str == null || str.length() == 0)
-            return true;
-        else
-            return false;
+        return str == null || str.length() == 0;
+    }
+
+    public static String latLngToString(LatLng latLng) {
+        Double lat = latLng.latitude;
+        Double lng = latLng.longitude;
+        return lat.toString() + "," + lng.toString();
     }
 
     /**

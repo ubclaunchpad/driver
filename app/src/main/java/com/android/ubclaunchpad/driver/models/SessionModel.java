@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,21 +20,20 @@ public class SessionModel {
     // list of strings representing passenger users' unique IDs
     private List<String> passengers;
     // location of the starting location
-    private LatLng location;
+    private String location;
     private String name;
 
 
-
     public SessionModel(){
-        drivers = new ArrayList<String>();
-        passengers = new ArrayList<String>();
-        location = new LatLng(0, 0);
+        drivers = new ArrayList<>();
+        passengers = new ArrayList<>();
+        location = "";
     }
 
     public SessionModel(LatLng latLng){
-        drivers = new ArrayList<String>();
-        passengers = new ArrayList<String>();
-        location = latLng;
+        drivers = new ArrayList<>();
+        passengers = new ArrayList<>();
+        this.location = StringUtils.latLngToString(latLng);
     }
 
     public void setDrivers(List<String> drivers) {
@@ -52,9 +52,10 @@ public class SessionModel {
         this.passengers.add(passenger);
     }
 
-    public void setLocation(LatLng location) {
-        this.location = location;
-    }
+    //TODO passing an object to setter method causes getting SessionModel to crash
+//    public void setLocation(LatLng latLng) {
+//        this.location = StringUtils.latLngToString(latLng);
+//    }
 
     public void setName(String name) {
         this.name = name;
@@ -68,10 +69,9 @@ public class SessionModel {
         return passengers;
     }
 
-    public LatLng getLocation() {
+    public String getLocation() {
         return location;
     }
-    
 
     public String getName() { return name; }
 
@@ -81,6 +81,7 @@ public class SessionModel {
     public static SessionModel createNewSession(String name, LatLng latLng) {
 
         SessionModel sessionModel = new SessionModel(latLng);
+        sessionModel.setName(name);
 
         try {
             User user = UserManager.getInstance().getUser();

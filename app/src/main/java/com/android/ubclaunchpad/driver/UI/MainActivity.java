@@ -11,14 +11,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.session.SessionActivity;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
+    @BindView(R.id.sign_out_button) Button mSignOutButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         User user = UserManager.getInstance().getUser();
                         if(user != null){
-                            user.setCurrentLatLng(place.getLatLng());
+                            user.setCurrentLatLngStr(place.getLatLng());
                         }
                     }
                     catch (Exception e){
@@ -77,7 +82,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // this is a debug statement, delete this when load screen view is implemented
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
+                if (firebaseUser != null) {
+                    String uid = firebaseUser.getUid();
+                    Log.d(TAG, "got uid: " + uid);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
+                }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }
         });
@@ -87,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
                 numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
+            }
+        });
+
+        mSignOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
+                // TODO: discuss what where we should store whether a user is logged in or not
             }
         });
 

@@ -40,8 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.etPassword) EditText mPassword1;
     @BindView(R.id.etPasswordConfirm) EditText mPassword2;
     @BindView(R.id.bSignUp) Button mRegister;
-    
-    private User user;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -172,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Returns true if all boxes are filled in, false otherwise. If any boxes are empty,
      * alerts user that that edit text is required to be filled.
-     * @return
+     * @return whether or not all boxes are filled in
      */
     private boolean noEmptyBoxes(String name, String email, String passwordFirst, String passwordSecond) {
         boolean valid = true;
@@ -203,9 +201,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Returns true if both password edit texts match, false otherwise.
-     * @param passwordFirst
-     * @param passwordSecond
-     * @return
+     * @param passwordFirst entered password
+     * @param passwordSecond enter password again
+     * @return whether or not the two passwords match
      */
     private boolean passwordMatch(String passwordFirst, String passwordSecond) {
         boolean valid = true;
@@ -228,14 +226,13 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return valid;
-
     }
 
 
     /**
      * Returns true if all boxes are filled in, and both password fields match.
      * False otherwise.
-     * @return
+     * @return whether or not all boxes are filled in and passwords match
      */
     private boolean validateBoxes(String name, String email, String passwordFirst, String passwordSecond) {
         boolean valid = true;
@@ -248,5 +245,4 @@ public class RegisterActivity extends AppCompatActivity {
 
         return valid;
     }
-
 }

@@ -1,5 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -15,8 +16,8 @@ public class User {
 
     public String name;
     public String email;
-    public LatLng destinationLatLng;
-    public LatLng currentLatLng;
+    public String destinationLatLngStr;
+    public String currentLatLngStr;
     public Boolean isDriver;
     public Integer seatNum;
 
@@ -27,30 +28,32 @@ public class User {
 
     /**
      * User contructor
+     *
      * @param name
      * @param email
      */
     public User(String name, String email) {
         this.name = name;
         this.email = email;
-        destinationLatLng = new LatLng(0, 0);
-        currentLatLng = new LatLng(0, 0);
+        this.destinationLatLngStr = "";
+        this.currentLatLngStr = "";
         isDriver = false;
         seatNum = null;
     }
 
-    public static User createUser(String json){
+    public static User createUser(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, User.class);
     }
 
-    public String serializeUser(){
+    public String serializeUser() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
     /**
      * Setter methods
+     *
      * @param
      */
 
@@ -59,7 +62,7 @@ public class User {
         this.seatNum = seatNum;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -67,17 +70,26 @@ public class User {
         this.email = email;
     }
 
-    public void setDestinationLatLng(LatLng latLng) {
-        this.destinationLatLng = latLng;
+    @Exclude
+    public void setDestinationLatLngStr(LatLng latLng) {
+        this.destinationLatLngStr = StringUtils.latLngToString(latLng);
     }
 
-    public void setCurrentLatLng(LatLng latLng) {
-        this.currentLatLng = latLng;
+    public void setDestinationLatLngStr(String latLng) {
+        this.destinationLatLngStr = latLng;
+    }
+
+    @Exclude
+    public void setCurrentLatLngStr(LatLng latLng) {
+        this.currentLatLngStr = StringUtils.latLngToString(latLng);
+    }
+
+    public void setCurrentLatLngStr(String latLng) {
+        this.currentLatLngStr = latLng;
     }
 
     /**
-     * Just a bunch of getter methods
-     * @return
+     * A bunch of getter methods
      */
 
     public Boolean isDriver() {
@@ -88,7 +100,7 @@ public class User {
         return seatNum;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -96,11 +108,11 @@ public class User {
         return email;
     }
 
-    public LatLng getDestinationLatLng() {
-        return destinationLatLng;
+    public String getDestinationLatLngStr() {
+        return destinationLatLngStr;
     }
 
-    public LatLng getCurrentLatLng() {
-        return currentLatLng;
+    public String getCurrentLatLngStr() {
+        return currentLatLngStr;
     }
 }
