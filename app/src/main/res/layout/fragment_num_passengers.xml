@@ -2,23 +2,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment">
+    tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment"
+    android:background="#171618">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="123dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="How Many Passengers?"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="true"
+        android:fontFamily="serif-monospace"
+        android:textStyle="normal|bold"
+        android:textColor="#C0C0C0"/>
 
     <NumberPicker
         android:id="@+id/num_passenger_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"></NumberPicker>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="#C0C0C0">
+    </NumberPicker>
 
 </RelativeLayout>

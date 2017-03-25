@@ -7,29 +7,46 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.android.ubclaunchpad.driver.session.SessionActivity">
+    tools:context="com.android.ubclaunchpad.driver.session.SessionActivity"
+    android:background="#171618">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Create Session"
         android:id="@+id/create_session"
+        android:layout_marginTop="33dp"
+        android:textColor="#C0C0C0"
+        android:fontFamily="serif-monospace"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#2d252d"
+        style="@style/Widget.AppCompat.Button"
+        android:textStyle="normal|bold" />
+
+    <Button
+        android:text="show map"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        android:id="@+id/mapButton"
+        android:textColor="#C0C0C0"
+        android:fontFamily="serif-monospace"
+        android:backgroundTint="#2d252d"
+        style="@style/Widget.AppCompat.Button"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list_existing_sessions"
         android:scrollbars="vertical"
-        android:layout_below="@+id/create_session" />
-
-    <Button
-        android:text="show map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
-        android:id="@+id/mapButton" />
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/create_session"
+        android:layout_toStartOf="@+id/create_session"
+        android:layout_marginEnd="17dp"
+        android:textColor="#C0C0C0" />
 </RelativeLayout>

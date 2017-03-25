@@ -8,60 +8,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.ubclaunchpad.driver.login.LoginActivity"
-    android:background="@android:color/holo_blue_bright"
+    android:background="#171618"
     >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/signIn_headerSignIn"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="40dp"
-        android:id="@+id/tvSignIn"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ffffff"
-        android:layout_marginTop="40dp"  />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvSignIn"
-        android:id="@+id/emailSignInEditText"
-        android:inputType="textEmailAddress"
-        android:hint="@string/signIn_email"
-        android:background="#9dffffff"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_centerHorizontal="true"
-        android:paddingLeft="10dp"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:id="@+id/signInPasswordEditText"
-        android:hint="@string/signIn_password"
-        android:background="#9dffffff"
-        android:layout_below="@id/emailSignInEditText"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_centerHorizontal="true"
-        android:paddingLeft="10dp" />
-
 
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/signIn_bEnter"
         android:id="@+id/signInButton"
-        android:layout_below="@id/signInPasswordEditText"
+        android:textColor="#C0C0C0"
+        android:onClick="signInClick"
+        android:elevation="0dp"
+        android:fontFamily="serif-monospace"
+        android:layout_marginTop="440dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:onClick="signInClick"/>
+        android:backgroundTint="#2d252d"
+        style="@style/Widget.AppCompat.Button"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,9 +33,80 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/signIn_bRegister"
         android:id="@+id/registerButton"
+        android:layout_marginTop="33dp"
+        android:textColor="#ffffff"
+        android:fontFamily="serif-monospace"
         android:layout_below="@+id/signInButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textColor="#ffffff"/>
+        android:layout_centerHorizontal="true" />
+
+
+    <ImageView
+        android:contentDescription="@null"
+        android:layout_width="190dp"
+        android:layout_height="150dp"
+        android:id="@+id/imgCar"
+        android:src="@drawable/launchpadicon"
+        android:backgroundTint="#00ffffff"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:layout_marginTop="85dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/signInButton"
+        android:layout_alignEnd="@+id/signInButton" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:weightSum="1"
+
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/imgCar"
+        android:layout_alignParentStart="true">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/emailSignInEditText"
+            android:inputType="textEmailAddress"
+            android:hint="@string/signIn_email"
+            android:textColorHint="#C0C0C0"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:fontFamily="serif-monospace"
+            android:textAlignment="viewStart"
+            android:layout_weight="0.20"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:id="@+id/signInPasswordEditText"
+            android:hint="@string/signIn_password"
+            android:textColorHint="#C0C0C0"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:fontFamily="serif-monospace"
+            android:textAlignment="viewStart"
+            android:layout_weight="0.20" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>
+
+

@@ -7,37 +7,47 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.android.ubclaunchpad.driver.UI.DestinationActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Where do you want to go?"
-        android:textSize="20sp"
-        android:layout_marginTop="104dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView2" />
-
-    <Button
-        android:id="@+id/okButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OK"
-        android:textSize="30sp"
-        android:layout_marginTop="71dp"
-        android:layout_below="@+id/place_autocomplete_fragment"
-        android:layout_centerHorizontal="true"
-        android:onClick="goToMainActivity"/>
+    tools:context="com.android.ubclaunchpad.driver.UI.DestinationActivity"
+    android:background="#171618">
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="130dp"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/okButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:textSize="24sp"
+        android:onClick="goToMainActivity"
+        android:textColor="#C0C0C0"
+        android:fontFamily="serif-monospace"
+        android:backgroundTint="#2d252d"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="130dp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Where do you want to go?"
+        android:textColor="#C0C0C0"
+        android:textSize="20sp"
+        android:layout_marginTop="105dp"
+        android:id="@+id/textView2"
+        android:textAllCaps="true"
+        android:backgroundTint="#2d252d"
+        android:textStyle="normal|bold"
+        android:fontFamily="serif-monospace"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

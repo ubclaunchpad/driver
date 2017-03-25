@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="150dp"
-    android:background="#3E80B4"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingTop="110dp"
+    android:background="#171618">
 
     <TextView
         android:id="@+id/txt_dia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="55dp"
         android:text="Name your session"
         android:textColor="@android:color/white"
         android:textSize="15dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        android:textAllCaps="true" />
+
     <EditText
         android:id="@+id/session_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text=""
         android:textColor="@android:color/white"
         android:textSize="15dp"
         android:textStyle="bold"/>
-
 
 
     <LinearLayout
@@ -33,9 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:background="#3E80B4"
-        android:orientation="horizontal"
-        >
+        android:background="#171618"
+        android:orientation="horizontal">
 
         <Button
 
@@ -45,8 +47,9 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:text="OK"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textColor="@color/place_autocomplete_prediction_primary_text"
+            android:fontFamily="serif-monospace"
+            android:textStyle="normal|bold" />
 
         <Button
             android:id="@+id/btn_no"
@@ -56,8 +59,9 @@
             android:background="@android:color/white"
             android:clickable="true"
             android:text="Cancel"
-            android:textColor="#5DBCD2"
-            android:textStyle="bold" />
+            android:textColor="@color/cardview_dark_background"
+            android:textStyle="bold"
+            android:fontFamily="serif-monospace" />
     </LinearLayout>
 
 

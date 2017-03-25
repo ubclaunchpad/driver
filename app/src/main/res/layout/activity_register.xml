@@ -8,100 +8,135 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".UI.RegisterActivity"
-    android:background="#3b404f">
+    android:background="#171618">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/register_headerSignUp"
-        android:id="@+id/tvSignUp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="30sp"
-        android:textColor="#ffffff" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="90dp"
-        android:id="@+id/imgCar"
-        android:src="@drawable/driverrender"
-        android:backgroundTint="#00ffffff"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/tvSignUp"
-        android:layout_centerHorizontal="true"
-        android:cropToPadding="false" />
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/imgCar"
-        android:paddingTop="10dp">
-
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:background="#ffffff"
-            android:id="@+id/etName"
-            android:hint="@string/register_name"
-            android:paddingLeft="10dp"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/etEmail"
-            android:background="#ffffff"
-            android:hint="@string/register_email"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
-
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/etPassword"
-            android:background="#ffffff"
-            android:hint="@string/register_password"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
-
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:background="#ffffff"
-            android:id="@+id/etPasswordConfirm"
-            android:hint="@string/register_passwordConfirm"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
-
-    </LinearLayout>
-
-    <Button
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register_bSignUp"
+            android:textColor="#C0C0C0"
         android:id="@+id/bSignUp"
         android:onClick="signUpClick"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="390dp"/>
+            android:layout_marginTop="470dp"
+            android:fontFamily="serif-monospace"
+            android:layout_alignStart="@+id/imgCar"
+            android:layout_alignEnd="@+id/imgCar"
+            android:backgroundTint="#2d252d"
+            style="@style/Widget.AppCompat.Button" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:weightSum="1"
+            android:layout_marginTop="41dp"
+            android:layout_below="@+id/imgCar"
+            android:layout_alignParentStart="true">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:id="@+id/etName"
+                android:hint="@string/register_name"
+                android:textColorHint="#C0C0C0"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="serif-monospace"
+                android:textSize="18sp"
+                android:textAlignment="viewStart"
+                android:layout_weight="0.20" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/etEmail"
+                android:background="@null"
+                android:hint="@string/register_email"
+                android:textColorHint="#C0C0C0"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="serif-monospace" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/etPassword"
+                android:background="@null"
+                android:hint="@string/register_password"
+                android:textColorHint="#C0C0C0"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="serif-monospace"
+                android:layout_weight="0.20" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:background="@null"
+                android:id="@+id/etPasswordConfirm"
+                android:hint="@string/register_passwordConfirm"
+                android:textColorHint="#C0C0C0"
+                android:layout_marginTop="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="serif-monospace" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:contentDescription="@null"
+            android:layout_width="190dp"
+            android:layout_height="150dp"
+            android:id="@+id/imgCar"
+            android:src="@drawable/launchpadicon"
+            android:backgroundTint="#00ffffff"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 </ScrollView>
