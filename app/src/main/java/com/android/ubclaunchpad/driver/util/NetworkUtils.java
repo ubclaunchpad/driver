@@ -10,11 +10,11 @@ import okhttp3.Response;
 
 /**
  * Created by kelvinchan on 2017-03-04.
- *
+ * <p>
  * Useful resources:
  * https://github.com/square/okhttp/wiki/Recipes
  * http://www.vogella.com/tutorials/JavaLibrary-OkHttp/article.html
- *
+ * <p>
  * OKHttp based on:
  * https://github.com/square/okhttp
  */
@@ -23,12 +23,12 @@ public class NetworkUtils {
     private NetworkUtils networkUtils;
     private OkHttpClient client;
 
-    private NetworkUtils(){
+    private NetworkUtils() {
         client = new OkHttpClient();
     }
 
-    public NetworkUtils getInstance(){
-        if(networkUtils == null){
+    public NetworkUtils getInstance() {
+        if (networkUtils == null) {
             networkUtils = new NetworkUtils();
         }
         return networkUtils;
@@ -41,25 +41,25 @@ public class NetworkUtils {
      * @return Response from the server. Can use to get header and body
      * @throws IOException
      */
-    public Response GetRequestSync(String url) throws IOException{
+    public Response GetRequestSync(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         Response response = client.newCall(request).execute();
-        if(!response.isSuccessful()){
+        if (!response.isSuccessful()) {
             throw new IOException("Unexpected response" + response);
-        }
-        else{
+        } else {
             return response;
         }
     }
 
     /**
      * An async way of making a GET request. Handles return in callback
-     * @param url the url you are trying to GET from
+     *
+     * @param url      the url you are trying to GET from
      * @param callback a callback to handle the return from the request
      */
-    public void GetRequestAsync(String url, Callback callback){
+    public void GetRequestAsync(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -69,10 +69,11 @@ public class NetworkUtils {
 
     /**
      * Creates a new client with specified timeouts
+     *
      * @param connTimeoutMs connection timeout in milliseconds
      * @param readTimeoutMs read timeout in milliseconds
      */
-    public void ConfigureClient(int connTimeoutMs, int readTimeoutMs){
+    public void ConfigureClient(int connTimeoutMs, int readTimeoutMs) {
         client = new OkHttpClient.Builder()
                 .connectTimeout(connTimeoutMs, TimeUnit.SECONDS)
                 .readTimeout(readTimeoutMs, TimeUnit.SECONDS).build();
