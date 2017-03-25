@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class sessionInfoActivity extends AppCompatActivity {
 
@@ -35,14 +41,17 @@ public class sessionInfoActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
+        final ArrayList<String> itemsArray = new ArrayList<String>();
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsArray);
         listView.setAdapter(adapter);
 
       //  Intent intent = getIntent();
       //  String session_Name = intent.getStringExtra("SESSION_NAME");
         String session_Name = "UBC";
+        final String passengerDistance = "\t\t\t\t\t\tP";
+        final String driverDistance = "\t\t\t\t\t\tD";
         TextView textView = (TextView) findViewById(R.id.sessionName);
         textView.setText(session_Name);
 
@@ -54,9 +63,10 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                 Log.i("sessionInfoActivity", "Populating");
                  String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                 driverInfo = driverInfo + "                                   D";
+                 driverInfo = driverInfo + driverDistance;
                     if(driverInfo != null) {
-                    adapter.add(driverInfo);
+                        itemsArray.add(driverInfo);
+                        adapter.notifyDataSetChanged();
                     }
             }
 
@@ -67,8 +77,10 @@ public class sessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("sessionInfoActivity","DataRemoved");
-                adapter.remove((String) dataSnapshot.child("title").getValue());
+                final String removableDriver = (String) dataSnapshot.child("title").getValue() + driverDistance;
+                adapter.remove(removableDriver);
+                adapter.notifyDataSetChanged();
+                Log.d("sessionInfoActivity","asd");
             }
 
             @Override
@@ -82,14 +94,13 @@ public class sessionInfoActivity extends AppCompatActivity {
             }
         });
 
-
         //Adding Passengers
         mDatabase.child("Session Group").child(session_Name).child("passengers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                passengerInfo = passengerInfo + "                                P";
+                passengerInfo = passengerInfo + passengerDistance;
                 if(passengerInfo != null) {
                     adapter.add(passengerInfo);
                 }
@@ -102,7 +113,9 @@ public class sessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                adapter.remove((String) dataSnapshot.child("title").getValue());
+                final String removablePassenger = (String) dataSnapshot.child("title").getValue() + passengerDistance;
+                adapter.remove(removablePassenger);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -118,9 +131,6 @@ public class sessionInfoActivity extends AppCompatActivity {
 
 
         //Testing
-        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 1");
-        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("i am a Passenger 1");
-        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 2");
-        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("i am a Passenger 2");
-    }
+     //   mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 1");
+       }
 }
