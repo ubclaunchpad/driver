@@ -44,16 +44,16 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ArrayList<String> itemsArray = new ArrayList<String>();
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsArray);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
 
     //    Intent intent = getIntent();
       //  String session_Name = intent.getStringExtra("SESSION_NAME");
        String session_Name = "UBC";
-        final String passengerDistance = "\t\t\t\t\t\tP";
-        final String driverDistance = "\t\t\t\t\t\tD";
-        TextView textView = (TextView) findViewById(R.id.sessionName);
-        textView.setText(session_Name);
+        final String passengerDistance = "\nP\n\t\t\t\t";
+        final String driverDistance = "\nD\n\t\t\t\t";
+        TextView  SessionName = (TextView) findViewById(R.id.sessionName);
+        SessionName.setText(session_Name);
 
 
         //Adding Drivers
@@ -63,11 +63,12 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                 Log.i("sessionInfoActivity", "Populating");
                  String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                 driverInfo = driverInfo + driverDistance;
+                 driverInfo =  driverDistance + driverInfo;
                     if(driverInfo != null) {
                         itemsArray.add(driverInfo);
                         adapter.notifyDataSetChanged();
                     }
+
             }
 
             @Override
@@ -77,10 +78,10 @@ public class sessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final String removableDriver = (String) dataSnapshot.child("title").getValue() + driverDistance;
+                final String removableDriver = driverDistance + (String) dataSnapshot.child("title").getValue();
                 adapter.remove(removableDriver);
                 adapter.notifyDataSetChanged();
-                Log.d("sessionInfoActivity","asd");
+                Log.d("sessionInfoActivity","Removed");
             }
 
             @Override
@@ -100,7 +101,7 @@ public class sessionInfoActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                passengerInfo = passengerInfo + passengerDistance;
+                passengerInfo =  passengerDistance + passengerInfo ;
                 if(passengerInfo != null) {
                     adapter.add(passengerInfo);
                 }
@@ -113,7 +114,7 @@ public class sessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final String removablePassenger = (String) dataSnapshot.child("title").getValue() + passengerDistance;
+                final String removablePassenger = passengerDistance + (String) dataSnapshot.child("title").getValue();
                 adapter.remove(removablePassenger);
                 adapter.notifyDataSetChanged();
             }
@@ -131,9 +132,8 @@ public class sessionInfoActivity extends AppCompatActivity {
 
 
         //Testing
-        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 1");
-           mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("i am a Passenger 1");
-           mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("i am a Driver 2");
+//        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
+//        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
 
     }
 }
