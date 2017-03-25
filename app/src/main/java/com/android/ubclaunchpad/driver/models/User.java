@@ -56,6 +56,10 @@ public class User {
         return gson.toJson(this);
     }
 
+    public int numFreeSeats() {
+        return seatNum - passengers.size();
+    }
+
     /**
      * Setter methods
      * @param
@@ -93,6 +97,10 @@ public class User {
 
     public void setDestination(LatLng destination) {
         this.destination = destination;
+    }
+
+    public void setIsDriver(boolean isDriver) {
+        this.isDriver = isDriver;
     }
 
     /**

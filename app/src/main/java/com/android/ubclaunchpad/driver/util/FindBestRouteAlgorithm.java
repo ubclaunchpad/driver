@@ -8,6 +8,8 @@ package com.android.ubclaunchpad.driver.util;
         import java.util.HashMap;
         import java.util.List;
         import java.util.Map;
+        import java.util.Set;
+
 /**
  * The algorithm finds a number of passengers for each driver determined by
  * the driver's car capacity. This is done by assigning a "score" for each passenger relative
@@ -22,7 +24,8 @@ public class FindBestRouteAlgorithm {
     public FindBestRouteAlgorithm(LatLng startPt) {
         this.startPt = startPt;
     }
-    private void sortUsers(List<User> users) {
+
+    private void sortUsers(Set<User> users) {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         for (User user: users) {
@@ -37,18 +40,19 @@ public class FindBestRouteAlgorithm {
      * @param users a list of drivers a passengers to optimize the journey for
      * @return a list of routes for each driver
      */
-    public List<User> findBestRoute(List<User> users) {
+    public List<User> findBestRoute(Set<User> users) {
         sortUsers(users);
         // Map<Passenger, Map<Driver, Distance>>
         Map<User, Map<User, Double>> distanceMaps = new HashMap<>();
+
         // Setting up startPt as (0,0)
         for (User driver: drivers) {
-            driver.setDestination(new LatLng(driver.getDestination().latitude - startPt.latitude,
-                    driver.getDestination().longitude - startPt.longitude));
+            driver.setDestination(new LatLng(driver.getDestination().longitude - startPt.longitude,
+                    driver.getDestination().latitude - startPt.latitude));
         }
         for (User passenger: passengers) {
-            passenger.setDestination(new LatLng(passenger.getDestination().latitude - startPt.latitude,
-                    passenger.getDestination().longitude - startPt.longitude));
+            passenger.setDestination(new LatLng(passenger.getDestination().longitude - startPt.longitude,
+                    passenger.getDestination().latitude - startPt.latitude));
         }
         for (User passenger: passengers) {
             Map<User, Double> distances = new HashMap<>();
@@ -58,6 +62,7 @@ public class FindBestRouteAlgorithm {
             }
             distanceMaps.put(passenger, distances);
         }
+
         assignPassengersToDrivers(distanceMaps);
         return drivers;
     }
@@ -68,10 +73,11 @@ public class FindBestRouteAlgorithm {
      * @return distance between passDest and a line between start and drDest, and a point passDest
      */
     private double distanceBetweenLineAndPoint(LatLng drDestPt, LatLng passDestPt) {
-        Double drDestX = drDestPt.latitude;
-        Double drDestY = drDestPt.longitude;
-        Double passDestX = passDestPt.latitude;
-        Double passDestY = passDestPt.longitude;
+
+        Double drDestX = drDestPt.longitude;
+        Double drDestY = drDestPt.latitude;
+        Double passDestX = passDestPt.longitude;
+        Double passDestY = passDestPt.latitude;
         Double distanceToLine = Double.MAX_VALUE;
         Double slope = drDestY/drDestX;
         Double perpLineSlope = -1/slope;
@@ -105,7 +111,7 @@ public class FindBestRouteAlgorithm {
             for (Map.Entry<User, Double> driverDistanceEntry : driverDistanceMatrix.entrySet()) {
                 User currentDriver = driverDistanceEntry.getKey();
                 Double currentDistance = driverDistanceEntry.getValue();
-                if (currentDistance < smallestDistance && currentDriver.getSeatNum() > 0) {
+                if (currentDistance < smallestDistance && currentDriver.numFreeSeats() > 0) {
                     smallestDistance = currentDistance;
                     optimalDriver = currentDriver;
                 }
