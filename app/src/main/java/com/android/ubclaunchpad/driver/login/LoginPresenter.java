@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.DestinationActivity;
-import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
