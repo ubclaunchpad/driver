@@ -100,14 +100,14 @@ public class SessionActivity extends AppCompatActivity {
             }
         });
 
-/*
+        //request for accessing fine location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.v(TAG, "access fine location not permitted");
                 ActivityCompat.requestPermissions(SessionActivity.this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_FINE_LOCATION);
         }
-        else */displayNearbySessions();
+        else displayNearbySessions();
     }
 
 
@@ -126,6 +126,7 @@ public class SessionActivity extends AppCompatActivity {
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
 
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
+
                         //TODO user nearbySessions here
                     }
                     @Override
