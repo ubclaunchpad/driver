@@ -52,10 +52,9 @@ public class SessionModel {
         this.passengers.add(passenger);
     }
 
-    //TODO passing an object to setter method causes getting SessionModel to crash
-//    public void setLocation(LatLng latLng) {
-//        this.location = StringUtils.latLngToString(latLng);
-//    }
+    public void setLocation(String latLngString) {
+        this.location = latLngString;
+    }
 
     public void setName(String name) {
         this.name = name;

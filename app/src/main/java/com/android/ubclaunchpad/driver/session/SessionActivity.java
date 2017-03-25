@@ -1,7 +1,10 @@
 package com.android.ubclaunchpad.driver.session;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +54,8 @@ public class SessionActivity extends AppCompatActivity {
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
 
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +100,14 @@ public class SessionActivity extends AppCompatActivity {
             }
         });
 
-        displayNearbySessions();
-
+/*
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.v(TAG, "access fine location not permitted");
+                ActivityCompat.requestPermissions(SessionActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+        }
+        else */displayNearbySessions();
     }
 
 
@@ -159,5 +170,27 @@ public class SessionActivity extends AppCompatActivity {
                 nearbySessions.add(sessionModel);
         }
         return nearbySessions;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    displayNearbySessions();
+
+                } else {
+                    Log.v(TAG, "permission denied");
+                    // permission denied. Disable the
+                    // functionality that depends on this permission.
+                }
+            }
+        }
     }
 }
