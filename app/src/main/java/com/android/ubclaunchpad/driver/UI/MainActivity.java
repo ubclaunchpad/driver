@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -108,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
+                UserManager.getInstance().setUser(null);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, DispatchActivity.class));
+                finish();
                 // TODO: discuss what where we should store whether a user is logged in or not
             }
         });
