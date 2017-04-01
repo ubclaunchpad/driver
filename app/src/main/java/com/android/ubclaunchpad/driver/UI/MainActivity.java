@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: Signing Out!");
                 FirebaseAuth.getInstance().signOut();
                 startActivity(intent);
                 finish();
