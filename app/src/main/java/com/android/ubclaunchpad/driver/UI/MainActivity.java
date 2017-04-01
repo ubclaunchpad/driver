@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -107,11 +108,15 @@ public class MainActivity extends AppCompatActivity {
         mSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
-                // TODO: discuss what where we should store whether a user is logged in or not
+                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Log.d(TAG, "onClick: Signing Out!");
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+                finish();
             }
         });
-
+    
 
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
