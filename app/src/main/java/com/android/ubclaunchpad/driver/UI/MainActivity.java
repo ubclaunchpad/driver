@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
                 finish();
             }
         });
