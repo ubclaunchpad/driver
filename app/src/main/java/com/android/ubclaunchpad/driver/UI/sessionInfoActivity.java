@@ -1,17 +1,11 @@
 package com.android.ubclaunchpad.driver.UI;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.ubclaunchpad.driver.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,8 +14,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class sessionInfoActivity extends AppCompatActivity {
@@ -30,7 +22,6 @@ public class sessionInfoActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private String mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +34,11 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
-        String sessionName = getIntent().getStringExtra(getString(R.string.dSessionName));
+        String sessionName = getIntent().getStringExtra(getString(R.string.session_name));
         final String passengerDistance = "\nP\n\t\t\t\t";
         final String driverDistance = "\nD\n\t\t\t\t";
-        TextView  SessionName = (TextView) findViewById(R.id.viewSessionName);
-        SessionName.setText(sessionName);
+        TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
+        textViewSessionName.setText(sessionName);
 
         //Adding Drivers
         mDatabase.child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
@@ -122,10 +113,10 @@ public class sessionInfoActivity extends AppCompatActivity {
             }
         });
 
-
-        //Testing
-//        mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
-//        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
-
+/*
+          Testing
+          mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
+        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
+*/
     }
 }

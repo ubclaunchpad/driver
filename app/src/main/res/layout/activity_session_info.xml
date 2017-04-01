@@ -17,14 +17,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:textSize="26sp"
-        android:id="@+id/sessionName"
+        android:id="@+id/viewSessionName"
         android:hint="Session Name" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sessionItemsList"
-        android:layout_below="@+id/sessionName"
+        android:layout_below="@+id/viewSessionName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="7dp"
