@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class sessionInfoActivity extends AppCompatActivity {
 
+    private static final String TAG = "sessionInfoActivity";
     private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -35,46 +36,35 @@ public class sessionInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_info);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
         final ArrayList<String> itemsArray = new ArrayList<String>();
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
-
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
-
-
-
-        Intent intent = getIntent();
-        String session_Name = intent.getStringExtra(getString(R.string.dSessionName));
+        String sessionName = getIntent().getStringExtra(getString(R.string.dSessionName));
         final String passengerDistance = "\nP\n\t\t\t\t";
         final String driverDistance = "\nD\n\t\t\t\t";
-        TextView  SessionName = (TextView) findViewById(R.id.sessionName);
-        SessionName.setText(session_Name);
-
+        TextView  SessionName = (TextView) findViewById(R.id.viewSessionName);
+        SessionName.setText(sessionName);
 
         //Adding Drivers
-        mDatabase.child("Session Group").child(session_Name).child("drivers").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                Log.i("sessionInfoActivity", "Populating");
                 String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
                 driverInfo =  driverDistance + driverInfo;
                 if(driverInfo != null) {
                     itemsArray.add(driverInfo);
                     adapter.notifyDataSetChanged();
                 }
-
+                Log.d(TAG, "Populating");
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.i("sessionInfoActivity","DataChanged");
+                Log.d(TAG,"Data Changed");
             }
 
             @Override
@@ -82,39 +72,40 @@ public class sessionInfoActivity extends AppCompatActivity {
                 final String removableDriver = driverDistance + (String) dataSnapshot.child("title").getValue();
                 adapter.remove(removableDriver);
                 adapter.notifyDataSetChanged();
-                Log.d("sessionInfoActivity","Removed");
+                Log.d(TAG,"Data Removed");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d("sessionInfoActivity","DataMoved");
+                Log.d(TAG,"Data Moved");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("sessionInfoActivity","DataCancelled");
+                Log.d(TAG,"Data Cancelled");
             }
         });
 
         //Adding Passengers
-        mDatabase.child("Session Group").child(session_Name).child("passengers").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("Session Group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
+                 String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
                 passengerInfo =  passengerDistance + passengerInfo ;
                 if(passengerInfo != null) {
                     adapter.add(passengerInfo);
                 }
+                Log.d(TAG, "Populating");
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.i("sessionInfoActivity","DataChanged");
+                Log.d(TAG,"Data Changed");
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Data Removed");
                 final String removablePassenger = passengerDistance + (String) dataSnapshot.child("title").getValue();
                 adapter.remove(removablePassenger);
                 adapter.notifyDataSetChanged();
@@ -122,12 +113,12 @@ public class sessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d("sessionInfoActivity","DataMoved");
+                Log.d(TAG,"Data Moved");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("sessionInfoActivity","DataCancelled");
+                Log.d(TAG,"DataCancelled");
             }
         });
 
