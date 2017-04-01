@@ -3,105 +3,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#171618"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".UI.RegisterActivity"
-    android:background="#3b404f">
+    tools:context=".UI.RegisterActivity">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/register_headerSignUp"
-        android:id="@+id/tvSignUp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="30sp"
-        android:textColor="#ffffff" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="90dp"
-        android:id="@+id/imgCar"
-        android:src="@drawable/driverrender"
-        android:backgroundTint="#00ffffff"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/tvSignUp"
-        android:layout_centerHorizontal="true"
-        android:cropToPadding="false" />
+        <Button
+            android:id="@+id/bSignUp"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/imgCar"
+            android:layout_alignStart="@+id/imgCar"
+            android:layout_marginTop="470dp"
+            android:backgroundTint="#5c505c"
+            android:fontFamily="serif-monospace"
+            android:onClick="signUpClick"
+            android:text="@string/register_bSignUp"
+            android:textColor="#ffffff" />
 
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/imgCar"
-        android:paddingTop="10dp">
-
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:background="#ffffff"
-            android:id="@+id/etName"
-            android:hint="@string/register_name"
-            android:paddingLeft="10dp"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/etEmail"
-            android:background="#ffffff"
-            android:hint="@string/register_email"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imgCar"
+            android:layout_marginTop="41dp"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:weightSum="1">
 
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/etPassword"
-            android:background="#ffffff"
-            android:hint="@string/register_password"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_weight="0.20"
+                android:background="@null"
+                android:fontFamily="serif-monospace"
+                android:hint="@string/register_name"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textAlignment="viewStart"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:ems="10"
+                android:fontFamily="serif-monospace"
+                android:hint="@string/register_email"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.20"
+                android:background="@null"
+                android:ems="10"
+                android:fontFamily="serif-monospace"
+                android:hint="@string/register_password"
+                android:inputType="textPassword"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
 
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:background="#ffffff"
-            android:id="@+id/etPasswordConfirm"
-            android:hint="@string/register_passwordConfirm"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
+            <EditText
+                android:id="@+id/etPasswordConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:ems="10"
+                android:fontFamily="serif-monospace"
+                android:hint="@string/register_passwordConfirm"
+                android:inputType="textPassword"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
 
-    </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register_bSignUp"
-        android:id="@+id/bSignUp"
-        android:onClick="signUpClick"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="390dp"/>
 
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgCar"
+            android:layout_width="190dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="#00ffffff"
+            android:contentDescription="@null"
+            android:cropToPadding="false"
+            android:src="@drawable/launchpadicon" />
     </RelativeLayout>
 
 </ScrollView>
