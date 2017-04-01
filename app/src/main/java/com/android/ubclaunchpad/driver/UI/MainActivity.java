@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -108,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
         mSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Toast.makeText(v.getContext(), "SIGNING OUT...", Toast.LENGTH_SHORT).show();
-                UserManager.getInstance().setUser(null);
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, DispatchActivity.class));
                 finish();
             }
         });
-
+    
 
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
