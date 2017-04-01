@@ -47,9 +47,10 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
 
-        //    Intent intent = getIntent();
-        //  String session_Name = intent.getStringExtra("SESSION_NAME");
-        String session_Name = "UBC";
+
+
+        Intent intent = getIntent();
+        String session_Name = intent.getStringExtra(getString(R.string.dSessionName));
         final String passengerDistance = "\nP\n\t\t\t\t";
         final String driverDistance = "\nD\n\t\t\t\t";
         TextView  SessionName = (TextView) findViewById(R.id.sessionName);
