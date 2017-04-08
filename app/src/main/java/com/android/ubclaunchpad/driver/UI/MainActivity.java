@@ -30,10 +30,16 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
-    @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
-    @BindView(R.id.button3) Button mSessionButton;
-    @BindView(R.id.sign_out_button) Button mSignOutButton;
+    @BindView(R.id.i_am_a_passenger_button)
+    Button mPassengerButton;
+    @BindView(R.id.i_am_a_driver_button)
+    Button mDriverButton;
+    @BindView(R.id.button3)
+    Button mSessionButton;
+    @BindView(R.id.sign_out_button)
+    Button mSignOutButton;
+
+    User user;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -53,20 +59,13 @@ public class MainActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
                 try {
-                    try {
-                        User user = UserManager.getInstance().getUser();
-                        if(user != null){
-                            user.setCurrentLatLngStr(place.getLatLng());
-                        }
+                    User user = UserManager.getInstance().getUser();
+                    if (user != null) {
+                        user.setCurrentLatLngStr(place.getLatLng());
                     }
-                    catch (Exception e){
-                        Log.e(TAG, "Could not retrieve user" + e.getMessage());
-                    }
-
-                } catch (NullPointerException e){
+                } catch (Exception e) {
                     Log.d(TAG, e.getMessage());
                 }
             }
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-    
+
 
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
@@ -135,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return MainActivity.context;
     }
 }
