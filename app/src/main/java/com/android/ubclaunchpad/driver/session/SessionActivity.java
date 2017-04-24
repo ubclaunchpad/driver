@@ -123,7 +123,7 @@ public class SessionActivity extends AppCompatActivity {
                         List<LatLng> allSessionlatLngs = getAllSessionLatLngs(dataSnapshot);
 
                         UserUtils userUtils = new UserUtils();
-                        List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs, getApplicationContext());
+                        List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs);
 
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
 
