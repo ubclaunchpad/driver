@@ -6,6 +6,9 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -20,6 +23,7 @@ public class User {
     public String currentLatLngStr;
     public Boolean isDriver;
     public Integer seatNum;
+    public Set<User> passengers;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -46,6 +50,10 @@ public class User {
         return gson.fromJson(json, User.class);
     }
 
+    public int getNumFreeSeats() {
+        return seatNum - passengers.size();
+    }
+
     public String serializeUser() {
         Gson gson = new Gson();
         return gson.toJson(this);
@@ -60,6 +68,7 @@ public class User {
     public void setSeatNum(Integer seatNum) {
         isDriver = true;
         this.seatNum = seatNum;
+        passengers = new HashSet<>();
     }
 
     public void setName(String name) {
@@ -68,6 +77,18 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addPassenger(User passenger) {
+        passengers.add(passenger);
+    }
+
+    public void removePassenger(User passenger) {
+        passengers.remove(passenger);
+    }
+
+    public Set<User> getPassengers() {
+        return passengers;
     }
 
     @Exclude
@@ -86,6 +107,10 @@ public class User {
 
     public void setCurrentLatLngStr(String latLng) {
         this.currentLatLngStr = latLng;
+    }
+
+    public void setIsDriver(boolean isDriver) {
+        this.isDriver = isDriver;
     }
 
     /**
