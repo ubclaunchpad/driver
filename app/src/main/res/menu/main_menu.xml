@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/action_sign_out"
-        android:onClick="signOut"
         android:title="sign out"
         app:showAsAction="never"
         />
@@ -13,7 +12,6 @@
     <item
         android:id="@+id/action_edit_profile"
         android:title="edit profile"
-        android:onClick="editProfile"
         app:showAsAction="never"
         />
 </menu>

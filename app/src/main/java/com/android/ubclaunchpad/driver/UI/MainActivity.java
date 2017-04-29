@@ -117,18 +117,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mSignOutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                Log.d(TAG, "onClick: Signing Out!");
-//                FirebaseAuth.getInstance().signOut();
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
@@ -150,30 +138,21 @@ public class MainActivity extends AppCompatActivity {
         return MainActivity.context;
     }
 
-    public void signOut(MenuItem menuItem){
-        Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Log.d(TAG, "Signing Out");
-        FirebaseAuth.getInstance().signOut();
-        startActivity(intent);
-        finish();
-    }
-
-    public void editProfile(MenuItem menuItem){
-        Log.d(TAG, "editing profile");
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
-                // User chose the "Settings" item, show the app settings UI...
+                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Log.d(TAG, "Signing Out");
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+                finish();
                 return true;
 
             case R.id.action_edit_profile:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
+                Log.v(TAG, "editing profile");
                 return true;
 
             default:
