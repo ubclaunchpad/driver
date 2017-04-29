@@ -3,22 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#171618">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#5c505c"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="13dp"
         android:backgroundTint="#5c505c"
         android:fontFamily="serif-monospace"
         android:text="Create/find session"
         android:textColor="#ffffff"
-        android:textStyle="normal|bold" />
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/main_toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <Button
+ <!--   <Button
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +40,7 @@
         android:fontFamily="serif-monospace"
         android:text="sign out"
         android:textColor="#ffffff"
-        android:textStyle="normal|bold" />
+        android:textStyle="normal|bold" /> -->
 
     <LinearLayout
         android:layout_width="fill_parent"
