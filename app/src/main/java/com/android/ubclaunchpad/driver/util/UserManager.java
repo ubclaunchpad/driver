@@ -17,10 +17,11 @@ public class UserManager {
 
     /**
      * Singleton instance of User manager
+     *
      * @return Instance of user manager
      */
     public static UserManager getInstance() {
-        if(userManager == null)
+        if (userManager == null)
             userManager = new UserManager();
         return userManager;
     }
@@ -28,53 +29,55 @@ public class UserManager {
     /**
      * Private constructor for singleton ensure only one instance is created
      */
-    private UserManager(){}
+    private UserManager() {
+    }
 
     /**
      * Returns the user handled by the manager instance
+     *
      * @return User
      * @throws Exception if user is not set yet
      */
-    public User getUser() throws Exception{
-        if(user == null){
+    public User getUser() throws Exception {
+        if (user == null) {
             //TODO get user?
             throw new Exception("User not set");
         }
         return user;
     }
 
-    public void setUser(User user){
+    public void setUser(User user) {
         this.user = user;
     }
 
     /**
      * Saves a user to the shared prefs of the device. The user is serialized to allow for shared pref save
+     *
      * @param currentUser
      */
-    public static void saveUserToPref(User currentUser){
+    public static void saveUserToPref(User currentUser) {
         String userString = currentUser.serializeUser();
         try {
             PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.UserKey, userString);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "Save user error:" + e.getMessage());
         }
     }
 
     /**
      * Looks for the shared pref saved user and deserailizes it back into User.class
+     *
      * @return User
      */
     @Nullable
-    public User retrieveUserFromPref(){
+    public User retrieveUserFromPref() {
         try {
             PreferenceHelper sharedPref = PreferenceHelper.getPreferenceHelperInstance();
             String userString = sharedPref.getString(StringUtils.UserKey, "");
-            if(!userString.isEmpty()){
+            if (!userString.isEmpty()) {
                 return User.createUser(userString);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "Could not retrieve user: " + e.getMessage());
         }
 
