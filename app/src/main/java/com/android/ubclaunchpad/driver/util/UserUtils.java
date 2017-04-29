@@ -49,7 +49,7 @@ public class UserUtils {
         users.add(driver2);
         User driver3 = buildDriver("driver3", "49.210140,-122.986306", 3);
         users.add(driver3);
-        User passenger1 = buildPassenger("passenger1", "49.00557,-123.000023");
+        User passenger1 = buildPassenger("passenger1", "49.202280, -123.013378");
         users.add(passenger1);
         User passenger2 = buildPassenger("passenger2", "49.261279,-123.223467");
         users.add(passenger2);
@@ -63,7 +63,7 @@ public class UserUtils {
         users.add(passenger6);
         User passenger7 = buildPassenger("passenger7", "49.255424,-123.083357");
         users.add(passenger7);
-        User passenger8 = buildPassenger("passenger8", "49.227240,-123.197014");
+        User passenger8 = buildPassenger("passenger8", "49.275704, -123.129479");
         users.add(passenger8);
         return users;
     }
@@ -76,7 +76,7 @@ public class UserUtils {
         User passenger2 = buildPassenger("passenger2", "49.205305, -123.023442");
         User passenger3 = buildPassenger("passenger3", "49.241653, -123.111566");
         User passenger4 = buildPassenger("passenger4", "49.257302, -123.153261");
-        User passenger5 = buildPassenger("passenger5", "49.264669, -123.255404");
+        User passenger5 = buildPassenger("passenger5", "49.246742, -123.001179");
         users.add(driver1);
         users.add(driver2);
         users.add(driver3);
