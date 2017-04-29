@@ -44,7 +44,7 @@ public class SessionActivity extends AppCompatActivity {
     Button CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private String sessionName;
@@ -66,7 +66,7 @@ public class SessionActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new SessionAdapter(sessions);
+        mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
@@ -122,7 +122,7 @@ public class SessionActivity extends AppCompatActivity {
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs);
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
-                        //TODO use nearbySessions here
+                        mAdapter.updateSessions(nearbySessions);
                     }
 
                     @Override
