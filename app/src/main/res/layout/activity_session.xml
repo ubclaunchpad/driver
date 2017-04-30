@@ -7,8 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.ubclaunchpad.driver.session.SessionActivity">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/session_toolbar" />
 
     <Button
         android:id="@+id/create_session"
@@ -20,7 +18,6 @@
         android:text="Create Session"
         android:textColor="#ffffff"
         android:textStyle="normal|bold"
-        android:layout_below="@+id/session_toolbar"
         android:layout_alignLeft="@+id/mapButton"
         android:layout_alignStart="@+id/mapButton"
         android:layout_marginTop="13dp" />

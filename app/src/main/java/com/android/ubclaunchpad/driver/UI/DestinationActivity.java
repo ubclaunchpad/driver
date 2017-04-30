@@ -42,9 +42,6 @@ public class DestinationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mToolbar);
-
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;

@@ -55,9 +55,6 @@ public class SessionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_session);
         ButterKnife.bind(this);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mToolbar);
-
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);

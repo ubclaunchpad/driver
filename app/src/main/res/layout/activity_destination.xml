@@ -7,7 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.ubclaunchpad.driver.UI.DestinationActivity">
 
-    <include layout="@layout/toolbar" />
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"

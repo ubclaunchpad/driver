@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mToolbar);
-
         context = getApplicationContext();
 
 
@@ -143,12 +140,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
-                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
+                Intent intent = new Intent(getContext(), DispatchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Log.d(TAG, "Signing Out");
                 FirebaseAuth.getInstance().signOut();
                 startActivity(intent);
-                finish();
+                //finish();
                 return true;
 
             case R.id.action_edit_profile:
