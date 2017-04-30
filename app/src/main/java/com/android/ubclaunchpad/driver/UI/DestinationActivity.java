@@ -11,6 +11,7 @@ import android.view.View;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -28,14 +29,8 @@ import butterknife.ButterKnife;
  * This activity asks the user where is the destination and goes to the passenger/driver
  * screen when "ok" is clicked on
  */
-public class DestinationActivity extends AppCompatActivity {
+public class DestinationActivity extends BaseMenuActivity {
     private final static String TAG = DestinationActivity.class.getSimpleName();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

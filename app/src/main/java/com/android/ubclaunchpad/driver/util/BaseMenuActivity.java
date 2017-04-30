@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.DispatchActivity;
@@ -39,6 +40,7 @@ public class BaseMenuActivity extends AppCompatActivity {
 
             case R.id.action_edit_profile:
                 Log.v(TAG, "editing profile");
+                Toast.makeText(getApplicationContext(),"editing profile",Toast.LENGTH_LONG).show();
                 return true;
 
             default:

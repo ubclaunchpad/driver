@@ -15,6 +15,7 @@ import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.session.SessionAdapter;
 import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SessionActivity extends AppCompatActivity {
+public class SessionActivity extends BaseMenuActivity {
 
     private DatabaseReference mDatabase;
     private SessionModel mSession;
@@ -42,12 +43,6 @@ public class SessionActivity extends AppCompatActivity {
     private SessionCreateDialog scd;
 
     private List<SessionModel> sessions = new ArrayList<>();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

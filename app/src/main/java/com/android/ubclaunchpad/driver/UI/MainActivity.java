@@ -17,6 +17,7 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -31,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseMenuActivity {
 
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
@@ -40,12 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,28 +130,4 @@ public class MainActivity extends AppCompatActivity {
         return MainActivity.context;
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sign_out:
-                Intent intent = new Intent(getContext(), DispatchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Log.d(TAG, "Signing Out");
-                FirebaseAuth.getInstance().signOut();
-                startActivity(intent);
-                //finish();
-                return true;
-
-            case R.id.action_edit_profile:
-                Log.v(TAG, "editing profile");
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
 }
