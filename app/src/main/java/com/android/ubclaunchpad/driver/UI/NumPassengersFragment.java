@@ -6,11 +6,18 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -34,6 +41,8 @@ public class NumPassengersFragment extends DialogFragment {
     private NumberPicker numPassengerPick;
     private final static String TAG = NumPassengersFragment.class.getSimpleName();
 
+
+
     public NumPassengersFragment() {
         // Required empty public constructor
     }
@@ -51,7 +60,7 @@ public class NumPassengersFragment extends DialogFragment {
         numPassengerPick.setMinValue(1);
         numPassengerPick.setWrapSelectorWheel(true);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomizedDialogStyle);
 
         builder.setView(rootView);
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -94,6 +103,18 @@ public class NumPassengersFragment extends DialogFragment {
             }
         });
 
-        return builder.create();
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        Button NegativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        NegativeButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        NegativeButton.setTextColor(Color.WHITE);
+
+        Button PositiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        PositiveButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        PositiveButton.setTextColor(Color.WHITE);
+
+        return alert;
     }
+
 }
