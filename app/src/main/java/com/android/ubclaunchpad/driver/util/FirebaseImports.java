@@ -11,9 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseImports {
 
-    public static DatabaseReference getDatabase(){
-        return FirebaseDatabase.getInstance().getReference();
-    }
+    public static DatabaseReference getDatabase(){ return FirebaseDatabase.getInstance().getReference(); }
 
     public static FirebaseAuth getFirebaseAuth(){
         return FirebaseAuth.getInstance();
@@ -22,11 +20,4 @@ public class FirebaseImports {
     public static FirebaseUser getFirebaseUser(){
         return getFirebaseAuth().getCurrentUser();
     }
-
-    /*
-    public static final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    public static final FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    public static final FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-    public static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    */
 }
