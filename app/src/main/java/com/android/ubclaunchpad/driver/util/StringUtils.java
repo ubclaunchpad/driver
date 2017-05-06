@@ -75,6 +75,13 @@ public class StringUtils {
         return lat.toString() + "," + lng.toString();
     }
 
+    public static LatLng stringToLatLng(String latLngString){
+        String[] latLng = latLngString.split(",");
+        double lat = Double.parseDouble(latLng[0]);
+        double lng = Double.parseDouble(latLng[1]);
+        return new LatLng(lat, lng);
+    }
+
     /**
      * Returns true if a and b are equal, including if they are both null.
      * Note: In platform versions 1.1 and earlier, this method only worked well if

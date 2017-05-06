@@ -52,8 +52,8 @@ public class SessionModel {
         this.passengers.add(passenger);
     }
 
-    public void setLocation(LatLng latLng) {
-        this.location = StringUtils.latLngToString(latLng);
+    public void setLocation(String latLngString) {
+        this.location = latLngString;
     }
 
     public void setName(String name) {
