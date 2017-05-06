@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.FirebaseImports;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,15 +71,11 @@ public class NumPassengersFragment extends DialogFragment {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseImports.getFirebaseUser() != null) {
+                    String uid = FirebaseImports.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
+                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
+                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
                 }
 
                 // debug toad

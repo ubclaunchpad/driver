@@ -14,6 +14,7 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
+import com.android.ubclaunchpad.driver.util.FirebaseImports;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -83,15 +84,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // this is a debug statement, delete this when load screen view is implemented
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseImports.getFirebaseUser() != null) {
+                    String uid = FirebaseImports.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
+                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
                 }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }
@@ -111,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Log.d(TAG, "onClick: Signing Out!");
-                FirebaseAuth.getInstance().signOut();
+                FirebaseImports.getFirebaseAuth().signOut();
                 startActivity(intent);
                 finish();
             }

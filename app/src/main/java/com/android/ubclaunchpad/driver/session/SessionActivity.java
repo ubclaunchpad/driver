@@ -15,14 +15,11 @@ import android.widget.Button;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.util.FirebaseImports;
 import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,10 +33,7 @@ import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 public class SessionActivity extends AppCompatActivity {
 
     private static final String TAG = SessionActivity.class.toString();
-    private DatabaseReference mDatabase;
     private SessionModel mSession;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     @BindView(R.id.create_session)
     Button CreateSession;
     @BindView(R.id.list_existing_sessions)
@@ -68,10 +62,6 @@ public class SessionActivity extends AppCompatActivity {
 
         mAdapter = new SessionAdapter(sessions);
         mRecyclerView.setAdapter(mAdapter);
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mUser = mAuth.getCurrentUser();
 
         scd = new SessionCreateDialog(this);
 
@@ -114,7 +104,7 @@ public class SessionActivity extends AppCompatActivity {
      * Displaying the list will also be handled here
      */
     private void displayNearbySessions() {
-        mDatabase.child("Session group")
+        FirebaseImports.getDatabase().child("Session group")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

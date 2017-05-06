@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.FirebaseImports;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -20,16 +21,14 @@ public class sessionInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "sessionInfoActivity";
     private DatabaseReference mDatabase;
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_info);
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase = FirebaseImports.mDatabase; //FirebaseDatabase.getInstance().getReference();
+
         final ArrayList<String> itemsArray = new ArrayList<String>();
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
