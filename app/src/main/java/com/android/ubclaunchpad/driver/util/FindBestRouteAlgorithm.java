@@ -68,46 +68,16 @@ public class FindBestRouteAlgorithm {
             for (Map.Entry<User, LatLng> driverWithCoords : driverCoords.entrySet()) {
                 Double influence = influenceToCurrentRoute(driverWithCoords.getKey(), passengerWithCoord.getKey());
 
-                Double distance = distanceBetweenLineAndPoint(driverWithCoords.getValue(), passengerWithCoord.getValue())
-                        *influence
-                        *influence;
+                Double distance = distanceBetweenLineAndPoint(driverWithCoords.getValue(), passengerWithCoord.getValue())*influence;
                 distances.put(driverWithCoords.getKey(), distance);
             }
             distanceMaps.put(passengerWithCoord.getKey(), distances);
         }
         assignPassengersToDrivers(distanceMaps);
+
         return drivers;
     }
 
-    /*
-    public List<User> findBestRoute(List<User> users) {
-        sortUsers(users);
-        // Map<Passenger, Map<Driver, Distance>>
-        Map<User, Map<User, Double>> distanceMaps = new HashMap<>();
-        // Setting up startPt as (0,0)
-        Map<User, LatLng> driverCoords = new HashMap<>();
-        for (User driver: drivers) {
-            driverCoords.put(driver, new LatLng(StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).longitude - startPt.longitude,
-                    StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).latitude - startPt.latitude));
-        }
-        Map<User, LatLng> passengerCoords = new HashMap<>();
-        for (User passenger: passengers) {
-            passengerCoords.put(passenger, new LatLng(StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).longitude - startPt.longitude,
-                    StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).latitude - startPt.latitude));
-        }
-        for (Map.Entry<User, LatLng> passengerWithCoord : passengerCoords.entrySet()) {
-            //
-            Map<User, Double> distances = new HashMap<>();
-            for (Map.Entry<User, LatLng> driverWithCoords : driverCoords.entrySet()) {
-                Double distance = influenceToCurrentRoute(driverWithCoords.getKey(), passengerWithCoord.getKey());
-                distances.put(driverWithCoords.getKey(), distance);
-            }
-            distanceMaps.put(passengerWithCoord.getKey(), distances);
-        }
-        assignPassengersToDrivers(distanceMaps);
-        return drivers;
-    }
-    */
     /**
      * Find the distance between a point and a line
      * @param drDestPt destination of a driver
@@ -121,23 +91,40 @@ public class FindBestRouteAlgorithm {
         Double passDestX = passDestPt.longitude;
         Double passDestY = passDestPt.latitude;
         Double distanceToLine = Double.MAX_VALUE;
-
+        /*
+         * Finding slope of a line from starting point to driver's destination and
+         * slope of a line perpendicular to the above one.
+        */
+        /*
         Double slope = drDestY/drDestX;
         Double perpLineSlope = -1/slope;
+
+
         Double startLineIntercept = perpLineSlope * passDestX;
         Double driverLineIntercept = perpLineSlope * passDestX + drDestY;
+
+        // Check if we are in upper half-space
         if (drDestY >= 0) {
+            // Check if destination of passenger is in the region where calculating the
+            // perpendicular distance is feasible
             if (startLineIntercept <= passDestY && driverLineIntercept >= passDestY) {
                 distanceToLine = Math.abs(-slope * passDestX + passDestY) / Math.sqrt(slope * slope + 1);
             }
+        // Lower half-space
         } else {
+            // Check if destination of passenger is in the region where calculating the
+            // perpendicular distance is feasible
             if (startLineIntercept >= passDestY && driverLineIntercept <= passDestY) {
                 distanceToLine = Math.abs(-slope * passDestX + passDestY) / Math.sqrt(slope * slope + 1);
             }
         }
 
         Double distanceToFinish = eucledianDistance(drDestX, drDestY, passDestX, passDestY);
-        return Math.min(distanceToLine, distanceToFinish);
+
+        Double finalDistance = Math.min(distanceToFinish, distanceToLine);
+        */
+        Double distanceToFinish = eucledianDistance(drDestX, drDestY, passDestX, passDestY);
+        return distanceToFinish;
     }
 
     /**
@@ -161,6 +148,10 @@ public class FindBestRouteAlgorithm {
                     smallestDistance = currentDistance;
                     optimalDriver = currentDriver;
                 }
+            }
+            // #AngryDebugging
+            if (optimalDriver == null) {
+                System.out.println("fuck");
             }
             optimalDriver.addPassenger(currentPassenger);
         }
@@ -278,4 +269,49 @@ public class FindBestRouteAlgorithm {
 
         return Math.sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
     }
+
+    /*
+    private void fixDrivers() {
+
+        int swaps = 1;
+
+        // iterate over all drivers
+        while (swaps > 0) {
+
+            swaps = 0;
+
+            for (User driver1 : drivers) {
+
+
+                // take another driver
+                for (User driver2 : drivers) {
+
+                    if (!driver1.equals(driver2)) {
+
+                        // over passengers for current driver1
+                        for (int i = 0; i < driver1.getPassengers().size(); i++) {
+
+                            User passenger1 = driver1.getPassengers().get(i);
+
+
+                            driver1.removePassenger(passenger1);
+
+                            if (influenceToCurrentRoute(driver2, passenger1) < influenceToCurrentRoute(driver1, passenger1) &&
+                                    driver2.getNumFreeSeats() > 0) {
+                                driver2.getPassengers().add(passenger1);
+                                swaps++;
+                                if (i > 0) {
+                                    i--;
+                                }
+                            } else {
+                                driver1.getPassengers().add(i, passenger1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    */
 }
+

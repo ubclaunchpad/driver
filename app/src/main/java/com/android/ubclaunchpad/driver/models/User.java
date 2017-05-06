@@ -6,7 +6,9 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -23,7 +25,7 @@ public class User {
     public String currentLatLngStr;
     public Boolean isDriver;
     public Integer seatNum;
-    public Set<User> passengers;
+    public List<User> passengers;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -43,6 +45,15 @@ public class User {
         this.currentLatLngStr = "";
         isDriver = false;
         seatNum = null;
+    }
+
+    public User(User another) {
+        this.name = another.getName();
+        this.seatNum = another.getSeatNum();
+        this.destinationLatLngStr = another.getDestinationLatLngStr();
+        this.currentLatLngStr = another.getCurrentLatLngStr();
+        this.isDriver = another.isDriver();
+        this.passengers = another.getPassengers();
     }
 
     public static User createUser(String json) {
@@ -68,7 +79,7 @@ public class User {
     public void setSeatNum(Integer seatNum) {
         isDriver = true;
         this.seatNum = seatNum;
-        passengers = new HashSet<>();
+        passengers = new ArrayList<>();
     }
 
     public void setName(String name) {
@@ -87,7 +98,7 @@ public class User {
         passengers.remove(passenger);
     }
 
-    public Set<User> getPassengers() {
+    public List<User> getPassengers() {
         return passengers;
     }
 
@@ -139,5 +150,21 @@ public class User {
 
     public String getCurrentLatLngStr() {
         return currentLatLngStr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return name != null ? name.equals(user.name) : user.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }
