@@ -239,10 +239,10 @@ public class FindBestRouteAlgorithm {
     }
 
     /**
-     * Given newPt, find
+     * Given newPt, find the closest one to it from the currentTrip list
      * @param currentTrip
      * @param newPt
-     * @return
+     * @return the closest point to newPt from currentTrip
      */
     private int findIndexOfClosestLatLng(List<LatLng> currentTrip, LatLng newPt) {
 
@@ -270,48 +270,5 @@ public class FindBestRouteAlgorithm {
         return Math.sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
     }
 
-    /*
-    private void fixDrivers() {
-
-        int swaps = 1;
-
-        // iterate over all drivers
-        while (swaps > 0) {
-
-            swaps = 0;
-
-            for (User driver1 : drivers) {
-
-
-                // take another driver
-                for (User driver2 : drivers) {
-
-                    if (!driver1.equals(driver2)) {
-
-                        // over passengers for current driver1
-                        for (int i = 0; i < driver1.getPassengers().size(); i++) {
-
-                            User passenger1 = driver1.getPassengers().get(i);
-
-
-                            driver1.removePassenger(passenger1);
-
-                            if (influenceToCurrentRoute(driver2, passenger1) < influenceToCurrentRoute(driver1, passenger1) &&
-                                    driver2.getNumFreeSeats() > 0) {
-                                driver2.getPassengers().add(passenger1);
-                                swaps++;
-                                if (i > 0) {
-                                    i--;
-                                }
-                            } else {
-                                driver1.getPassengers().add(i, passenger1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
 }
 
