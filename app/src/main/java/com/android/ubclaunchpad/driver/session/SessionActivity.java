@@ -42,6 +42,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
+
 
 public class SessionActivity extends BaseMenuActivity {
 
