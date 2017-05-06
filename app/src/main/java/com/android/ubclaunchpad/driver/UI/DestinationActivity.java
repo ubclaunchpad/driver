@@ -23,6 +23,9 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -137,8 +140,16 @@ public class DestinationActivity extends BaseMenuActivity {
             if (locn == null) {
                 myLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             }
+
+            User user = UserManager.getInstance().getUser();
+            user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(locn.getLatitude(), locn.getLongitude())));
+
+
+            //TODO locn has lat/lan, need to save this to firebase and UserManager?
         } catch (SecurityException e) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
