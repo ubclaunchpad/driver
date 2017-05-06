@@ -37,7 +37,6 @@ public class MainActivity extends BaseMenuActivity {
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
-   // @BindView(R.id.sign_out_button) Button mSignOutButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -49,7 +48,6 @@ public class MainActivity extends BaseMenuActivity {
         ButterKnife.bind(this);
 
         context = getApplicationContext();
-
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -123,11 +121,9 @@ public class MainActivity extends BaseMenuActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {}
 
     public static Context getContext(){
         return MainActivity.context;
     }
-
 }
