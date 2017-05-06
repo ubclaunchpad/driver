@@ -16,15 +16,13 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.FirebaseImports;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,10 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.etPasswordConfirm) EditText mPassword2;
     @BindView(R.id.bSignUp) Button mRegister;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;
-
+     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +48,11 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        // Firebase values
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseImports.getFirebaseUser() != null) {
+                    String uid = FirebaseImports.getFirebaseUser().getUid();
 
                     //Create the newly successfully registered user
                     String name = mName.getText().toString();
@@ -72,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                     UserManager.getInstance().setUser(user);
 
                     //Save user to firebase
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
+                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
 
                     //save user id to shared pref for future auto-login
                     SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
@@ -92,14 +83,14 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseImports.getFirebaseAuth().addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop(){
         super.onStop();
         if(mAuthListener!= null){
-            mAuth.removeAuthStateListener(mAuthListener);
+            FirebaseImports.getFirebaseAuth().removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -133,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void createAccount(final String name, final String email, final String password) {
         Log.d(StringUtils.RegisterActivity, "createAccount:" + email);
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        FirebaseImports.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -149,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         } else {
                             //if user created successfully, auto login the user to firebase
-                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                            FirebaseImports.getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(StringUtils.RegisterActivity, "signInWithEmail:onComplete:" + task.isSuccessful());

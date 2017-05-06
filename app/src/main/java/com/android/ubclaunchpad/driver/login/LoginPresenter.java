@@ -90,8 +90,6 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     public void onCreate(FragmentActivity fragContext){
         this.mContext = fragContext;
 
-      //  mAuth = FirebaseAuth.getInstance();
-      //  mDatabase = FirebaseImports.getDatabase();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
