@@ -11,20 +11,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,11 +80,11 @@ public class MainActivity extends AppCompatActivity {
                 // this is a debug statement, delete this when load screen view is implemented
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
 
-                if (FirebaseImports.getFirebaseUser() != null) {
-                    String uid = FirebaseImports.getFirebaseUser().getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
                 }
                 // TODO: at this point, take user to load screen, so they can wait to be matched
             }
@@ -109,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Log.d(TAG, "onClick: Signing Out!");
-                FirebaseImports.getFirebaseAuth().signOut();
+                FirebaseUtils.getFirebaseAuth().signOut();
                 startActivity(intent);
                 finish();
             }

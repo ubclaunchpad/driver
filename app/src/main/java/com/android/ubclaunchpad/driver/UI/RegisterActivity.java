@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,8 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (FirebaseImports.getFirebaseUser() != null) {
-                    String uid = FirebaseImports.getFirebaseUser().getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
 
                     //Create the newly successfully registered user
                     String name = mName.getText().toString();
@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                     UserManager.getInstance().setUser(user);
 
                     //Save user to firebase
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).setValue(user);
 
                     //save user id to shared pref for future auto-login
                     SharedPreferences sharedPref = getSharedPreferences(StringUtils.FirebaseUidKey, MODE_PRIVATE);
@@ -83,14 +83,14 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        FirebaseImports.getFirebaseAuth().addAuthStateListener(mAuthListener);
+        FirebaseUtils.getFirebaseAuth().addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop(){
         super.onStop();
         if(mAuthListener!= null){
-            FirebaseImports.getFirebaseAuth().removeAuthStateListener(mAuthListener);
+            FirebaseUtils.getFirebaseAuth().removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void createAccount(final String name, final String email, final String password) {
         Log.d(StringUtils.RegisterActivity, "createAccount:" + email);
 
-        FirebaseImports.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
+        FirebaseUtils.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -140,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         } else {
                             //if user created successfully, auto login the user to firebase
-                            FirebaseImports.getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                            FirebaseUtils.getFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(StringUtils.RegisterActivity, "signInWithEmail:onComplete:" + task.isSuccessful());

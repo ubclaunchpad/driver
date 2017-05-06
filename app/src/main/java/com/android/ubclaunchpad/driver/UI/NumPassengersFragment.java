@@ -4,8 +4,6 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -15,14 +13,9 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Dialog Fragment for when users choose to be Drivers,
@@ -71,11 +64,11 @@ public class NumPassengersFragment extends DialogFragment {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
-                if (FirebaseImports.getFirebaseUser() != null) {
-                    String uid = FirebaseImports.getFirebaseUser().getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
                 }
 
                 // debug toad

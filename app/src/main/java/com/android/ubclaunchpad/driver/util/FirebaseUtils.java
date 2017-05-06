@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by Navjashan on 06/05/2017.
  */
 
-public class FirebaseImports {
+public class FirebaseUtils {
 
     public static DatabaseReference getDatabase(){ return FirebaseDatabase.getInstance().getReference(); }
 

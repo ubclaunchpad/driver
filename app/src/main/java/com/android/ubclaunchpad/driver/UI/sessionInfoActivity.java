@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +34,7 @@ public class sessionInfoActivity extends AppCompatActivity {
         textViewSessionName.setText(sessionName);
 
         //Adding Drivers
-        FirebaseImports.getDatabase().child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
+        FirebaseUtils.getDatabase().child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
@@ -71,7 +71,7 @@ public class sessionInfoActivity extends AppCompatActivity {
         });
 
         //Adding Passengers
-        FirebaseImports.getDatabase().child("Session Group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
+        FirebaseUtils.getDatabase().child("Session Group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                  String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);

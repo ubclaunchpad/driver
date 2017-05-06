@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.DestinationActivity;
 import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
@@ -93,8 +93,8 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(FirebaseImports.getFirebaseUser() != null){
-                    FirebaseImports.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(FirebaseImports.getFirebaseUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                if(FirebaseUtils.getFirebaseUser() != null){
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(FirebaseUtils.getFirebaseUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
@@ -104,7 +104,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                                 userManager.setUser(user);
 
                                 try {
-                                    PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, FirebaseImports.getFirebaseUser().getUid());
+                                    PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, FirebaseUtils.getFirebaseUser().getUid());
                                 }
                                 catch (Exception e){
                                     Log.e(TAG, "Could not save firebase key:" + e.getMessage());
@@ -130,13 +130,13 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     @Override
     public void onStart() {
-        FirebaseImports.getFirebaseAuth().addAuthStateListener(authStateListener);
+        FirebaseUtils.getFirebaseAuth().addAuthStateListener(authStateListener);
     }
 
     @Override
     public void onStop() {
         if (authStateListener != null) {
-            FirebaseImports.getFirebaseAuth().removeAuthStateListener(authStateListener);
+            FirebaseUtils.getFirebaseAuth().removeAuthStateListener(authStateListener);
         }
     }
 
@@ -173,7 +173,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
         }
 
         mLoginView.showProgressDialog();
-        FirebaseImports.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
+        FirebaseUtils.getFirebaseAuth().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -232,7 +232,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
         }
 
         mLoginView.showProgressDialog();
-        FirebaseImports.getFirebaseAuth().signInWithEmailAndPassword(email, password)
+        FirebaseUtils.getFirebaseAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -270,7 +270,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
      */
     @Override
     public void signOut() {
-        FirebaseImports.getFirebaseAuth().signOut();
+        FirebaseUtils.getFirebaseAuth().signOut();
         // Google sign out
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -288,9 +288,9 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        if (FirebaseImports.getFirebaseUser() != null) {
+        if (FirebaseUtils.getFirebaseUser() != null) {
             // User is signed in
-            Log.d(TAG, "onAuthStateChanged:signed_in:" + FirebaseImports.getFirebaseUser().getUid());
+            Log.d(TAG, "onAuthStateChanged:signed_in:" + FirebaseUtils.getFirebaseUser().getUid());
             mLoginView.showMainActivity();
 
         } else {
@@ -331,7 +331,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
         mLoginView.showProgressDialog();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        FirebaseImports.getFirebaseAuth().signInWithCredential(credential)
+        FirebaseUtils.getFirebaseAuth().signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -350,7 +350,7 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
         mLoginView.showProgressDialog();
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        FirebaseImports.getFirebaseAuth()
+        FirebaseUtils.getFirebaseAuth()
                 .signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

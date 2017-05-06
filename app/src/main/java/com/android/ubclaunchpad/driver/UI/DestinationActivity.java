@@ -9,7 +9,7 @@ import android.view.View;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -39,7 +39,7 @@ public class DestinationActivity extends AppCompatActivity {
 
             if (user == null) {
                 //Something went wrong, go back to login
-                FirebaseImports.getFirebaseAuth().signOut();
+                FirebaseUtils.getFirebaseAuth().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
@@ -65,7 +65,7 @@ public class DestinationActivity extends AppCompatActivity {
                         innerUser.setDestinationLatLngStr(place.getLatLng());
                     } else {
                         //Something went wrong, go back to login
-                        FirebaseImports.getFirebaseAuth().signOut();
+                        FirebaseUtils.getFirebaseAuth().signOut();
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                     }
@@ -74,8 +74,8 @@ public class DestinationActivity extends AppCompatActivity {
                 }
 
 
-                if (FirebaseImports.getFirebaseUser() != null) {
-                    String uid = FirebaseImports.getFirebaseUser().getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)

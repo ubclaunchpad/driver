@@ -1,6 +1,6 @@
 package com.android.ubclaunchpad.driver.models;
 
-import com.android.ubclaunchpad.driver.util.FirebaseImports;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -84,7 +84,7 @@ public class SessionModel {
         try {
             User user = UserManager.getInstance().getUser();
 
-            String uid = FirebaseImports.getFirebaseUser().getUid();
+            String uid = FirebaseUtils.getFirebaseUser().getUid();
 
             if (user.isDriver()){
                 sessionModel.addDriver(uid);
