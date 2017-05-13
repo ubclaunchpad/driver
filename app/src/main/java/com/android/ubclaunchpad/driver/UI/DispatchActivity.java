@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-
-
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
@@ -21,8 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import butterknife.ButterKnife;
 
 /**
  * A view-less activity in charge of dispatching to the correct

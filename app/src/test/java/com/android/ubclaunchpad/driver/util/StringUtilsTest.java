@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by sherryuan on 2017-03-15.

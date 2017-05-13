@@ -6,8 +6,8 @@
     android:orientation="vertical"
     android:paddingBottom="120dp"
     android:paddingTop="80dp"
-    tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment">
 
 
     <TextView
@@ -15,9 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="35dp"
         android:layout_marginTop="120dp"
         android:fontFamily="serif-monospace"
+        android:paddingBottom="35dp"
         android:text="How Many Passengers?"
         android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceMedium"

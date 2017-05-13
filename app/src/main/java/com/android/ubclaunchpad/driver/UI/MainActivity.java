@@ -1,9 +1,9 @@
 package com.android.ubclaunchpad.driver.UI;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +29,14 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
-    @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
-    @BindView(R.id.button3) Button mSessionButton;
-    @BindView(R.id.sign_out_button) Button mSignOutButton;
+    @BindView(R.id.i_am_a_passenger_button)
+    Button mPassengerButton;
+    @BindView(R.id.i_am_a_driver_button)
+    Button mDriverButton;
+    @BindView(R.id.button3)
+    Button mSessionButton;
+    @BindView(R.id.sign_out_button)
+    Button mSignOutButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -57,15 +61,14 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     try {
                         User user = UserManager.getInstance().getUser();
-                        if(user != null){
+                        if (user != null) {
                             user.setCurrentLatLngStr(place.getLatLng());
                         }
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         Log.e(TAG, "Could not retrieve user" + e.getMessage());
                     }
 
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     Log.d(TAG, e.getMessage());
                 }
             }
@@ -100,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
-                numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
+                numPassengersFragment.show(getFragmentManager(), "num_passengers");
+//                numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
             }
         });
 
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return MainActivity.context;
     }
 }

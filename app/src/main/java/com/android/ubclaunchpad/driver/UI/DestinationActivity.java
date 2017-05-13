@@ -1,8 +1,8 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -19,8 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import butterknife.ButterKnife;
 
 /**
  * This activity asks the user where is the destination and goes to the passenger/driver

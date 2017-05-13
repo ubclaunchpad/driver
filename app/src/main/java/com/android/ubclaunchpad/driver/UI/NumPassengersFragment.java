@@ -3,26 +3,18 @@ package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,14 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * Dialog Fragment for when users choose to be Drivers,
  * here they can choose how many passengers they can take
- *
+ * <p>
  * author: Mav Cuyugan
  */
 public class NumPassengersFragment extends DialogFragment {
 
     private NumberPicker numPassengerPick;
     private final static String TAG = NumPassengersFragment.class.getSimpleName();
-
 
 
     public NumPassengersFragment() {

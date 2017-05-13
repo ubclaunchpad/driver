@@ -14,6 +14,7 @@
         <item name="android:textColorSecondary">@color/secondary_text_material_light</item>
 
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

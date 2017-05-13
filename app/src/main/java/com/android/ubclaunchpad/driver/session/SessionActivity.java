@@ -11,8 +11,6 @@ import android.widget.Button;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
-import com.android.ubclaunchpad.driver.session.SessionAdapter;
-import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
