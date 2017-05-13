@@ -12,14 +12,14 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mapButton"
+        android:layout_alignStart="@+id/mapButton"
+        android:layout_marginTop="13dp"
         android:backgroundTint="#5c505c"
         android:fontFamily="serif-monospace"
         android:text="Create Session"
         android:textColor="#ffffff"
-        android:textStyle="normal|bold"
-        android:layout_alignLeft="@+id/mapButton"
-        android:layout_alignStart="@+id/mapButton"
-        android:layout_marginTop="13dp" />
+        android:textStyle="normal|bold" />
 
     <Button
         android:id="@+id/mapButton"

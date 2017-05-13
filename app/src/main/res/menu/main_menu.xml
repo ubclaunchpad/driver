@@ -6,12 +6,10 @@
     <item
         android:id="@+id/action_sign_out"
         android:title="sign out"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_edit_profile"
         android:title="edit profile"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
 </menu>
