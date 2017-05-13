@@ -67,13 +67,13 @@ public class BaseMenuActivity extends AppCompatActivity {
                     .setIcon(R.drawable.alert_icon)
                     .setMessage("Are you sure you want to sign out?");
 
-            return builder.setPositiveButton("OK",
+            return builder.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 ((BaseMenuActivity) getActivity()).signOut();
                             }
                         })
-                        .setNegativeButton("CANCEL",
+                        .setNegativeButton("NO",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dismiss();
