@@ -55,7 +55,8 @@
                 android:textAlignment="viewStart"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:inputType="text"/>
 
             <View
                 android:layout_width="fill_parent"
