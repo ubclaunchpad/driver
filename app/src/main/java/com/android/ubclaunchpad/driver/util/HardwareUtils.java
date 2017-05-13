@@ -30,7 +30,8 @@ public class HardwareUtils {
                     map.put(vals[0].trim(), vals[1].trim());
             }
         } catch (Exception e) {
-            Log.e("getCpuInfoMap", Log.getStackTraceString(e));}
+            Log.e("getCpuInfoMap", Log.getStackTraceString(e));
+        }
         return map;
     }
 // TODO remove this method - it is only used as an example for now
@@ -59,18 +60,17 @@ public class HardwareUtils {
      * Determines the numeric value based on proc/cpuinfo from the phones stats
      * This method only works for fields that return a number value such as
      * "BogoMIPS" and "Processor"
+     *
      * @return The numeric BogoMIPS value. Zero if no MIPS found
      */
-    public static double getPhoneValue(Map<String, String> cpuInfo, String infoKey){
-        if(cpuInfo.size() >= 0 && cpuInfo.containsKey(infoKey)){
+    public static double getPhoneValue(Map<String, String> cpuInfo, String infoKey) {
+        if (cpuInfo.size() >= 0 && cpuInfo.containsKey(infoKey)) {
             try {
                 double infoValue = Double.parseDouble(cpuInfo.get(infoKey));
                 return infoValue;
-            }
-            catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Log.e("Hardware Util", "Null " + e.getMessage());
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 Log.e("Hardware Util", "Number format " + e.getMessage());
             }
             return 0; //default return 0
@@ -82,11 +82,12 @@ public class HardwareUtils {
      * Compares the stats of two devices and returns true if "myPhone" is faster than the "otherPhone"
      * "Faster" in this context is based on the BogoMIPS and the higher is considered faster
      * By arbitrary reasons, if BogoMIPS == 0, the # of processor * 5.5 will be the BogoMIPS value used
-     * @param myPhone cpuInfo of this device
+     *
+     * @param myPhone    cpuInfo of this device
      * @param otherPhone cpuInfo of other device
      * @return true if myPhone BogoMIPS > otherPhone BogoMIPS
      */
-    public static boolean isPhoneFaster(Map<String, String> myPhone, Map<String, String> otherPhone){
+    public static boolean isPhoneFaster(Map<String, String> myPhone, Map<String, String> otherPhone) {
 
         double myPhoneProduct = getPhoneValue(myPhone, "BogoMIPS");
         double otherPhoneProduct = getPhoneValue(otherPhone, "BogoMIPS");
@@ -100,7 +101,7 @@ public class HardwareUtils {
         return (myPhoneProduct >= otherPhoneProduct);
     }
 
-    public static LatLng getGPS(Context context){
+    public static LatLng getGPS(Context context) {
 
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

@@ -1,4 +1,6 @@
 # Driver App
+[![ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
+
 ### (working title, will be changed later on)
 **Overview:** This app attempts to solve the issue of carpooling from an event. Too many times, organizing rides becomes difficult as no one knows the optimal car to get into to get everyone home. This app matches passengers to drivers to get everyone home asap.  
 
