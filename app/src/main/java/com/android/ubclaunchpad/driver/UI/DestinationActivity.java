@@ -11,6 +11,7 @@ import android.view.View;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
@@ -18,8 +19,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,7 +34,6 @@ public class DestinationActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
 
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
 
@@ -44,7 +42,7 @@ public class DestinationActivity extends BaseMenuActivity {
 
             if (user == null) {
                 //Something went wrong, go back to login
-                mAuth.signOut();
+                FirebaseUtils.getFirebaseAuth().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
@@ -70,7 +68,7 @@ public class DestinationActivity extends BaseMenuActivity {
                         innerUser.setDestinationLatLngStr(place.getLatLng());
                     } else {
                         //Something went wrong, go back to login
-                        mAuth.signOut();
+                        FirebaseUtils.getFirebaseAuth().signOut();
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                     }
@@ -78,10 +76,9 @@ public class DestinationActivity extends BaseMenuActivity {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
