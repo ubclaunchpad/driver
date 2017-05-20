@@ -48,7 +48,7 @@ public class NumPassengersFragment extends DialogFragment {
 
         numPassengerPick = (NumberPicker) rootView.findViewById(R.id.num_passenger_picker);
         numPassengerPick.setMaxValue(10);
-        numPassengerPick.setMinValue(1);
+        numPassengerPick.setMinValue(0);
         numPassengerPick.setWrapSelectorWheel(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomizedDialogStyle);
