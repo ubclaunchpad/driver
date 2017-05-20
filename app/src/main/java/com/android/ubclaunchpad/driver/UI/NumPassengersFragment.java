@@ -3,12 +3,14 @@ package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -20,13 +22,14 @@ import com.android.ubclaunchpad.driver.util.UserManager;
 /**
  * Dialog Fragment for when users choose to be Drivers,
  * here they can choose how many passengers they can take
- *
+ * <p>
  * author: Mav Cuyugan
  */
 public class NumPassengersFragment extends DialogFragment {
 
     private NumberPicker numPassengerPick;
     private final static String TAG = NumPassengersFragment.class.getSimpleName();
+
 
     public NumPassengersFragment() {
         // Required empty public constructor
@@ -42,10 +45,10 @@ public class NumPassengersFragment extends DialogFragment {
 
         numPassengerPick = (NumberPicker) rootView.findViewById(R.id.num_passenger_picker);
         numPassengerPick.setMaxValue(10);
-        numPassengerPick.setMinValue(1);
+        numPassengerPick.setMinValue(0);
         numPassengerPick.setWrapSelectorWheel(true);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomizedDialogStyle);
 
         builder.setView(rootView);
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -84,6 +87,18 @@ public class NumPassengersFragment extends DialogFragment {
             }
         });
 
-        return builder.create();
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        Button NegativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        NegativeButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        NegativeButton.setTextColor(Color.WHITE);
+
+        Button PositiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        PositiveButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        PositiveButton.setTextColor(Color.WHITE);
+
+        return alert;
     }
+
 }

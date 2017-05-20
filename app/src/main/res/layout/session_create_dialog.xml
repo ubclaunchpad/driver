@@ -37,23 +37,24 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="#171618"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
         <Button
 
-            android:id="@+id/btn_yes"
+            android:id="@+id/btn_no"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:background="@android:color/white"
             android:backgroundTint="#5c505c"
             android:clickable="true"
             android:fontFamily="serif-monospace"
-            android:text="OK"
+            android:text="Cancel"
             android:textColor="#ffffff"
             android:textStyle="normal|bold" />
 
         <Button
-            android:id="@+id/btn_no"
+            android:id="@+id/btn_yes"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
@@ -61,7 +62,7 @@
             android:backgroundTint="#5c505c"
             android:clickable="true"
             android:fontFamily="serif-monospace"
-            android:text="Cancel"
+            android:text="Ok"
             android:textColor="#ffffff"
             android:textStyle="bold" />
     </LinearLayout>
