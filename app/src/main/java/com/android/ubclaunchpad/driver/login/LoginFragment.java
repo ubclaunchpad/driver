@@ -12,12 +12,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.ubclaunchpad.driver.UI.DestinationActivity;
-import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.MainActivity;
 import com.android.ubclaunchpad.driver.UI.RegisterActivity;
-import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.HardwareUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.facebook.login.LoginManager;
 
 import java.util.Collection;

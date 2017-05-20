@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
