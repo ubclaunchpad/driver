@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,6 +17,7 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
@@ -24,12 +28,11 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseMenuActivity {
 
     @BindView(R.id.i_am_a_passenger_button) Button mPassengerButton;
     @BindView(R.id.i_am_a_driver_button) Button mDriverButton;
     @BindView(R.id.button3) Button mSessionButton;
-    @BindView(R.id.sign_out_button) Button mSignOutButton;
 
     private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         context = getApplicationContext();
-
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -98,19 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mSignOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DispatchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Log.d(TAG, "onClick: Signing Out!");
-                FirebaseUtils.getFirebaseAuth().signOut();
-                startActivity(intent);
-                finish();
-            }
-        });
-    
-
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
@@ -125,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {}
 
     public static Context getContext(){
         return MainActivity.context;

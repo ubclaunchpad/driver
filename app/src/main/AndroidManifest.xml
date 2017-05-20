@@ -27,7 +27,8 @@
         <activity
             android:name=".UI.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".UI.RegisterActivity" />
+        <activity android:name=".UI.RegisterActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -49,7 +50,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".UI.DestinationActivity"></activity>
+        <activity android:name=".UI.DestinationActivity" />
 
         <!--
              The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -60,8 +61,9 @@
 
         <activity
             android:name=".UI.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".UI.sessionInfoActivity"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".UI.sessionInfoActivity" />
+        <activity android:name=".util.BaseMenuActivity"></activity>
     </application>
 
 </manifest>

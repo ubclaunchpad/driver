@@ -8,30 +8,31 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.session.SessionAdapter;
+import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 
-public class SessionActivity extends AppCompatActivity {
 
+public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
     private SessionModel mSession;
     @BindView(R.id.create_session)
