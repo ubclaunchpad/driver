@@ -11,13 +11,14 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -31,7 +32,6 @@ public class SessionCreateDialog extends Dialog implements
     public String mSessionName;
     private EditText mTextDescription;
     public SessionModel mSessionModel;
-    private DatabaseReference mDatabase;
 
     public SessionCreateDialog(Activity activity) {
         super(activity);
@@ -42,8 +42,6 @@ public class SessionCreateDialog extends Dialog implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.session_create_dialog);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mTextDescription = (EditText) findViewById(R.id.session_name);
 
@@ -71,8 +69,8 @@ public class SessionCreateDialog extends Dialog implements
     }
 
     private void createUniqueSession() {
-        if (mDatabase != null) {
-            mDatabase.child("Session group").child(mSessionName)
+        if (FirebaseUtils.getDatabase() != null) {
+            FirebaseUtils.getDatabase().child("Session group").child(mSessionName)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,8 +100,8 @@ public class SessionCreateDialog extends Dialog implements
         }
         mSessionModel = SessionModel.createNewSession(mSessionName, latLng);
 
-        if (mDatabase != null) {
-            mDatabase.child("Session group").child(mSessionName).setValue(mSessionModel);
+        if (FirebaseUtils.getDatabase() != null) {
+            FirebaseUtils.getDatabase().child("Session group").child(mSessionName).setValue(mSessionModel);
         }
     }
 }

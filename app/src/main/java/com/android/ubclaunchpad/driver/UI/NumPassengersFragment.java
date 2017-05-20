@@ -3,36 +3,33 @@ package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Dialog Fragment for when users choose to be Drivers,
  * here they can choose how many passengers they can take
- *
+ * <p>
  * author: Mav Cuyugan
  */
 public class NumPassengersFragment extends DialogFragment {
 
     private NumberPicker numPassengerPick;
     private final static String TAG = NumPassengersFragment.class.getSimpleName();
+
 
     public NumPassengersFragment() {
         // Required empty public constructor
@@ -48,10 +45,10 @@ public class NumPassengersFragment extends DialogFragment {
 
         numPassengerPick = (NumberPicker) rootView.findViewById(R.id.num_passenger_picker);
         numPassengerPick.setMaxValue(10);
-        numPassengerPick.setMinValue(1);
+        numPassengerPick.setMinValue(0);
         numPassengerPick.setWrapSelectorWheel(true);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomizedDialogStyle);
 
         builder.setView(rootView);
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -70,15 +67,11 @@ public class NumPassengersFragment extends DialogFragment {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(true);
+                    FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
                 }
 
                 // debug toad
@@ -94,6 +87,18 @@ public class NumPassengersFragment extends DialogFragment {
             }
         });
 
-        return builder.create();
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        Button NegativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        NegativeButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        NegativeButton.setTextColor(Color.WHITE);
+
+        Button PositiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        PositiveButton.setBackgroundColor(Color.parseColor("#5c505c"));
+        PositiveButton.setTextColor(Color.WHITE);
+
+        return alert;
     }
+
 }
