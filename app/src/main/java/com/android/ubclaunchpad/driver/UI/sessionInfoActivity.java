@@ -49,10 +49,10 @@ public class sessionInfoActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot userSnapshot) {
                         final User currentUser = userSnapshot.getValue(User.class);
 
-                        //add current user's UID to Firebase session drivers list
+                        //add current user's UID to the current session's driver or passenger list
                         final DatabaseReference session = FirebaseUtils.getDatabase()
                                 .child("Session group")
-                                .child(sessionName);
+                                .child(sessionName); //find the current session
                         session.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,9 +74,6 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-                        //TODO now when you are allowed to join a session multiple times
-                        //TODO which is not good
 
                         ChildEventListener childEventListener = new ChildEventListener() {
                             @Override
