@@ -7,10 +7,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.models.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class sessionInfoActivity extends AppCompatActivity {
@@ -27,86 +33,130 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
-        String sessionName = getIntent().getStringExtra(getString(R.string.session_name));
+        final String sessionName = getIntent().getStringExtra(getString(R.string.session_name));
         final String passengerDistance = "\nP\n\t\t\t\t";
         final String driverDistance = "\nD\n\t\t\t\t";
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
 
-        //Adding Drivers to list view
-        FirebaseUtils.getDatabase().child("Session group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //get driver's name
-                String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                driverInfo =  driverDistance + driverInfo;
-                if(driverInfo != null) {
-                    itemsArray.add(driverInfo);
-                    adapter.notifyDataSetChanged();
-                }
-                Log.d(TAG, "Populating");
-            }
+        final String UID = FirebaseUtils.getFirebaseUser().getUid();
+        //find current user's id
+        FirebaseUtils.getDatabase()
+                .child(StringUtils.FirebaseUserEndpoint)
+                .child(UID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot userSnapshot) {
+                        final User currentUser = userSnapshot.getValue(User.class);
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG,"Data Changed");
-            }
+                        //add current user's UID to Firebase session drivers list
+                        final DatabaseReference session = FirebaseUtils.getDatabase()
+                                .child("Session group")
+                                .child(sessionName);
+                        session.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        SessionModel updatedSession = dataSnapshot.getValue(SessionModel.class);
+                                        if (currentUser.isDriver &&
+                                                !updatedSession.getDrivers().contains(UID)) {
+                                            updatedSession.getDrivers().add(UID);
+                                            session.setValue(updatedSession);
+                                        }
+                                        if (!currentUser.isDriver &&
+                                                !updatedSession.getPassengers().contains(UID)) {
+                                            updatedSession.getPassengers().add(UID);
+                                            session.setValue(updatedSession);
+                                        }
+                                    }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final String removableDriver = driverDistance + (String) dataSnapshot.child("title").getValue();
-                adapter.remove(removableDriver);
-                adapter.notifyDataSetChanged();
-                Log.d(TAG,"Data Removed");
-            }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG,"Data Moved");
-            }
+                                    }
+                                });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG,"Data Cancelled");
-            }
-        });
+                        //TODO now when you are allowed to join a session multiple times
+                        //TODO which is not good
 
-        //Adding Passengers to list view
-        FirebaseUtils.getDatabase().child("Session group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                 String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
-                passengerInfo =  passengerDistance + passengerInfo ;
-                if(passengerInfo != null) {
-                    adapter.add(passengerInfo);
-                }
-                Log.d(TAG, "Populating");
-            }
+                        ChildEventListener childEventListener = new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG,"Data Changed");
-            }
+                                //get driver's name
+                                FirebaseUtils.getDatabase()
+                                        .child(StringUtils.FirebaseUserEndpoint)
+                                        .child(dataSnapshot.getValue().toString())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                User user = dataSnapshot.getValue(User.class);
+                                                String username;
+                                                if (user.isDriver)
+                                                    username = driverDistance + user.getName();
+                                                else username = passengerDistance + user.getName();
+                                                itemsArray.add(username);
+                                                adapter.notifyDataSetChanged();
+                                            }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "Data Removed");
-                final String removablePassenger = passengerDistance + (String) dataSnapshot.child("title").getValue();
-                adapter.remove(removablePassenger);
-                adapter.notifyDataSetChanged();
-            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.d(TAG,"Data Moved");
-            }
+                                            }
+                                        });
+                                Log.d(TAG, "Populating" + dataSnapshot.getValue());
+                            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG,"DataCancelled");
-            }
-        });
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                String removedUID = dataSnapshot.getValue().toString();
+                                FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint)
+                                        .child(removedUID)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                User user = dataSnapshot.getValue(User.class);
+                                                String removableUser;
+                                                if(user.isDriver)
+                                                    removableUser = driverDistance + user.getName();
+                                                else removableUser = passengerDistance + user.getName();
+                                                adapter.remove(removableUser);
+                                                adapter.notifyDataSetChanged();
+                                                Log.d(TAG,"Data Removed");
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        };
+                        session.child("drivers")
+                                .addChildEventListener(childEventListener);
+                        session.child("passengers")
+                                .addChildEventListener(childEventListener);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
           //Testing
 //        FirebaseUtils.getDatabase().child("Session group").child("UBC").child("drivers").push().child("title").setValue("before :D");
