@@ -57,6 +57,7 @@ public class sessionInfoActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         SessionModel updatedSession = dataSnapshot.getValue(SessionModel.class);
+                                        //add user ID to driver or passenger list of the current session
                                         if (currentUser.isDriver &&
                                                 !updatedSession.getDrivers().contains(UID)) {
                                             updatedSession.getDrivers().add(UID);
@@ -75,11 +76,12 @@ public class sessionInfoActivity extends AppCompatActivity {
                                     }
                                 });
 
+                        //listen to changes in Firebase to update the driver passenger info list
                         ChildEventListener childEventListener = new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                                //get driver's name
+                                //get user's name
                                 FirebaseUtils.getDatabase()
                                         .child(StringUtils.FirebaseUserEndpoint)
                                         .child(dataSnapshot.getValue().toString())
