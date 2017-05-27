@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
@@ -29,10 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DestinationActivity extends BaseMenuActivity {
     private final static String TAG = DestinationActivity.class.getSimpleName();
 
+    Button okButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
+        okButton = (Button) findViewById(R.id.okButton);
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
@@ -53,10 +57,19 @@ public class DestinationActivity extends BaseMenuActivity {
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMainActivity(v);
+            }
+        });
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
+                okButton.setEnabled(true);
 
                 // get the singleton User again because user from the outer class may not be initialized
                 User innerUser;
