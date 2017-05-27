@@ -33,10 +33,11 @@ public class sessionInfoActivity extends AppCompatActivity {
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
 
-        //Adding Drivers
-        FirebaseUtils.getDatabase().child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
+        //Adding Drivers to list view
+        FirebaseUtils.getDatabase().child("Session group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                //get driver's name
                 String driverInfo = (String) dataSnapshot.child("title").getValue(String.class);
                 driverInfo =  driverDistance + driverInfo;
                 if(driverInfo != null) {
@@ -70,8 +71,8 @@ public class sessionInfoActivity extends AppCompatActivity {
             }
         });
 
-        //Adding Passengers
-        FirebaseUtils.getDatabase().child("Session Group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
+        //Adding Passengers to list view
+        FirebaseUtils.getDatabase().child("Session group").child(sessionName).child("passengers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                  String passengerInfo = (String) dataSnapshot.child("title").getValue(String.class);
@@ -106,10 +107,10 @@ public class sessionInfoActivity extends AppCompatActivity {
             }
         });
 
-/*
-          Testing
-          mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
-        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
-*/
+
+          //Testing
+//        FirebaseUtils.getDatabase().child("Session group").child("UBC").child("drivers").push().child("title").setValue("before :D");
+//        FirebaseUtils.getDatabase().child("Session group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
+//        Log.d(TAG, "testing");
     }
 }
