@@ -97,11 +97,42 @@ public class UserUtils {
         return users;
     }
 
+    public static List<User> constructThirdTestCase() {
+
+        List<User> users = new ArrayList<>();
+        User driver1 = buildDriver("driver1", "49.256920, -123.244176", 4);
+        User driver2 = buildDriver("driver2", "49.252701, -123.064430", 3);
+        User driver3 = buildDriver("driver3l", "49.289151, -123.134583", 1);
+        User driver4 = buildDriver("driver4", "49.287517, -122.988775", 2);
+
+        User passenger1 = buildPassenger("passenger1", "49.219689, -123.165631");
+        User passenger2 = buildPassenger("passenger2", "49.252483, -123.161686");
+        User passenger3 = buildPassenger("passenger3", "49.215156, -123.047359");
+        User passenger4 = buildPassenger("passenger4", "49.284518, -123.041547");
+        User passenger5 = buildPassenger("passenger5", "49.238098, -123.106244");
+        User passenger6 = buildPassenger("passenger6", "49.269551, -123.095222");
+        User passenger7 = buildPassenger("passenger7", "49.268578, -123.242033");
+
+        users.add(driver1);
+        users.add(driver2);
+        users.add(driver3);
+        users.add(driver4);
+        users.add(passenger1);
+        users.add(passenger2);
+        users.add(passenger3);
+        users.add(passenger4);
+        users.add(passenger5);
+        users.add(passenger6);
+        users.add(passenger7);
+
+        return users;
+    }
+
 
     public static User buildDriver(String name, String destination, int seatNum) {
         User driver = new User();
         driver.setName(name);
-        driver.setSeatNum(3);
+        driver.setSeatNum(seatNum);
         driver.setDestinationLatLngStr(destination);
         return driver;
     }

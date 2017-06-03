@@ -54,13 +54,14 @@ public class FindBestRouteAlgorithm {
         // Setting up startPt as (0,0)
         Map<User, LatLng> driverCoords = new HashMap<>();
         for (User driver: drivers) {
-            driverCoords.put(driver, new LatLng(StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).longitude - startPt.longitude,
-                    StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).latitude - startPt.latitude));
+            driverCoords.put(driver, new LatLng(StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).latitude - startPt.latitude,
+                    StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).longitude - startPt.longitude));
         }
         Map<User, LatLng> passengerCoords = new HashMap<>();
+
         for (User passenger: passengers) {
-            passengerCoords.put(passenger, new LatLng(StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).longitude - startPt.longitude,
-                    StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).latitude - startPt.latitude));
+            passengerCoords.put(passenger, new LatLng(StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).latitude - startPt.latitude,
+                    StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).longitude - startPt.longitude));
         }
         for (Map.Entry<User, LatLng> passengerWithCoord : passengerCoords.entrySet()) {
             //
@@ -95,7 +96,7 @@ public class FindBestRouteAlgorithm {
          * Finding slope of a line from starting point to driver's destination and
          * slope of a line perpendicular to the above one.
         */
-        /*
+
         Double slope = drDestY/drDestX;
         Double perpLineSlope = -1/slope;
 
@@ -122,9 +123,11 @@ public class FindBestRouteAlgorithm {
         Double distanceToFinish = eucledianDistance(drDestX, drDestY, passDestX, passDestY);
 
         Double finalDistance = Math.min(distanceToFinish, distanceToLine);
-        */
-        Double distanceToFinish = eucledianDistance(drDestX, drDestY, passDestX, passDestY);
-        return distanceToFinish;
+
+
+
+
+        return finalDistance;
     }
 
     /**
@@ -149,11 +152,10 @@ public class FindBestRouteAlgorithm {
                     optimalDriver = currentDriver;
                 }
             }
-            // #AngryDebugging
-            if (optimalDriver == null) {
-                System.out.println("fuck");
+            if (optimalDriver != null) {
+
+                optimalDriver.addPassenger(currentPassenger);
             }
-            optimalDriver.addPassenger(currentPassenger);
         }
         return driverPassengersMap;
     }
