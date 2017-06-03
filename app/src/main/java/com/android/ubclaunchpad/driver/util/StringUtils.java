@@ -27,6 +27,9 @@ public class StringUtils {
     public static final String FirebaseCurrentLatLng = "currentLatLng";
     public static final String isDriverEndpoint = "isDriver";
     public static final String numPassengersEndpoint = "seatNum";
+
+    public static final String FirebaseSessionDriverEndpoint = "drivers";
+    public static final String FirebaseSessionPassengerEndpoint = "passengers";
     /**
      * Shared pref keys
      * TODO turn to enum
