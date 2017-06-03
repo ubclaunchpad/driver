@@ -191,9 +191,9 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     * Returns true if both password edit texts match, false otherwise.
-     * @param passwordFirst entered password
-     * @param passwordSecond enter password again
+     * Returns true if both passwordEditText edit texts match, false otherwise.
+     * @param passwordFirst entered passwordEditText
+     * @param passwordSecond enter passwordEditText again
      * @return whether or not the two passwords match
      */
     private boolean passwordMatch(String passwordFirst, String passwordSecond) {
@@ -221,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     * Returns true if all boxes are filled in, and both password fields match.
+     * Returns true if all boxes are filled in, and both passwordEditText fields match.
      * False otherwise.
      * @return whether or not all boxes are filled in and passwords match
      */
