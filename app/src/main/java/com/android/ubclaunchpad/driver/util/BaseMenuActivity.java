@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.DispatchActivity;
+import com.android.ubclaunchpad.driver.UI.EditProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class BaseMenuActivity extends AppCompatActivity {
@@ -39,7 +40,8 @@ public class BaseMenuActivity extends AppCompatActivity {
 
             case R.id.action_edit_profile:
                 Log.v(TAG, "editing profile");
-                Toast.makeText(getApplicationContext(),"editing profile",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#171618"
+    android:fitsSystemWindows="true"
+    tools:context="com.android.ubclaunchpad.driver.UI.EditProfileActivity">
+
+    <TextView
+        android:id="@+id/update_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="UPDATE YOUR PROFILE SETTINGS"
+        android:textColor="@android:color/white"/>
+
+    <EditText
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/update_settings"
+        android:text="Miley Cyrus"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/name_update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+
+        android:layout_below="@id/profile_name"
+        android:text="confirm"/>
+
+
+    <EditText
+        android:id="@+id/profile_email"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/name_update_button"
+        android:text="testing@gmail.com"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/email_update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_email"
+        android:text="confirm"/>
+
+
+
+    <EditText
+        android:id="@+id/profile_password"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/email_update_button"
+        android:inputType="textPassword"
+        android:text="password"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/password_update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_password"
+        android:text="confirm"/>
+
+
+
+</RelativeLayout>

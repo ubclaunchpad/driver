@@ -109,7 +109,7 @@ public class sessionInfoActivity extends AppCompatActivity {
 /*
           Testing
           mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
-        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
+        mDatabase.child("Session Group").child("UBC").child("passengers").push().child("title").setValue("So even if the nameEditText is really long. Still it will look better then before :D");
 */
     }
 }
