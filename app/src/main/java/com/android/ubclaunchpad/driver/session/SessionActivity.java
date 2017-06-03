@@ -8,43 +8,38 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.session.SessionAdapter;
+import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 
-public class SessionActivity extends AppCompatActivity {
 
+public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
-    private DatabaseReference mDatabase;
     private SessionModel mSession;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
     @BindView(R.id.create_session)
     Button CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private String sessionName;
@@ -66,12 +61,8 @@ public class SessionActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new SessionAdapter(sessions);
+        mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mUser = mAuth.getCurrentUser();
 
         scd = new SessionCreateDialog(this);
 
@@ -114,7 +105,7 @@ public class SessionActivity extends AppCompatActivity {
      * Displaying the list will also be handled here
      */
     private void displayNearbySessions() {
-        mDatabase.child("Session group")
+        FirebaseUtils.getDatabase().child("Session group")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -122,7 +113,7 @@ public class SessionActivity extends AppCompatActivity {
                         UserUtils userUtils = new UserUtils();
                         List<LatLng> nearbySessionLatLngs = userUtils.findNearbyLatLngs(allSessionlatLngs);
                         List<SessionModel> nearbySessions = getNearbySessions(nearbySessionLatLngs);
-                        //TODO use nearbySessions here
+                        mAdapter.updateSessions(nearbySessions);
                     }
 
                     @Override
