@@ -153,7 +153,6 @@ public class FindBestRouteAlgorithm {
                 }
             }
             if (optimalDriver != null) {
-
                 optimalDriver.addPassenger(currentPassenger);
             }
         }
