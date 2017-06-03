@@ -12,6 +12,11 @@ import android.widget.TextView;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.sessionInfoActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -80,4 +85,27 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         sessions = sessionModels;
         notifyDataSetChanged();
     }
+
+    //TODO delete user from previous sessions they have joined
+    private void deleteFromPrevSessions(){
+        FirebaseUtils.getDatabase().child("Session group")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()){
+                            for(DataSnapshot driver : sessionSnapshot
+                                    .child(StringUtils.FirebaseSessionDriverEndpoint)
+                                    .getChildren()){
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
 }
