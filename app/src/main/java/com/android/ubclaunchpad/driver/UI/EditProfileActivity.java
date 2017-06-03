@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
 public class EditProfileActivity extends BaseMenuActivity {
-
     private Button nameUpdateButton;
     private Button passwordUpdateButton;
     private Button emailUpdateButton;
@@ -149,7 +148,5 @@ public class EditProfileActivity extends BaseMenuActivity {
                     }
                 });
     }
-
-
 
 }
