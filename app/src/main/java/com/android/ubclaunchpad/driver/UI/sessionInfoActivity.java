@@ -52,21 +52,22 @@ public class sessionInfoActivity extends AppCompatActivity {
                         //add current user's UID to the current session's driver or passenger list
                         final DatabaseReference session = FirebaseUtils.getDatabase()
                                 .child("Session group")
-                                .child(sessionName); //find the current session
+                                .child(sessionName);
                         session.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         SessionModel updatedSession = dataSnapshot.getValue(SessionModel.class);
-                                        //add user ID to driver or passenger list of the current session
                                         if (currentUser.isDriver &&
                                                 !updatedSession.getDrivers().contains(UID)) {
-                                            updatedSession.getDrivers().add(UID);
+                                            updatedSession.addDriver(UID);
                                             session.setValue(updatedSession);
+                                            Log.v(TAG, "new driver added");
                                         }
                                         if (!currentUser.isDriver &&
                                                 !updatedSession.getPassengers().contains(UID)) {
-                                            updatedSession.getPassengers().add(UID);
+                                            updatedSession.addPassenger(UID);
                                             session.setValue(updatedSession);
+                                            Log.v(TAG, "new passenger added");
                                         }
                                     }
 
@@ -80,11 +81,9 @@ public class sessionInfoActivity extends AppCompatActivity {
                         ChildEventListener childEventListener = new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                                //get user's name
                                 FirebaseUtils.getDatabase()
                                         .child(StringUtils.FirebaseUserEndpoint)
-                                        .child(dataSnapshot.getValue().toString())
+                                        .child(dataSnapshot.getValue().toString()) //get the added user's UID
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,7 +101,7 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                                             }
                                         });
-                                Log.d(TAG, "Populating" + dataSnapshot.getValue());
+                                Log.d(TAG, "Child " + dataSnapshot.getValue() + " is added");
                             }
 
                             @Override
@@ -112,7 +111,7 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                             @Override
                             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                                String removedUID = dataSnapshot.getValue().toString();
+                                final String removedUID = dataSnapshot.getValue().toString();
                                 FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint)
                                         .child(removedUID)
                                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -125,7 +124,7 @@ public class sessionInfoActivity extends AppCompatActivity {
                                                 else removableUser = passengerDistance + user.getName();
                                                 adapter.remove(removableUser);
                                                 adapter.notifyDataSetChanged();
-                                                Log.d(TAG,"Data Removed");
+                                                Log.d(TAG, removedUID + " is removed");
                                             }
 
                                             @Override
@@ -156,10 +155,5 @@ public class sessionInfoActivity extends AppCompatActivity {
 
                     }
                 });
-
-          //Testing
-//        FirebaseUtils.getDatabase().child("Session group").child("UBC").child("drivers").push().child("title").setValue("before :D");
-//        FirebaseUtils.getDatabase().child("Session group").child("UBC").child("passengers").push().child("title").setValue("So even if the name is really long. Still it will look better then before :D");
-//        Log.d(TAG, "testing");
     }
 }
