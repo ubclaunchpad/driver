@@ -94,12 +94,14 @@ public class sessionInfoActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 User user = dataSnapshot.getValue(User.class);
-                                String username;
-                                if (user.isDriver)
-                                    username = driverDistance + user.getName();
-                                else username = passengerDistance + user.getName();
-                                itemsArray.add(username);
-                                adapter.notifyDataSetChanged();
+                                if( user != null ) {
+                                    String username;
+                                    if (user.isDriver)
+                                        username = driverDistance + user.getName();
+                                    else username = passengerDistance + user.getName();
+                                    itemsArray.add(username);
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
 
                             @Override
@@ -124,13 +126,15 @@ public class sessionInfoActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 User user = dataSnapshot.getValue(User.class);
-                                String removableUser;
-                                if(user.isDriver)
-                                    removableUser = driverDistance + user.getName();
-                                else removableUser = passengerDistance + user.getName();
-                                adapter.remove(removableUser);
-                                adapter.notifyDataSetChanged();
-                                Log.d(TAG, removedUID + " is removed");
+                                if( user != null ) {
+                                    String removableUser;
+                                    if (user.isDriver)
+                                        removableUser = driverDistance + user.getName();
+                                    else removableUser = passengerDistance + user.getName();
+                                    adapter.remove(removableUser);
+                                    adapter.notifyDataSetChanged();
+                                    Log.d(TAG, removedUID + " is removed");
+                                }
                             }
 
                             @Override
