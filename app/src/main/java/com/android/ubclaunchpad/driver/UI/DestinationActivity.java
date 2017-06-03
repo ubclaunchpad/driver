@@ -1,40 +1,43 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import butterknife.ButterKnife;
 
 /**
  * This activity asks the user where is the destination and goes to the passenger/driver
  * screen when "ok" is clicked on
  */
-public class DestinationActivity extends AppCompatActivity {
+public class DestinationActivity extends BaseMenuActivity {
     private final static String TAG = DestinationActivity.class.getSimpleName();
+
+    Button okButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
+        okButton = (Button) findViewById(R.id.okButton);
 
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
 
@@ -43,7 +46,7 @@ public class DestinationActivity extends AppCompatActivity {
 
             if (user == null) {
                 //Something went wrong, go back to login
-                mAuth.signOut();
+                FirebaseUtils.getFirebaseAuth().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
@@ -54,10 +57,19 @@ public class DestinationActivity extends AppCompatActivity {
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMainActivity(v);
+            }
+        });
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
+                okButton.setEnabled(true);
 
                 // get the singleton User again because user from the outer class may not be initialized
                 User innerUser;
@@ -69,7 +81,7 @@ public class DestinationActivity extends AppCompatActivity {
                         innerUser.setDestinationLatLngStr(place.getLatLng());
                     } else {
                         //Something went wrong, go back to login
-                        mAuth.signOut();
+                        FirebaseUtils.getFirebaseAuth().signOut();
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                     }
@@ -77,10 +89,9 @@ public class DestinationActivity extends AppCompatActivity {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
-                FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                if (firebaseUser != null) {
-                    String uid = firebaseUser.getUid();
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
