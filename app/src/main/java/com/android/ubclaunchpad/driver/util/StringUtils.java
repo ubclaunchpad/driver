@@ -23,8 +23,8 @@ public class StringUtils {
      */
     public static final String FirebaseUserEndpoint = "Users";
 
-    public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLng";
-    public static final String FirebaseCurrentLatLng = "currentLatLng";
+    public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLngStr";
+    public static final String FirebaseCurrentLatLng = "currentLatLngStr";
     public static final String isDriverEndpoint = "isDriver";
     public static final String numPassengersEndpoint = "seatNum";
     /**
