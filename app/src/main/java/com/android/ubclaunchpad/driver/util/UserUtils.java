@@ -15,8 +15,6 @@ public class UserUtils {
 
     private String TAG = getClass().getSimpleName();
 
-
-
     public static User buildDriver(String name, String destination, int seatNum) {
         User driver = new User();
         driver.setName(name);

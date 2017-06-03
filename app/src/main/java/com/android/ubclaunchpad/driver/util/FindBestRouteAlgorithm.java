@@ -35,8 +35,12 @@ public class FindBestRouteAlgorithm {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         for (User user: users) {
-            if (user.isDriver()) drivers.add(user);
-            else passengers.add(user);
+            if (user.isDriver()) {
+                drivers.add(user);
+            }
+            else  {
+                passengers.add(user);
+            }
         }
     }
     /**
@@ -121,11 +125,7 @@ public class FindBestRouteAlgorithm {
         }
 
         Double distanceToFinish = eucledianDistance(drDestX, drDestY, passDestX, passDestY);
-
         Double finalDistance = Math.min(distanceToFinish, distanceToLine);
-
-
-
 
         return finalDistance;
     }
