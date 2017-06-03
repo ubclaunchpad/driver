@@ -1,8 +1,8 @@
 package com.android.ubclaunchpad.driver.util;
 
-import android.content.Context;
 import android.util.Log;
 
+import com.android.ubclaunchpad.driver.models.User;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -14,6 +14,22 @@ import java.util.List;
 public class UserUtils {
 
     private String TAG = getClass().getSimpleName();
+
+    public static User buildDriver(String name, String destination, int seatNum) {
+        User driver = new User();
+        driver.setName(name);
+        driver.setSeatNum(seatNum);
+        driver.setDestinationLatLngStr(destination);
+        return driver;
+    }
+
+    public static User buildPassenger(String name, String destination) {
+        User passenger = new User();
+        passenger.setName(name);
+        passenger.setDestinationLatLngStr(destination);
+        passenger.setIsDriver(false);
+        return passenger;
+    }
 
     // finds latLngs within 30 meters of your current latLng
     public List<LatLng> findNearbyLatLngs(List<LatLng> latLngs){
