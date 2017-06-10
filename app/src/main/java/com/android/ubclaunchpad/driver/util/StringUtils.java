@@ -83,11 +83,12 @@ public class StringUtils {
         return lat.toString() + "," + lng.toString();
     }
 
-    public static LatLng stringToLatLng(String latLngString){
-        String[] latLng = latLngString.split(",");
-        double lat = Double.parseDouble(latLng[0]);
-        double lng = Double.parseDouble(latLng[1]);
-        return new LatLng(lat, lng);
+    public static LatLng stringToLatLng(String latLng) {
+        // String has the format "latitude,longitude"
+        String[] latLngArray = latLng.split(",");
+        return new LatLng(
+                Double.parseDouble(latLngArray[0]),
+                Double.parseDouble(latLngArray[1]));
     }
 
     /**

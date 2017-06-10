@@ -13,6 +13,7 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +31,7 @@ public class SessionCreateDialog extends Dialog implements
     private EditText mTextDescription;
     public SessionModel mSessionModel;
 
-    public SessionCreateDialog (Activity activity) {
+    public SessionCreateDialog(Activity activity) {
         super(activity);
         this.mActivity = activity;
     }
@@ -89,9 +90,15 @@ public class SessionCreateDialog extends Dialog implements
 
     }
 
-    private void createSession () {
+    private void createSession() {
 
-        mSessionModel = SessionModel.createNewSession(mSessionName, new LatLng(0, 0));
+        LatLng latLng;
+        try {
+            latLng = StringUtils.stringToLatLng(UserManager.getInstance().getUser().getCurrentLatLngStr());
+        } catch (Exception e) {
+            latLng = new LatLng(0, 0);
+        }
+        mSessionModel = SessionModel.createNewSession(mSessionName, latLng);
 
         if (FirebaseUtils.getDatabase() != null) {
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName).setValue(mSessionModel);

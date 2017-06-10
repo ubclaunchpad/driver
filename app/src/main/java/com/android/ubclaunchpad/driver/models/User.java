@@ -6,6 +6,11 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * User model. Used to serialize and deserialize data to/from
@@ -20,6 +25,7 @@ public class User {
     public String currentLatLngStr;
     public Boolean isDriver;
     public Integer seatNum;
+    public List<User> passengers;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -41,9 +47,22 @@ public class User {
         seatNum = null;
     }
 
+    public User(User another) {
+        this.name = another.getName();
+        this.seatNum = another.getSeatNum();
+        this.destinationLatLngStr = another.getDestinationLatLngStr();
+        this.currentLatLngStr = another.getCurrentLatLngStr();
+        this.isDriver = another.isDriver();
+        this.passengers = another.getPassengers();
+    }
+
     public static User createUser(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, User.class);
+    }
+
+    public int getNumFreeSeats() {
+        return seatNum - passengers.size();
     }
 
     public String serializeUser() {
@@ -60,6 +79,7 @@ public class User {
     public void setSeatNum(Integer seatNum) {
         isDriver = true;
         this.seatNum = seatNum;
+        passengers = new ArrayList<>();
     }
 
     public void setName(String name) {
@@ -68,6 +88,18 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addPassenger(User passenger) {
+        passengers.add(passenger);
+    }
+
+    public void removePassenger(User passenger) {
+        passengers.remove(passenger);
+    }
+
+    public List<User> getPassengers() {
+        return passengers;
     }
 
     @Exclude
@@ -86,6 +118,10 @@ public class User {
 
     public void setCurrentLatLngStr(String latLng) {
         this.currentLatLngStr = latLng;
+    }
+
+    public void setIsDriver(boolean isDriver) {
+        this.isDriver = isDriver;
     }
 
     /**
@@ -114,5 +150,21 @@ public class User {
 
     public String getCurrentLatLngStr() {
         return currentLatLngStr;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return name != null ? name.equals(user.name) : user.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
     }
 }

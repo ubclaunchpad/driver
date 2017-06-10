@@ -55,7 +55,6 @@ public class MainActivity extends BaseMenuActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
                 try {
                     try {
@@ -103,7 +102,6 @@ public class MainActivity extends BaseMenuActivity {
 //                numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
             }
         });
-
 /**
  * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
  */
