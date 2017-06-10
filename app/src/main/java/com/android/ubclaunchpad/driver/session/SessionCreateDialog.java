@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.sessionInfoActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -110,8 +109,8 @@ public class SessionCreateDialog extends Dialog implements android.view.View.OnC
 
     // takes user to sessionInfoActivity for the session they just created
     public void joinCreatedSession() {
-        Intent sessionInfoIntent = new Intent(getContext(), sessionInfoActivity.class);
-        sessionInfoIntent.putExtra(getContext().getString(R.string.session_name), mSessionName);
+        Intent sessionInfoIntent = new Intent(getContext(), SessionInfoActivity.class);
+        sessionInfoIntent.putExtra(StringUtils.SESSION_NAME, mSessionName);
         getContext().startActivity(sessionInfoIntent);
     }
 }

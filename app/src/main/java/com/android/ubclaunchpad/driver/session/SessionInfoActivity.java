@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
@@ -53,6 +54,11 @@ public class SessionInfoActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     SessionModel updatedSession = dataSnapshot.getValue(SessionModel.class);
+                    if (updatedSession == null) {
+                        finish();
+                        Toast.makeText(getBaseContext(), "Session no longer exists", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (currentUser.isDriver &&
                             !updatedSession.getDrivers().contains(UID)) {
                         updatedSession.addDriver(UID);
