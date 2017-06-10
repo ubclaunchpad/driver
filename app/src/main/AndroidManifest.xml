@@ -63,7 +63,7 @@
             android:name=".UI.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".session.SessionInfoActivity" />
-        <activity android:name=".util.BaseMenuActivity"></activity>
+        <activity android:name=".UI.BaseMenuActivity"></activity>
     </application>
 
 </manifest>

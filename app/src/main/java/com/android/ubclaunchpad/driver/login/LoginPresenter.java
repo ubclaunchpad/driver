@@ -9,11 +9,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.UI.DestinationActivity;
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -87,29 +87,28 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
     }
 
     @Override
-    public void onCreate(FragmentActivity fragContext){
+    public void onCreate(FragmentActivity fragContext) {
         this.mContext = fragContext;
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(FirebaseUtils.getFirebaseUser() != null){
+                if (FirebaseUtils.getFirebaseUser() != null) {
                     FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(FirebaseUtils.getFirebaseUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            if(user != null){
+                            if (user != null) {
                                 //Set user to the manager
                                 UserManager userManager = UserManager.getInstance();
                                 userManager.setUser(user);
 
                                 try {
                                     PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, FirebaseUtils.getFirebaseUser().getUid());
-                                }
-                                catch (Exception e){
+                                } catch (Exception e) {
                                     Log.e(TAG, "Could not save firebase key:" + e.getMessage());
                                 }
-                                
+
                                 // startActivity used to be here
                             }
                         }

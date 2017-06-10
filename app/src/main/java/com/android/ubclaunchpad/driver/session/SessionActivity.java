@@ -13,11 +13,11 @@ import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
-import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
-import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
+import com.android.ubclaunchpad.driver.UI.BaseMenuActivity;
+import com.android.ubclaunchpad.driver.user.UserUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

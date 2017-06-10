@@ -1,11 +1,12 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.routingAlgorithms;
 
 /**
  * Created by grigorii on 24/04/17.
  */
 
 
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

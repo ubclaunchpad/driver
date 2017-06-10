@@ -4,22 +4,17 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
-import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -38,7 +33,6 @@ public class MainActivity extends BaseMenuActivity {
     @BindView(R.id.button3)
     Button mSessionButton;
 
-    private static Context context;
     private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -46,8 +40,6 @@ public class MainActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        context = getApplicationContext();
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -99,12 +91,8 @@ public class MainActivity extends BaseMenuActivity {
             public void onClick(View v) {
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
                 numPassengersFragment.show(getFragmentManager(), "num_passengers");
-//                numPassengersFragment.show(getSupportFragmentManager(), "num_passengers");
             }
         });
-/**
- * TODO this button is for demo purposes. When the UI team comes and changes the UI, please REMOVE
- */
 
         final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
@@ -113,13 +101,5 @@ public class MainActivity extends BaseMenuActivity {
                 startActivity(SessionIntent);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
-
-    public static Context getContext() {
-        return MainActivity.context;
     }
 }

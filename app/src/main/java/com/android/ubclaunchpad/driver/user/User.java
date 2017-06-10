@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.models;
+package com.android.ubclaunchpad.driver.user;
 
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
@@ -7,9 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**

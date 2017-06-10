@@ -2,26 +2,25 @@ package com.android.ubclaunchpad.driver.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
-import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * This activity asks the user where is the destination and goes to the passenger/driver
@@ -30,13 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DestinationActivity extends BaseMenuActivity {
     private final static String TAG = DestinationActivity.class.getSimpleName();
 
+    @BindView(R.id.okButton)
     Button okButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
-        okButton = (Button) findViewById(R.id.okButton);
+        ButterKnife.bind(this);
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
@@ -88,7 +88,6 @@ public class DestinationActivity extends BaseMenuActivity {
                 } catch (Exception e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
-
 
                 if (FirebaseUtils.getFirebaseUser() != null) {
                     String uid = FirebaseUtils.getFirebaseUser().getUid();
