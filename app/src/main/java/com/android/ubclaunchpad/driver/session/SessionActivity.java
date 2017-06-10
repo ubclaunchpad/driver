@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +15,6 @@ import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
-import com.android.ubclaunchpad.driver.session.SessionAdapter;
-import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserUtils;
@@ -50,8 +45,8 @@ public class SessionActivity extends BaseMenuActivity {
     private String sessionName;
     private SessionCreateDialog scd;
 
-    private List<SessionModel> allSessions = new ArrayList<>();
-    private List<SessionModel> sessions = new ArrayList<>();
+    private List<SessionModel> allSessions;
+    private List<SessionModel> sessions;
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
 
@@ -60,6 +55,9 @@ public class SessionActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
         ButterKnife.bind(this);
+
+        allSessions = new ArrayList<>();
+        sessions = new ArrayList<>();
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -94,16 +92,25 @@ public class SessionActivity extends BaseMenuActivity {
                 startActivity(mapIntent);
             }
         });
+    }
 
+    // Will refresh the list of sessions every time Activity enters foreground
+    @Override
+    protected void onResume() {
+        super.onResume();
         //request for accessing fine location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.v(TAG, "access fine location not permitted");
             ActivityCompat.requestPermissions(SessionActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-        } else displayNearbySessions();
+        } else {
+            // reset the sessions to an empty list and find the nearby sessions again
+            allSessions = new ArrayList<>();
+            sessions = new ArrayList<>();
+            displayNearbySessions();
+        }
     }
-
 
     /**
      * Get a list of names of nearby sessions

@@ -152,7 +152,7 @@ public class FindBestRouteAlgorithm {
             for (Map.Entry<User, Double> driverDistanceEntry : driverDistanceMatrix.entrySet()) {
                 User currentDriver = driverDistanceEntry.getKey();
                 Double currentDistance = driverDistanceEntry.getValue();
-                if (currentDistance < smallestDistance && currentDriver.getNumFreeSeats() > 0) {
+                if (currentDistance < smallestDistance && UserUtils.getNumFreeSeats(currentDriver) > 0) {
                     smallestDistance = currentDistance;
                     optimalDriver = currentDriver;
                 }
