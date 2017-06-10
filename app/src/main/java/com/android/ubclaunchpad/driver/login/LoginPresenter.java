@@ -109,12 +109,8 @@ public class LoginPresenter implements LoginContract.Presenter, FirebaseAuth.Aut
                                 catch (Exception e){
                                     Log.e(TAG, "Could not save firebase key:" + e.getMessage());
                                 }
-
-                                mContext.startActivity(new Intent(mContext, DestinationActivity.class));
-                                mContext.finish();
-                            }
-                            else{
-//                                Toast.makeText(mContext, "Login error. Please try again later", Toast.LENGTH_LONG).show();
+                                
+                                // startActivity used to be here
                             }
                         }
 
