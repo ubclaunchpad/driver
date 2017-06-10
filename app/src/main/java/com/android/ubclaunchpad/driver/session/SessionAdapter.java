@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.session;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.List;
 // RecyclerView.Adapter class for the RecyclerView in SessionActivity
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionViewHolder> {
 
+    private static final String TAG = SessionAdapter.class.getSimpleName();
     private Context context;
     private List<SessionModel> sessions;
 
@@ -69,6 +71,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         holder.sessionJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deleteFromPrevSessions(sessionModel.getName());
                 Intent sessionInfoIntent = new Intent(context, sessionInfoActivity.class);
                 sessionInfoIntent.putExtra(context.getString(R.string.session_name), sessionModel.getName());
                 context.startActivity(sessionInfoIntent);
@@ -86,17 +89,40 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         notifyDataSetChanged();
     }
 
-    //TODO delete user from previous sessions they have joined
-    private void deleteFromPrevSessions(){
+    /**
+     * Delete the user's id from all sessions' driver and passenger
+     * lists except for the target session
+     * @param targetSessionName name of the session to join
+     */
+    private void deleteFromPrevSessions(final String targetSessionName){
         FirebaseUtils.getDatabase().child("Session group")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()){
-                            for(DataSnapshot driver : sessionSnapshot
-                                    .child(StringUtils.FirebaseSessionDriverEndpoint)
-                                    .getChildren()){
-
+                            if( !sessionSnapshot.getKey().equals(targetSessionName) ) {
+                                SessionModel session = sessionSnapshot.getValue(SessionModel.class);
+                                List<String> drivers = session.getDrivers();
+                                List<String> passengers = session.getPassengers();
+                                String UID = FirebaseUtils.getFirebaseUser().getUid();
+                                if (drivers.contains(UID)) {
+                                    drivers.remove(UID);
+                                    FirebaseUtils.getDatabase()
+                                            .child("Session group")
+                                            .child(sessionSnapshot.getKey())
+                                            .child(StringUtils.FirebaseSessionDriverEndpoint)
+                                            .setValue(drivers);
+                                    Log.v(TAG, "removed " + UID + "from drivers list in session " + session.getName());
+                                }
+                                if (passengers.contains(UID)) {
+                                    passengers.remove(UID);
+                                    FirebaseUtils.getDatabase()
+                                            .child("Session group")
+                                            .child(sessionSnapshot.getKey())
+                                            .child(StringUtils.FirebaseSessionPassengerEndpoint)
+                                            .setValue(passengers);
+                                    Log.v(TAG, "removed " + UID + "from passengers list in session " + session.getName());
+                                }
                             }
                         }
                     }
