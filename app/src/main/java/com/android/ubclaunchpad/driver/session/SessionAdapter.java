@@ -91,15 +91,16 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
     /**
      * Delete the user's id from all sessions' driver and passenger
      * lists except for the target session
+     *
      * @param targetSessionName name of the session to join
      */
-    private void deleteFromPrevSessions(final String targetSessionName){
+    private void deleteFromPrevSessions(final String targetSessionName) {
         FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot sessionSnapshot : dataSnapshot.getChildren()){
-                            if( !sessionSnapshot.getKey().equals(targetSessionName) ) {
+                        for (DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
+                            if (!sessionSnapshot.getKey().equals(targetSessionName)) {
                                 SessionModel session = sessionSnapshot.getValue(SessionModel.class);
                                 List<String> drivers = session.getDrivers();
                                 List<String> passengers = session.getPassengers();

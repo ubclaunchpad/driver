@@ -33,13 +33,18 @@ import butterknife.ButterKnife;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    @BindView(R.id.etName) EditText mName;
-    @BindView(R.id.etEmail) EditText mEmail;
-    @BindView(R.id.etPassword) EditText mPassword1;
-    @BindView(R.id.etPasswordConfirm) EditText mPassword2;
-    @BindView(R.id.bSignUp) Button mRegister;
+    @BindView(R.id.etName)
+    EditText mName;
+    @BindView(R.id.etEmail)
+    EditText mEmail;
+    @BindView(R.id.etPassword)
+    EditText mPassword1;
+    @BindView(R.id.etPasswordConfirm)
+    EditText mPassword2;
+    @BindView(R.id.bSignUp)
+    Button mRegister;
 
-     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +86,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         FirebaseUtils.getFirebaseAuth().addAuthStateListener(mAuthListener);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
-        if(mAuthListener!= null){
+        if (mAuthListener != null) {
             FirebaseUtils.getFirebaseAuth().removeAuthStateListener(mAuthListener);
         }
     }
@@ -97,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * When sign up button is clicked, account is created (if valid) and moves on
      * to the SignInActivity for the user to sign in for the first time.
+     *
      * @param view
      */
     public void signUpClick(View view) {
@@ -118,6 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
      * Creates account after checking that all edit text's are properly filled.
      * Signs them in and stores their info in the firebase.
      * Notifies user if account was or was not created successfully.
+     *
      * @param email
      * @param password
      */
@@ -157,10 +164,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Returns true if all boxes are filled in, false otherwise. If any boxes are empty,
      * alerts user that that edit text is required to be filled.
+     *
      * @return whether or not all boxes are filled in
      */
     private boolean noEmptyBoxes(String name, String email, String passwordFirst, String passwordSecond) {
@@ -192,7 +199,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Returns true if both password edit texts match, false otherwise.
-     * @param passwordFirst entered password
+     *
+     * @param passwordFirst  entered password
      * @param passwordSecond enter password again
      * @return whether or not the two passwords match
      */
@@ -223,6 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Returns true if all boxes are filled in, and both password fields match.
      * False otherwise.
+     *
      * @return whether or not all boxes are filled in and passwords match
      */
     private boolean validateBoxes(String name, String email, String passwordFirst, String passwordSecond) {

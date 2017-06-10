@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
@@ -26,10 +27,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 
 

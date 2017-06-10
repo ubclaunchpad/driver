@@ -15,23 +15,25 @@ public class PreferenceHelper {
     /**
      * Initalize the preference helper when the app starts from the Main application
      * This ensure the singleton is created once and can be used throughout the app.
+     *
      * @param context - required to create shared preferences
      * @return - an instance of the Preference Helper
      */
-    public static PreferenceHelper initInstance(Context context){
+    public static PreferenceHelper initInstance(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        if(preferenceHelperInstance == null)
+        if (preferenceHelperInstance == null)
             preferenceHelperInstance = new PreferenceHelper();
         return preferenceHelperInstance;
     }
 
     /**
      * Returns the instance of the Preference Helper created from the application startup
+     *
      * @return Instance of the Preference Helper
      * @throws Exception - If the instance was not created proper
      */
     public static PreferenceHelper getPreferenceHelperInstance() throws Exception {
-        if(sharedPreferences == null){
+        if (sharedPreferences == null) {
             throw new Exception("Preference Helper needs to be initialized first");
         }
         return preferenceHelperInstance;
@@ -40,32 +42,37 @@ public class PreferenceHelper {
     /**
      * Singleton constructor. Should be private to prevent additional instance being created
      */
-    private PreferenceHelper(){}
+    private PreferenceHelper() {
+    }
 
     /*
         Put methods are to write to shared pref
      */
-    public void put(String key, String val){
+    public void put(String key, String val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, val);
         editor.apply();
     }
-    public void put(String key, int val){
+
+    public void put(String key, int val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, val);
         editor.apply();
     }
-    public void put(String key, boolean val){
+
+    public void put(String key, boolean val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, val);
         editor.apply();
     }
-    public void put(String key, float val){
+
+    public void put(String key, float val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat(key, val);
         editor.apply();
     }
-    public void put(String key, long val){
+
+    public void put(String key, long val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(key, val);
         editor.apply();
@@ -75,21 +82,23 @@ public class PreferenceHelper {
         Get methods to retrieve from shared pref
      */
 
-    public String getString(String key, String def){
+    public String getString(String key, String def) {
         return sharedPreferences.getString(key, def);
     }
-    public int getInt(String key, int def){
+
+    public int getInt(String key, int def) {
         return sharedPreferences.getInt(key, def);
     }
 
-    public boolean getBool(String key, boolean def){
+    public boolean getBool(String key, boolean def) {
         return sharedPreferences.getBoolean(key, def);
     }
-    public float getFloat(String key, float def){
+
+    public float getFloat(String key, float def) {
         return sharedPreferences.getFloat(key, def);
     }
 
-    public long getLong(String key, long def){
+    public long getLong(String key, long def) {
         return sharedPreferences.getLong(key, def);
     }
 }

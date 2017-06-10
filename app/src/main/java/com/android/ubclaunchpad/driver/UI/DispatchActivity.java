@@ -30,19 +30,18 @@ public class DispatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         final String savedUid;
 
         //If firebase user is cached on the device, get uid from that
-        if(FirebaseUtils.getFirebaseUser() != null) {
+        if (FirebaseUtils.getFirebaseUser() != null) {
             savedUid = FirebaseUtils.getFirebaseUser().getUid();
-        }
-        else{
+        } else {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             savedUid = sharedPref.getString(StringUtils.FirebaseUidKey, "");
         }
 
-        if(!savedUid.equals("")){
+        if (!savedUid.equals("")) {
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(savedUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -56,8 +55,7 @@ public class DispatchActivity extends AppCompatActivity {
 //                        //Safer option to is to re-save
                         try {
                             PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, savedUid);
-                        }
-                        catch (Exception e){
+                        } catch (Exception e) {
                             Log.e(TAG, "Could not save firebase key:" + e.getMessage());
                         }
 

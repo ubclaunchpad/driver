@@ -11,13 +11,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtils {
 
-    public static DatabaseReference getDatabase(){ return FirebaseDatabase.getInstance().getReference(); }
+    public static DatabaseReference getDatabase() {
+        return FirebaseDatabase.getInstance().getReference();
+    }
 
-    public static FirebaseAuth getFirebaseAuth(){
+    public static FirebaseAuth getFirebaseAuth() {
         return FirebaseAuth.getInstance();
     }
 
-    public static FirebaseUser getFirebaseUser(){
+    public static FirebaseUser getFirebaseUser() {
         return getFirebaseAuth().getCurrentUser();
     }
 }

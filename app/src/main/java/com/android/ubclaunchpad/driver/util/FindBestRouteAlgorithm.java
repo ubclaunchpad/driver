@@ -7,6 +7,7 @@ package com.android.ubclaunchpad.driver.util;
 
 import com.android.ubclaunchpad.driver.models.User;
 import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,22 +32,24 @@ public class FindBestRouteAlgorithm {
     public FindBestRouteAlgorithm(LatLng startPt) {
         this.startPt = startPt;
     }
+
     private void sortUsers(List<User> users) {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
-        for (User user: users) {
+        for (User user : users) {
             if (user.isDriver()) {
                 drivers.add(user);
-            }
-            else  {
+            } else {
                 passengers.add(user);
             }
         }
     }
+
     /**
      * Starting method for the route search. We set up a starting point as
      * (0,0) in Cartesian coordinate system
      * TODO: TOO MANY LOOPS!
+     *
      * @param users a list of drivers a passengers to optimize the journey for
      * @return a list of routes for each driver
      */
@@ -57,13 +60,13 @@ public class FindBestRouteAlgorithm {
         Map<User, Map<User, Double>> distanceMaps = new HashMap<>();
         // Setting up startPt as (0,0)
         Map<User, LatLng> driverCoords = new HashMap<>();
-        for (User driver: drivers) {
+        for (User driver : drivers) {
             driverCoords.put(driver, new LatLng(StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).latitude - startPt.latitude,
                     StringUtils.stringToLatLng(driver.getDestinationLatLngStr()).longitude - startPt.longitude));
         }
         Map<User, LatLng> passengerCoords = new HashMap<>();
 
-        for (User passenger: passengers) {
+        for (User passenger : passengers) {
             passengerCoords.put(passenger, new LatLng(StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).latitude - startPt.latitude,
                     StringUtils.stringToLatLng(passenger.getDestinationLatLngStr()).longitude - startPt.longitude));
         }
@@ -73,7 +76,7 @@ public class FindBestRouteAlgorithm {
             for (Map.Entry<User, LatLng> driverWithCoords : driverCoords.entrySet()) {
                 Double influence = influenceToCurrentRoute(driverWithCoords.getKey(), passengerWithCoord.getKey());
 
-                Double distance = distanceBetweenLineAndPoint(driverWithCoords.getValue(), passengerWithCoord.getValue())*influence;
+                Double distance = distanceBetweenLineAndPoint(driverWithCoords.getValue(), passengerWithCoord.getValue()) * influence;
                 distances.put(driverWithCoords.getKey(), distance);
             }
             distanceMaps.put(passengerWithCoord.getKey(), distances);
@@ -85,7 +88,8 @@ public class FindBestRouteAlgorithm {
 
     /**
      * Find the distance between a point and a line
-     * @param drDestPt destination of a driver
+     *
+     * @param drDestPt   destination of a driver
      * @param passDestPt destination of a point
      * @return distance between passDest and a line between start and drDest, and a point passDest
      */
@@ -101,8 +105,8 @@ public class FindBestRouteAlgorithm {
          * slope of a line perpendicular to the above one.
         */
 
-        Double slope = drDestY/drDestX;
-        Double perpLineSlope = -1/slope;
+        Double slope = drDestY / drDestX;
+        Double perpLineSlope = -1 / slope;
 
 
         Double startLineIntercept = perpLineSlope * passDestX;
@@ -115,7 +119,7 @@ public class FindBestRouteAlgorithm {
             if (startLineIntercept <= passDestY && driverLineIntercept >= passDestY) {
                 distanceToLine = Math.abs(-slope * passDestX + passDestY) / Math.sqrt(slope * slope + 1);
             }
-        // Lower half-space
+            // Lower half-space
         } else {
             // Check if destination of passenger is in the region where calculating the
             // perpendicular distance is feasible
@@ -132,6 +136,7 @@ public class FindBestRouteAlgorithm {
 
     /**
      * It literally does what its name says
+     *
      * @param distanceMaps a map containing passenger as a key and map containing
      *                     driver-distance to this driver for this passenger
      */
@@ -164,7 +169,8 @@ public class FindBestRouteAlgorithm {
      * First, it calculates the current overall distance that the driver has to travel based on already
      * added passengers. Then, it adds a new passenger to this route and computes the ratio between the
      * old distance and new distance, which acts as a "score" for each particular added passenger.
-     * @param driver Current driver
+     *
+     * @param driver    Current driver
      * @param passenger passenger to add to the driver's route
      * @return
      */
@@ -183,6 +189,7 @@ public class FindBestRouteAlgorithm {
      * Construct the driving route for the driver with assigned passengers.
      * Construction of the route is based on adding the closest passenger to each
      * consequent node.
+     *
      * @param driver with assigned passengers
      * @return the shortest route for current list of passengers
      */
@@ -194,7 +201,7 @@ public class FindBestRouteAlgorithm {
         trip.add(startPt);
 
         // Store destinations of all passengers
-        for (User user: driver.getPassengers()) {
+        for (User user : driver.getPassengers()) {
             passengerDestinations.add(StringUtils.stringToLatLng(user.getDestinationLatLngStr()));
         }
 
@@ -221,6 +228,7 @@ public class FindBestRouteAlgorithm {
 
     /**
      * Sum of eucledian distances between consequent points
+     *
      * @param route
      * @return the resulting distance
      */
@@ -232,8 +240,8 @@ public class FindBestRouteAlgorithm {
             distance += eucledianDistance(
                     route.get(i).longitude,
                     route.get(i).latitude,
-                    route.get(i-1).longitude,
-                    route.get(i-1).latitude);
+                    route.get(i - 1).longitude,
+                    route.get(i - 1).latitude);
         }
 
         return distance;
@@ -241,6 +249,7 @@ public class FindBestRouteAlgorithm {
 
     /**
      * Given newPt, find the closest one to it from the currentTrip list
+     *
      * @param currentTrip
      * @param newPt
      * @return the closest point to newPt from currentTrip
@@ -268,7 +277,7 @@ public class FindBestRouteAlgorithm {
      */
     private double eucledianDistance(double x_1, double y_1, double x_2, double y_2) {
 
-        return Math.sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
+        return Math.sqrt((x_1 - x_2) * (x_1 - x_2) + (y_1 - y_2) * (y_1 - y_2));
     }
 
 }

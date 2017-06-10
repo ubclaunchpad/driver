@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.models.User;
@@ -26,7 +27,7 @@ public class SessionInfoActivity extends AppCompatActivity {
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
     final ArrayList<String> itemsArray = new ArrayList<String>();
-   // private DatabaseReference mDatabase;
+    // private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,8 @@ public class SessionInfoActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -95,10 +97,12 @@ public class SessionInfoActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
         session.child(StringUtils.FirebaseSessionPassengerEndpoint)
                 .addChildEventListener(new ChildEventListener() {
@@ -131,7 +135,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
     }
 
-    private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList){
+    private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
         FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseUserEndpoint)
                 .child(dataSnapshot.getValue().toString()) //get the added user's UID
@@ -139,8 +143,8 @@ public class SessionInfoActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        if( user != null ) {
-                            String distance = inDriverList? driverDistance : passengerDistance;
+                        if (user != null) {
+                            String distance = inDriverList ? driverDistance : passengerDistance;
                             String username = distance + user.getName();
                             itemsArray.add(username);
                             adapter.notifyDataSetChanged();
@@ -148,12 +152,13 @@ public class SessionInfoActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
-        Log.d(TAG, "Child " + dataSnapshot.getValue() + " is added to " + (inDriverList? "drivers":"passengers"));
+        Log.d(TAG, "Child " + dataSnapshot.getValue() + " is added to " + (inDriverList ? "drivers" : "passengers"));
     }
 
-    private void removeUserFromAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList){
+    private void removeUserFromAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
         final String removedUID = dataSnapshot.getValue().toString();
         FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint)
                 .child(removedUID)
@@ -161,16 +166,17 @@ public class SessionInfoActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        if( user != null ) {
-                            String distance = inDriverList? driverDistance : passengerDistance;
+                        if (user != null) {
+                            String distance = inDriverList ? driverDistance : passengerDistance;
                             itemsArray.remove(distance + user.getName());
                             adapter.notifyDataSetChanged();
-                            Log.d(TAG, removedUID + " is removed from" + (inDriverList? "drivers":"passengers"));
+                            Log.d(TAG, removedUID + " is removed from" + (inDriverList ? "drivers" : "passengers"));
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
     }
 }
