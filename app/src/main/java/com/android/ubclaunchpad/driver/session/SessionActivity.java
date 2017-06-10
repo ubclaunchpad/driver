@@ -20,6 +20,7 @@ import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.session.SessionAdapter;
 import com.android.ubclaunchpad.driver.session.SessionCreateDialog;
 import com.android.ubclaunchpad.driver.util.BaseMenuActivity;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.util.UserUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
@@ -105,7 +106,7 @@ public class SessionActivity extends BaseMenuActivity {
      * Displaying the list will also be handled here
      */
     private void displayNearbySessions() {
-        FirebaseUtils.getDatabase().child("Session group")
+        FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

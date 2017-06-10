@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.UI;
+package com.android.ubclaunchpad.driver.session;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,9 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class sessionInfoActivity extends AppCompatActivity {
+public class SessionInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "sessionInfoActivity";
+    private static final String TAG = "SessionInfoActivity";
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
     final ArrayList<String> itemsArray = new ArrayList<String>();
@@ -36,12 +36,12 @@ public class sessionInfoActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
-        final String sessionName = getIntent().getStringExtra(getString(R.string.session_name));
+        final String sessionName = getIntent().getStringExtra(StringUtils.SESSION_NAME);
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
 
         final DatabaseReference session = FirebaseUtils.getDatabase()
-                .child("Session group")
+                .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
         final String UID = FirebaseUtils.getFirebaseUser().getUid();
         final User currentUser;

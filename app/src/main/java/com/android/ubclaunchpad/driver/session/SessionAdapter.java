@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.sessionInfoActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -72,8 +71,8 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
             @Override
             public void onClick(View v) {
                 deleteFromPrevSessions(sessionModel.getName());
-                Intent sessionInfoIntent = new Intent(context, sessionInfoActivity.class);
-                sessionInfoIntent.putExtra(context.getString(R.string.session_name), sessionModel.getName());
+                Intent sessionInfoIntent = new Intent(context, SessionInfoActivity.class);
+                sessionInfoIntent.putExtra(StringUtils.SESSION_NAME, sessionModel.getName());
                 context.startActivity(sessionInfoIntent);
             }
         });
@@ -95,7 +94,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
      * @param targetSessionName name of the session to join
      */
     private void deleteFromPrevSessions(final String targetSessionName){
-        FirebaseUtils.getDatabase().child("Session group")
+        FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -108,7 +107,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
                                 if (drivers.contains(UID)) {
                                     drivers.remove(UID);
                                     FirebaseUtils.getDatabase()
-                                            .child("Session group")
+                                            .child(StringUtils.FirebaseSessionEndpoint)
                                             .child(sessionSnapshot.getKey())
                                             .child(StringUtils.FirebaseSessionDriverEndpoint)
                                             .setValue(drivers);
@@ -117,7 +116,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
                                 if (passengers.contains(UID)) {
                                     passengers.remove(UID);
                                     FirebaseUtils.getDatabase()
-                                            .child("Session group")
+                                            .child(StringUtils.FirebaseSessionEndpoint)
                                             .child(sessionSnapshot.getKey())
                                             .child(StringUtils.FirebaseSessionPassengerEndpoint)
                                             .setValue(passengers);

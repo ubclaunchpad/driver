@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -66,7 +67,7 @@ public class SessionCreateDialog extends Dialog implements
 
     private void createUniqueSession() {
         if (FirebaseUtils.getDatabase() != null) {
-            FirebaseUtils.getDatabase().child("Session group").child(mSessionName)
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,7 +94,7 @@ public class SessionCreateDialog extends Dialog implements
         mSessionModel = SessionModel.createNewSession(mSessionName, new LatLng(0, 0));
 
         if (FirebaseUtils.getDatabase() != null) {
-            FirebaseUtils.getDatabase().child("Session group").child(mSessionName).setValue(mSessionModel);
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName).setValue(mSessionModel);
         }
     }
 }

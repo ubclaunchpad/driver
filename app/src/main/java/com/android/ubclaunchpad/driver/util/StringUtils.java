@@ -12,6 +12,11 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     /**
+     * Names for intent extras
+     */
+    public static final String SESSION_NAME = "SessionName";
+
+    /**
      * Log Tags
      */
     public static final String DispatchActivity = "Dispatch";
@@ -22,7 +27,7 @@ public class StringUtils {
      * Firebase endpoints (children)
      */
     public static final String FirebaseUserEndpoint = "Users";
-
+    public static final String FirebaseSessionEndpoint = "Session group";
     public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLng";
     public static final String FirebaseCurrentLatLng = "currentLatLng";
     public static final String isDriverEndpoint = "isDriver";
