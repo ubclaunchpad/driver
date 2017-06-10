@@ -3,7 +3,9 @@ package com.android.ubclaunchpad.driver.UI;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.ubclaunchpad.driver.R;
@@ -11,12 +13,19 @@ import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+
+import butterknife.BindView;
 
 public class sessionInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "sessionInfoActivity";
-   // private DatabaseReference mDatabase;
+
+
+
+    // private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,24 @@ public class sessionInfoActivity extends AppCompatActivity {
         final String driverDistance = "\nD\n\t\t\t\t";
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
+        final Button goButton = (Button) findViewById(R.id.go_Button);
+        goButton.setVisibility(View.INVISIBLE);
+
+        // Only punk who started the session can hit the go button
+        FirebaseUtils.getDatabase().child("Session Group").child(sessionName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String sessionHostUid = dataSnapshot.child("sessionHostUid").getValue(String.class);
+                if (sessionHostUid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                    goButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //Adding Drivers
         FirebaseUtils.getDatabase().child("Session Group").child(sessionName).child("drivers").addChildEventListener(new ChildEventListener() {
@@ -106,6 +133,13 @@ public class sessionInfoActivity extends AppCompatActivity {
             }
         });
 
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Starting the goddamn algorithm
+
+            }
+        });
 /*
           Testing
           mDatabase.child("Session Group").child("UBC").child("drivers").push().child("title").setValue("before :D");
