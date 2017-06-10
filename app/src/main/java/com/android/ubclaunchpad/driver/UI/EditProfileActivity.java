@@ -22,13 +22,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends BaseMenuActivity {
 
-    Button nameUpdateButton;
-    Button passwordUpdateButton;
-    Button emailUpdateButton;
+    private Button nameUpdateButton;
+    private Button passwordUpdateButton;
+    private Button emailUpdateButton;
 
-    EditText nameEditText;
-    EditText emailEditText;
-    EditText passwordEditText;
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+
+
+    // TODO Need to add reauthentication somewhere before letting the user update their profile
+    // TODO update UI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,45 +47,49 @@ public class EditProfileActivity extends BaseMenuActivity {
         emailEditText = (EditText) findViewById(R.id.profile_email);
         passwordEditText = (EditText) findViewById(R.id.profile_password);
 
-        // TODO reauthenticate
-
-        // set EditText to show the user's name
+        // set EditText to show user's name
         String name = "";
         try {
             name = UserManager.getInstance().getUser().getName();
         }
-        catch(Exception e){
+        catch(Exception e){ // exception thrown by getUser if user is null
             e.printStackTrace();
         }
         nameEditText.setText(name);
 
         // set EditText to show user's email
         FirebaseUser user = FirebaseUtils.getFirebaseUser();
-        emailEditText.setText(user.getEmail());
+        if(user != null) emailEditText.setText(user.getEmail());
 
-
-        // set onClickListeners to update the database
+        // set onClickListeners to helpers that update the database
         emailUpdateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 updateEmail();
             }
         });
-
         nameUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateName();
             }
         });
+        passwordUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePassword();
+            }
+        });
     }
 
+    // takes the text in the EditText and updates Firebase
+    // email needs to be updated in 3 places: UserManager, FirebaseAuth, and Firebase database
     private void updateEmail(){
         String email = emailEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseUser();
         String uid = user.getUid();
 
-        // update email auth
+        // update auth
         user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -98,7 +106,6 @@ public class EditProfileActivity extends BaseMenuActivity {
         try {
             // update email in usermanager
             UserManager.getInstance().getUser().setEmail(email);
-
             // update email in database
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child("email").setValue(email);
         }
@@ -107,6 +114,8 @@ public class EditProfileActivity extends BaseMenuActivity {
         }
     }
 
+    // takes the text in EditText for name and updates Firebase
+    // name needs to be updated in 2 places: user manager, and firebase database
     private void updateName(){
         String name = nameEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseUser();
@@ -118,14 +127,33 @@ public class EditProfileActivity extends BaseMenuActivity {
 
             // update name in database
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child("name").setValue(name);
+            Toast.makeText(EditProfileActivity.this, "Successfully updated name.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(EditProfileActivity.this, "Your name failed to update.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        Toast.makeText(EditProfileActivity.this, "Successfully updated name.", Toast.LENGTH_SHORT).show();
     }
 
-    // TODO add fields for nameEditText, emailEditText, passwordEditText to the UI
+    // takes the text in EditText for password and updates Firebase
+    // password only needs to be updated in Firebase authentication
+    private void updatePassword(){
+        String newPassword = passwordEditText.getText().toString();
+        FirebaseUser user = FirebaseUtils.getFirebaseAuth().getCurrentUser();
+
+        user.updatePassword(newPassword)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditProfileActivity.this, "User password updated.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(EditProfileActivity.this, "User password failed to update.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
 
 }
