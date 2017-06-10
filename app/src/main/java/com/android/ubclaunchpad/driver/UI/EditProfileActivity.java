@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends BaseMenuActivity {
 
+
     private Button nameUpdateButton;
     private Button passwordUpdateButton;
     private Button emailUpdateButton;
@@ -46,6 +47,7 @@ public class EditProfileActivity extends BaseMenuActivity {
         nameEditText = (EditText) findViewById(R.id.profile_name);
         emailEditText = (EditText) findViewById(R.id.profile_email);
         passwordEditText = (EditText) findViewById(R.id.profile_password);
+
 
         // set EditText to show user's name
         String name = "";
@@ -153,7 +155,5 @@ public class EditProfileActivity extends BaseMenuActivity {
                     }
                 });
     }
-
-
 
 }
