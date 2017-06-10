@@ -34,12 +34,12 @@ public class BaseMenuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
-                new AlertDialogFragment().show(getFragmentManager(),"signOutAlertDialog");
+                new AlertDialogFragment().show(getFragmentManager(), "signOutAlertDialog");
                 return true;
 
             case R.id.action_edit_profile:
                 Log.v(TAG, "editing profile");
-                Toast.makeText(getApplicationContext(),"editing profile",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "editing profile", Toast.LENGTH_LONG).show();
                 return true;
 
             default:
@@ -49,7 +49,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         }
     }
 
-    public void signOut(){
+    public void signOut() {
         Intent intent = new Intent(this, DispatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Log.d(TAG, "Signing Out");
@@ -68,18 +68,18 @@ public class BaseMenuActivity extends AppCompatActivity {
                     .setMessage("Are you sure you want to sign out?");
 
             return builder.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                ((BaseMenuActivity) getActivity()).signOut();
-                            }
-                        })
-                        .setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dismiss();
-                            }
-                        })
-                        .create();
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            ((BaseMenuActivity) getActivity()).signOut();
+                        }
+                    })
+                    .setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dismiss();
+                                }
+                            })
+                    .create();
         }
     }
 }

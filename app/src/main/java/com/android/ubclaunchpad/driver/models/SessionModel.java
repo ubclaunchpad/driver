@@ -23,13 +23,13 @@ public class SessionModel {
     private String name;
 
 
-    public SessionModel(){
+    public SessionModel() {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         location = "";
     }
 
-    public SessionModel(LatLng latLng){
+    public SessionModel(LatLng latLng) {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         this.location = StringUtils.latLngToString(latLng);
@@ -71,7 +71,9 @@ public class SessionModel {
         return location;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
@@ -86,7 +88,7 @@ public class SessionModel {
 
             String uid = FirebaseUtils.getFirebaseUser().getUid();
 
-            if (user.isDriver()){
+            if (user.isDriver()) {
                 sessionModel.addDriver(uid);
             } else {
                 sessionModel.addPassenger(uid);

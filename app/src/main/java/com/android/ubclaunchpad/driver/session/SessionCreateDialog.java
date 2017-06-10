@@ -68,7 +68,7 @@ public class SessionCreateDialog extends Dialog implements
 
     private void createUniqueSession() {
         if (FirebaseUtils.getDatabase() != null) {
-            FirebaseUtils.getDatabase().child("Session group").child(mSessionName)
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -101,7 +101,7 @@ public class SessionCreateDialog extends Dialog implements
         mSessionModel = SessionModel.createNewSession(mSessionName, latLng);
 
         if (FirebaseUtils.getDatabase() != null) {
-            FirebaseUtils.getDatabase().child("Session group").child(mSessionName).setValue(mSessionModel);
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName).setValue(mSessionModel);
         }
     }
 }

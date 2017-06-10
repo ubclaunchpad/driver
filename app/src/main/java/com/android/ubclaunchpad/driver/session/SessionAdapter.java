@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.session;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.sessionInfoActivity;
 import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -22,6 +27,7 @@ import java.util.List;
 // RecyclerView.Adapter class for the RecyclerView in SessionActivity
 public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionViewHolder> {
 
+    private static final String TAG = SessionAdapter.class.getSimpleName();
     private Context context;
     private List<SessionModel> sessions;
 
@@ -64,8 +70,9 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         holder.sessionJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sessionInfoIntent = new Intent(context, sessionInfoActivity.class);
-                sessionInfoIntent.putExtra(context.getString(R.string.session_name), sessionModel.getName());
+                deleteFromPrevSessions(sessionModel.getName());
+                Intent sessionInfoIntent = new Intent(context, SessionInfoActivity.class);
+                sessionInfoIntent.putExtra(StringUtils.SESSION_NAME, sessionModel.getName());
                 context.startActivity(sessionInfoIntent);
             }
         });
@@ -80,4 +87,51 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         sessions = sessionModels;
         notifyDataSetChanged();
     }
+
+    /**
+     * Delete the user's id from all sessions' driver and passenger
+     * lists except for the target session
+     *
+     * @param targetSessionName name of the session to join
+     */
+    private void deleteFromPrevSessions(final String targetSessionName) {
+        FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot sessionSnapshot : dataSnapshot.getChildren()) {
+                            if (!sessionSnapshot.getKey().equals(targetSessionName)) {
+                                SessionModel session = sessionSnapshot.getValue(SessionModel.class);
+                                List<String> drivers = session.getDrivers();
+                                List<String> passengers = session.getPassengers();
+                                String UID = FirebaseUtils.getFirebaseUser().getUid();
+                                if (drivers.contains(UID)) {
+                                    drivers.remove(UID);
+                                    FirebaseUtils.getDatabase()
+                                            .child(StringUtils.FirebaseSessionEndpoint)
+                                            .child(sessionSnapshot.getKey())
+                                            .child(StringUtils.FirebaseSessionDriverEndpoint)
+                                            .setValue(drivers);
+                                    Log.v(TAG, "removed " + UID + "from drivers list in session " + session.getName());
+                                }
+                                if (passengers.contains(UID)) {
+                                    passengers.remove(UID);
+                                    FirebaseUtils.getDatabase()
+                                            .child(StringUtils.FirebaseSessionEndpoint)
+                                            .child(sessionSnapshot.getKey())
+                                            .child(StringUtils.FirebaseSessionPassengerEndpoint)
+                                            .setValue(passengers);
+                                    Log.v(TAG, "removed " + UID + "from passengers list in session " + session.getName());
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
 }

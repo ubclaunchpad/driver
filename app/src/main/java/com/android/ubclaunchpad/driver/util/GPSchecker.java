@@ -8,15 +8,16 @@ import android.location.LocationManager;
 
 public class GPSchecker {
     public LocationManager mGPSchecker;
-        public GPSchecker(LocationManager mGPSchecker){
-                this.mGPSchecker = mGPSchecker;
-           }
+
+    public GPSchecker(LocationManager mGPSchecker) {
+        this.mGPSchecker = mGPSchecker;
+    }
 
 
-                public boolean isLocationEnabled() {
-                    return mGPSchecker.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                            mGPSchecker.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            }
+    public boolean isLocationEnabled() {
+        return mGPSchecker.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                mGPSchecker.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
 
 
 }
