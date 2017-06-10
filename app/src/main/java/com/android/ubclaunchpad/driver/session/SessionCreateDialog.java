@@ -39,7 +39,7 @@ public class SessionCreateDialog extends Dialog implements android.view.View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.session_create_dialog);
+        setContentView(R.layout.dialog_session_create);
 
         mTextDescription = (EditText) findViewById(R.id.session_name);
 
