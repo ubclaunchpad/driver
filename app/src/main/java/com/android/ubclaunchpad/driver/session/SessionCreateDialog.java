@@ -108,7 +108,7 @@ public class SessionCreateDialog extends Dialog implements android.view.View.OnC
         }
     }
 
-    //
+    // takes user to sessionInfoActivity for the session they just created
     public void joinCreatedSession() {
         Intent sessionInfoIntent = new Intent(getContext(), sessionInfoActivity.class);
         sessionInfoIntent.putExtra(getContext().getString(R.string.session_name), mSessionName);

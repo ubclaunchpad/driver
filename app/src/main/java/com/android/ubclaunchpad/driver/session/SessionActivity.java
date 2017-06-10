@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 
 import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 
-
 public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
     private SessionModel mSession;
@@ -45,8 +44,8 @@ public class SessionActivity extends BaseMenuActivity {
     private String sessionName;
     private SessionCreateDialog scd;
 
-    private List<SessionModel> allSessions;
-    private List<SessionModel> sessions;
+    private List<SessionModel> allSessions = new ArrayList<>();
+    private List<SessionModel> sessions = new ArrayList<>();
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
 
@@ -55,9 +54,6 @@ public class SessionActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
         ButterKnife.bind(this);
-
-        allSessions = new ArrayList<>();
-        sessions = new ArrayList<>();
 
         mRecyclerView.setHasFixedSize(true);
 
