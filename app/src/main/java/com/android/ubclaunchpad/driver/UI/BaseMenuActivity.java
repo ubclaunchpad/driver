@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.UI;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,9 +13,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.UI.DispatchActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+// Activity that has the status bar.
+// Extend this activity if you want your Activity to have the logout menu at the top.
 public class BaseMenuActivity extends AppCompatActivity {
     private static final String TAG = BaseMenuActivity.class.getSimpleName();
 

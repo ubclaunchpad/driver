@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         LoginFragment loginFragment =
@@ -43,12 +43,12 @@ public class LoginActivity extends AppCompatActivity {
 
             locationManagerContext = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-            if(mGPSchecker == null) {
+            if (mGPSchecker == null) {
                 mGPSchecker = new GPSchecker(locationManagerContext);
-                           }
+            }
 
-            if(!mGPSchecker.isLocationEnabled()){
-                            showAlert();
+            if (!mGPSchecker.isLocationEnabled()) {
+                showAlert();
             }
         }
 
@@ -58,26 +58,26 @@ public class LoginActivity extends AppCompatActivity {
         // Context to the presenter as we want to decouple it as much as
         // possible from the Android framework.
         mLoginPresenter.setGoogleApiClient(Injection.provideGoogleApiClient(this, mLoginPresenter));
-                   }
+    }
 
 
-                public void showAlert() {
-             final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setTitle("Enable Location")
-                                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
-                                        "use this app")
-                                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
-                               @Override
-                                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                        startActivity(myIntent);
-                                    }
-                            })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                               @Override
-                                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                    }
-                            });
-              dialog.show();
+    public void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
     }
 }

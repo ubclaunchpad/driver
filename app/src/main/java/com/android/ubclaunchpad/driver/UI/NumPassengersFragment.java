@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 
 /**
  * Dialog Fragment for when users choose to be Drivers,

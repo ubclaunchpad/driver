@@ -34,27 +34,6 @@ public class HardwareUtils {
         }
         return map;
     }
-// TODO remove this method - it is only used as an example for now
-//    /**
-//     * Determines the BogoMIPS based on proc/cpuinfo from the phones stats
-//     * @return The numeric BogoMIPS value. Zero if no MIPS found
-//     */
-//    public static double getBogoMIPS(){
-//        Map<String, String> cpuInfo = getCpuInfoMap();
-//        if(cpuInfo.size() >= 0 && cpuInfo.containsKey("BogoMIPS")){
-//            try {
-//                double mips = Double.parseDouble(cpuInfo.get("BogoMIPS"));
-//                return mips;
-//            }
-//            catch (NullPointerException e){
-//                Log.e("Hardware Util", "Null error  " + e.getMessage());
-//            }
-//            catch (NumberFormatException e){
-//                Log.e("Hardware Util", "Number format error " + e.getMessage());
-//            }
-//        }
-//        return 0; //default return 0
-//    }
 
     /**
      * Determines the numeric value based on proc/cpuinfo from the phones stats

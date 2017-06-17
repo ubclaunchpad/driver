@@ -1,8 +1,9 @@
-package com.android.ubclaunchpad.driver.models;
+package com.android.ubclaunchpad.driver.session.models;
 
+import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class SessionModel {
     // location of the starting location
     private String location;
     private String name;
-
 
     public SessionModel() {
         drivers = new ArrayList<>();

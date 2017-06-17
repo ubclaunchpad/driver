@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.models.SessionModel;
+import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by sherryuan on 2017-02-18.
@@ -33,17 +36,18 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
 
     // Custom ViewHolder
     public class SessionViewHolder extends RecyclerView.ViewHolder {
-        public TextView sessionName;
-        public TextView sessionDriverInfo;
-        public TextView sessionPassengerInfo;
-        public Button sessionJoinButton;
+        @BindView(R.id.session_list_name)
+        TextView sessionName;
+        @BindView(R.id.session_driver_info)
+        TextView sessionDriverInfo;
+        @BindView(R.id.session_passenger_info)
+        TextView sessionPassengerInfo;
+        @BindView(R.id.session_join_button)
+        Button sessionJoinButton;
 
-        public SessionViewHolder(View view) {
+        SessionViewHolder(View view) {
             super(view);
-            sessionName = (TextView) view.findViewById(R.id.session_list_name);
-            sessionDriverInfo = (TextView) view.findViewById(R.id.session_driver_info);
-            sessionPassengerInfo = (TextView) view.findViewById(R.id.session_passenger_info);
-            sessionJoinButton = (Button) view.findViewById(R.id.session_join_button);
+            ButterKnife.bind(this, view);
         }
     }
 

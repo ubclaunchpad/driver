@@ -1,8 +1,7 @@
 package com.android.ubclaunchpad.driver;
 
-import com.android.ubclaunchpad.driver.models.User;
-import com.android.ubclaunchpad.driver.util.FindBestRouteAlgorithm;
-import com.android.ubclaunchpad.driver.util.UserUtils;
+import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Assert;
@@ -11,8 +10,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.android.ubclaunchpad.driver.util.UserUtils.buildDriver;
-import static com.android.ubclaunchpad.driver.util.UserUtils.buildPassenger;
+import static com.android.ubclaunchpad.driver.user.UserUtils.buildDriver;
+import static com.android.ubclaunchpad.driver.user.UserUtils.buildPassenger;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 

@@ -1,9 +1,10 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.user;
 
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.util.PreferenceHelper;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 
 /**
  * Created by kelvinchan on 2016-10-27.
@@ -65,7 +66,7 @@ public class UserManager {
     }
 
     /**
-     * Looks for the shared pref saved user and deserailizes it back into User.class
+     * Looks for the shared pref saved user and deserializes it back into User.class
      *
      * @return User
      */

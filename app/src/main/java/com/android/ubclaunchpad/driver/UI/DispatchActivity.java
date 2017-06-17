@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.ubclaunchpad.driver.login.LoginActivity;
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.PreferenceHelper;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.util.UserManager;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -48,11 +48,11 @@ public class DispatchActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
 
                     if (user != null) {
-                        //Add user to Manager
+                        // Add user to Manager
                         UserManager.getInstance().setUser(user);
 
-//                        //It is possible that shared pref is out of sync if firebase user cache is different.
-//                        //Safer option to is to re-save
+                        // It is possible that shared pref is out of sync if firebase user cache is different.
+                        // Safer option to is to re-save
                         try {
                             PreferenceHelper.getPreferenceHelperInstance().put(StringUtils.FirebaseUidKey, savedUid);
                         } catch (Exception e) {
@@ -71,9 +71,8 @@ public class DispatchActivity extends AppCompatActivity {
                     startActivity(new Intent(DispatchActivity.this, LoginActivity.class));
                 }
             });
-        }
-        //If no user is found
-        else {
+        } else {
+            // If no user is found
             startActivity(new Intent(this, LoginActivity.class));
         }
         finish();

@@ -1,8 +1,10 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.user;
 
 import android.util.Log;
 
-import com.android.ubclaunchpad.driver.models.User;
+import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.user.UserManager;
+import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

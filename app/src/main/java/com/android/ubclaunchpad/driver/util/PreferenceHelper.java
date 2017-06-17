@@ -21,8 +21,9 @@ public class PreferenceHelper {
      */
     public static PreferenceHelper initInstance(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        if (preferenceHelperInstance == null)
+        if (preferenceHelperInstance == null) {
             preferenceHelperInstance = new PreferenceHelper();
+        }
         return preferenceHelperInstance;
     }
 
@@ -45,8 +46,8 @@ public class PreferenceHelper {
     private PreferenceHelper() {
     }
 
-    /*
-        Put methods are to write to shared pref
+    /**
+     * Put methods are to write to shared pref
      */
     public void put(String key, String val) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -78,8 +79,8 @@ public class PreferenceHelper {
         editor.apply();
     }
 
-    /*
-        Get methods to retrieve from shared pref
+    /**
+     * Get methods to retrieve from shared pref
      */
 
     public String getString(String key, String def) {
