@@ -138,16 +138,19 @@ public class DestinationActivity extends BaseMenuActivity {
 
     public void useCurrentLocation(View view) {
         try {
+            //get last cached location
             locn = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+            //If not found, try to request a gps update and set it
             if (locn == null) {
                 myLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                locn = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
 
+            //Get user and save current lat lng
             User user = UserManager.getInstance().getUser();
             user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(locn.getLatitude(), locn.getLongitude())));
-            
+
+            //Firebase user id and save location to firebase
             String uid = FirebaseUtils.getFirebaseUser().getUid();
             mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child("currentLatLngStr").setValue(user.currentLatLngStr);
         } catch (SecurityException e) {
