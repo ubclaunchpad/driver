@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SessionInfoActivity extends AppCompatActivity {
 
@@ -171,6 +172,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                 List<User> users = retrieveUsersFromSession();
                 LatLng startLocation = retrieveStartLocation();
                 FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(startLocation);
+                Map<User, List<User>> drivers = algorithm.findBestRoute(users);
             }
         });
     }
@@ -268,6 +270,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         });
         return users;
     }
+
     /**
      * Get the start location for the current session
      * @return LatLng of the location of the start

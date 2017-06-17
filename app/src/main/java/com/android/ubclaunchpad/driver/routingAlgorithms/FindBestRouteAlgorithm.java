@@ -56,7 +56,7 @@ public class FindBestRouteAlgorithm {
      * @return a list of routes for each driver
      */
 
-    public List<User> findBestRoute(List<User> users) {
+    public Map<User, List<User>> findBestRoute(List<User> users) {
         sortUsers(users);
         // Map<Passenger, Map<Driver, Distance>>
         Map<User, Map<User, Double>> distanceMaps = new HashMap<>();
@@ -85,7 +85,20 @@ public class FindBestRouteAlgorithm {
         }
         assignPassengersToDrivers(distanceMaps);
 
-        return drivers;
+        // Map<Driver, Passengers>
+        Map<User, List<User>> driverPassengersMap = new HashMap<>();
+
+        for (User driver: drivers) {
+
+            List<User> passengers = new ArrayList<>();
+            driverPassengersMap.put(driver, passengers);
+
+            for (User passenger : driver.getPassengers()) {
+                passengers.add(passenger);
+            }
+        }
+
+        return driverPassengersMap;
     }
 
     /**
