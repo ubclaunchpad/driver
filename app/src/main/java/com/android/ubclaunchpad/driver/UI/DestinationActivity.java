@@ -43,6 +43,9 @@ public class DestinationActivity extends BaseMenuActivity {
     @BindView(R.id.okButton)
     Button okButton;
 
+    DatabaseReference mDatabase;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //check for permission
@@ -58,7 +61,7 @@ public class DestinationActivity extends BaseMenuActivity {
         myLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
 
         try {
@@ -139,13 +142,14 @@ public class DestinationActivity extends BaseMenuActivity {
 
             if (locn == null) {
                 myLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locn = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
 
             User user = UserManager.getInstance().getUser();
             user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(locn.getLatitude(), locn.getLongitude())));
-
-
-            //TODO locn has lat/lan, need to save this to firebase and UserManager?
+            
+            String uid = FirebaseUtils.getFirebaseUser().getUid();
+            mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child("currentLatLngStr").setValue(user.currentLatLngStr);
         } catch (SecurityException e) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
         } catch (Exception e) {
