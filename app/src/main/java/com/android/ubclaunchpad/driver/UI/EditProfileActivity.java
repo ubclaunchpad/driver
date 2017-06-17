@@ -1,9 +1,7 @@
 package com.android.ubclaunchpad.driver.UI;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +15,6 @@ import com.android.ubclaunchpad.driver.util.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends BaseMenuActivity {
 
@@ -32,8 +28,8 @@ public class EditProfileActivity extends BaseMenuActivity {
     private EditText passwordEditText;
 
 
-    // TODO Need to add reauthentication somewhere before letting the user update their profile
-    // TODO update UI
+    // TODO Need to add reauthentication fragment
+    // TODO update UI - add fields, get rid of edit profile option
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
