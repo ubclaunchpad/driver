@@ -61,10 +61,6 @@ public class User {
         return gson.fromJson(json, User.class);
     }
 
-    public int getNumFreeSeats() {
-        return seatNum - passengers.size();
-    }
-
     public String serializeUser() {
         Gson gson = new Gson();
         return gson.toJson(this);

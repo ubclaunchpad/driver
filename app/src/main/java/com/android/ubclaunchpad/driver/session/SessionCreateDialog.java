@@ -2,6 +2,7 @@ package com.android.ubclaunchpad.driver.session;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * Created by Marina on 10/22/16.
  */
-public class SessionCreateDialog extends Dialog implements
-        android.view.View.OnClickListener {
+public class SessionCreateDialog extends Dialog implements android.view.View.OnClickListener {
 
     public Activity mActivity;
     public Button okButton, cancelButton;
@@ -77,7 +77,9 @@ public class SessionCreateDialog extends Dialog implements
                             } else {
                                 createSession();
                                 Toast.makeText(getContext(), "session created", Toast.LENGTH_LONG).show();
-                                mActivity.finish();
+                                // dismisses the Dialog
+                                dismiss();
+                                joinCreatedSession();
                             }
                         }
 
@@ -103,6 +105,13 @@ public class SessionCreateDialog extends Dialog implements
         if (FirebaseUtils.getDatabase() != null) {
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseSessionEndpoint).child(mSessionName).setValue(mSessionModel);
         }
+    }
+
+    // takes user to sessionInfoActivity for the session they just created
+    public void joinCreatedSession() {
+        Intent sessionInfoIntent = new Intent(getContext(), SessionInfoActivity.class);
+        sessionInfoIntent.putExtra(StringUtils.SESSION_NAME, mSessionName);
+        getContext().startActivity(sessionInfoIntent);
     }
 }
 

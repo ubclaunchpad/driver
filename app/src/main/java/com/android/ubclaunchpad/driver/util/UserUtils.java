@@ -23,6 +23,10 @@ public class UserUtils {
         return driver;
     }
 
+    public static int getNumFreeSeats(User user) {
+        return user.getSeatNum() - user.getPassengers().size();
+    }
+
     public static User buildPassenger(String name, String destination) {
         User passenger = new User();
         passenger.setName(name);
