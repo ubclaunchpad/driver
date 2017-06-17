@@ -23,6 +23,10 @@ public class SessionModel {
     private String location;
     private String name;
 
+    // the person who runs the algorithm
+    private String sessionHostUid;
+
+
     public SessionModel() {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
@@ -59,6 +63,10 @@ public class SessionModel {
         this.name = name;
     }
 
+    public void setSessionHostUid(String sessionHostUid) {
+        this.sessionHostUid = sessionHostUid;
+    }
+
     public List<String> getDrivers() {
         return drivers;
     }
@@ -75,6 +83,10 @@ public class SessionModel {
         return name;
     }
 
+    public String getSessionHostUid() {
+        return sessionHostUid;
+    }
+
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
     // other than the creator lists are empty, and latlng should be calculated based on creator's location
@@ -88,7 +100,9 @@ public class SessionModel {
 
             String uid = FirebaseUtils.getFirebaseUser().getUid();
 
+            sessionModel.setSessionHostUid(uid);
             if (user.getIsDriver()) {
+
                 sessionModel.addDriver(uid);
             } else {
                 sessionModel.addPassenger(uid);
