@@ -6,6 +6,7 @@ package com.android.ubclaunchpad.driver.routingAlgorithms;
 
 
 import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.user.UserUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -38,7 +39,7 @@ public class FindBestRouteAlgorithm {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         for (User user : users) {
-            if (user.isDriver()) {
+            if (user.getIsDriver()) {
                 drivers.add(user);
             } else {
                 passengers.add(user);

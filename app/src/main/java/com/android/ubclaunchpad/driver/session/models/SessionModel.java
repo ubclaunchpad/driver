@@ -88,7 +88,7 @@ public class SessionModel {
 
             String uid = FirebaseUtils.getFirebaseUser().getUid();
 
-            if (user.isDriver()) {
+            if (user.getIsDriver()) {
                 sessionModel.addDriver(uid);
             } else {
                 sessionModel.addPassenger(uid);
