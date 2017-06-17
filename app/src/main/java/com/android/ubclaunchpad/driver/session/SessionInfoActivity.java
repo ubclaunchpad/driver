@@ -1,19 +1,29 @@
 package com.android.ubclaunchpad.driver.session;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+
+import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.user.UserManager;
+
+
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SessionInfoActivity extends AppCompatActivity {
 
@@ -28,6 +39,7 @@ public class SessionInfoActivity extends AppCompatActivity {
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
     final ArrayList<String> itemsArray = new ArrayList<String>();
+    private DatabaseReference session;
     // private DatabaseReference mDatabase;
 
     @Override
@@ -41,14 +53,29 @@ public class SessionInfoActivity extends AppCompatActivity {
         final String sessionName = getIntent().getStringExtra(StringUtils.SESSION_NAME);
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
-
-        final DatabaseReference session = FirebaseUtils.getDatabase()
+        final Button goButton = (Button) findViewById(R.id.go_Button);
+        session = FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
         final String UID = FirebaseUtils.getFirebaseUser().getUid();
         final User currentUser;
         try {
             currentUser = UserManager.getInstance().getUser();
+
+            session.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String uid = dataSnapshot.child("sessionHostUid").getValue(String.class);
+                    if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                        Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
+                        goButton.setVisibility(View.VISIBLE);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
             //add current user's UID to the current session's driver or passenger list
             session.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -137,9 +164,17 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                     }
                 });
-
-
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Starting the goddamn algorithm
+                List<User> users = retrieveUsersFromSession();
+                LatLng startLocation = retrieveStartLocation();
+                FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(startLocation);
+            }
+        });
     }
+
 
     private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
         FirebaseUtils.getDatabase()
@@ -184,5 +219,74 @@ public class SessionInfoActivity extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+
+    /**
+     * Retrieve all drivers and passengers from the current session
+     * @return ArrayList of all Users in the current session
+     */
+    private List<User> retrieveUsersFromSession() {
+        final List<User> users = new ArrayList<>();
+        final DatabaseReference usersReference = FirebaseUtils.getDatabase().child("Users");
+        // Getting reference to the users in Firebase
+        usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshotUsers) {
+                // Getting reference to the drivers in current session
+                session.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotDrivers) {
+                        for (DataSnapshot driver : dataSnapshotDrivers.child("drivers").getChildren()) {
+                            String driverUid = driver.getValue(String.class);
+                            User uDriver = dataSnapshotUsers.child(driverUid).getValue(User.class);
+                            uDriver.setIsDriver(true);
+                            users.add(uDriver);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                // Getting reference to the passengers in current session
+                session.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotDrivers) {
+                        for (DataSnapshot driver : dataSnapshotDrivers.child("passengers").getChildren()) {
+                            String passengerUid = driver.getValue(String.class);
+                            User uPassenger = dataSnapshotUsers.child(passengerUid).getValue(User.class);
+                            users.add(uPassenger);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return users;
+    }
+    /**
+     * Get the start location for the current session
+     * @return LatLng of the location of the start
+     */
+    private LatLng retrieveStartLocation() {
+        // It is so ugly for a reason
+        final Location startLocation = new Location("");
+        session.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String location = dataSnapshot.child("location").getValue(String.class);
+                LatLng data = StringUtils.stringToLatLng(location);
+                startLocation.setLatitude(data.latitude);
+                startLocation.setLongitude(data.longitude);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        return new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
     }
 }
