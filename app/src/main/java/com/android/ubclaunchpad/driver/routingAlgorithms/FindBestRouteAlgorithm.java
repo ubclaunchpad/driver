@@ -6,6 +6,7 @@ package com.android.ubclaunchpad.driver.routingAlgorithms;
 
 
 import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.user.UserUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 

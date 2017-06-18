@@ -61,6 +61,8 @@ dependencies {
 
     //OkHttp for http web requests
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+    compile 'biz.kasual:materialnumberpicker:1.2.1'
 }
 
 
