@@ -36,7 +36,14 @@ import butterknife.ButterKnife;
  * This activity asks the user where is the destination and goes to the passenger/driver
  * screen when "ok" is clicked on
  */
-public class DestinationActivity extends BaseMenuActivity {
+public class DestinationActivity extends BaseMenuActivity implements LocationListener {
+    LocationManager mLocationManager;
+    Location mLocation;
+    // keeps track of whether or not we saved the location after the user requested it
+    boolean shouldSaveLocation = false;
+
+    //an int used to check and request permission for the app to access the user's location
+    private final static int PERMISSION_REQUEST_FINE = 105;
     private final static String TAG = DestinationActivity.class.getSimpleName();
     private static boolean permission;
 
@@ -44,7 +51,6 @@ public class DestinationActivity extends BaseMenuActivity {
     Button okButton;
 
     DatabaseReference mDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +64,8 @@ public class DestinationActivity extends BaseMenuActivity {
         setContentView(R.layout.activity_destination);
         ButterKnife.bind(this);
 
-        myLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         User user;
 
@@ -137,42 +142,48 @@ public class DestinationActivity extends BaseMenuActivity {
     }
 
     public void useCurrentLocation(View view) {
+        // this means the user clicked the use current location button,
+        // and wants the location to be saved again, so we'll set shouldSaveLocation to true
+        shouldSaveLocation = true;
         try {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             //get last cached location
-            locn = myLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             //If not found, try to request a gps update and set it
-            if (locn == null) {
-                myLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            if (mLocation != null) {
+                saveCurrentLocationToFirebase();
             }
 
+        } catch (SecurityException e) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
+        }
+    }
+
+    public void saveCurrentLocationToFirebase() {
+        try {
             //Get user and save current lat lng
             User user = UserManager.getInstance().getUser();
-            user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(locn.getLatitude(), locn.getLongitude())));
+            user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));
 
             //Firebase user id and save location to firebase
             String uid = FirebaseUtils.getFirebaseUser().getUid();
-            mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child("currentLatLngStr").setValue(user.currentLatLngStr);
-        } catch (SecurityException e) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
+            mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.FirebaseCurrentLatLngStr).setValue(user.currentLatLngStr);
+            // we just saved the location, so even if the location changes
+            // we shouldn't update it unless the user taps "Use Current Location" again
+            shouldSaveLocation = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     @Override
     public void onLocationChanged(Location location) {
-        try {
-            locn = location;
-
-            myLocationManager.removeUpdates(this);
-        }
-        catch (SecurityException e){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
+        mLocation = location;
+        if (shouldSaveLocation) {
+            saveCurrentLocationToFirebase();
         }
     }
-
 
 
     @Override
@@ -211,12 +222,8 @@ public class DestinationActivity extends BaseMenuActivity {
                 return;
                 }
 
-                // other 'case' lines to check for other
-                // permissions this app might request
-            }
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
-
-
-
-
+}
