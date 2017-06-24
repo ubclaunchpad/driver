@@ -1,8 +1,7 @@
 package com.android.ubclaunchpad.driver.session;
 
-import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,18 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-
 import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.user.UserManager;
-
-
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,6 +67,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                         goButton.setVisibility(View.VISIBLE);
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
@@ -222,9 +217,9 @@ public class SessionInfoActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Retrieve all drivers and passengers from the current session
+     *
      * @return ArrayList of all Users in the current session
      */
     private void setDriverPassengers() {
@@ -272,11 +267,13 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                         session.child("driverPassengers").updateChildren(driverPassengers);
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
