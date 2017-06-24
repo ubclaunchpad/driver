@@ -39,6 +39,8 @@ import butterknife.ButterKnife;
 public class DestinationActivity extends BaseMenuActivity implements LocationListener {
     LocationManager mLocationManager;
     Location mLocation;
+    PlaceAutocompleteFragment currentAutoCompleteFragment;
+    PlaceAutocompleteFragment destinationAutocompleteFragment;
     // keeps track of whether or not we saved the location after the user requested it
     boolean shouldSaveLocation = false;
 
@@ -82,8 +84,11 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
         }
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        currentAutoCompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.current_autocomplete_fragment);
+
+        destinationAutocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             }
         });
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        destinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
@@ -153,6 +158,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             //If not found, try to request a gps update and set it
             if (mLocation != null) {
                 saveCurrentLocationToFirebase();
+                currentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
             }
 
         } catch (SecurityException e) {
