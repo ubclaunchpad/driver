@@ -24,10 +24,11 @@ public class SessionModel {
     private String location;
     private String name;
 
+    private Map<String, List<String>> driverPassengers;
+
     // the person who runs the algorithm
     private String sessionHostUid;
-    
-    private Map<String, List<String>> driverPassengers;
+
 
     public SessionModel() {
         drivers = new ArrayList<>();
@@ -39,6 +40,7 @@ public class SessionModel {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         this.location = StringUtils.latLngToString(latLng);
+
     }
 
     public void setDrivers(List<String> drivers) {
@@ -57,6 +59,10 @@ public class SessionModel {
         this.passengers.add(passenger);
     }
 
+    public void setSessionHostUid(String sessionHostUid) {
+        this.sessionHostUid = sessionHostUid;
+    }
+
     public void setLocation(String latLngString) {
         this.location = latLngString;
     }
@@ -67,10 +73,6 @@ public class SessionModel {
 
     public void setDriverPassengers(Map<String, List<String>> driverPassengers) {
         this.driverPassengers = driverPassengers;
-    }
-
-    public void setSessionHostUid(String sessionHostUid) {
-        this.sessionHostUid = sessionHostUid;
     }
 
     public List<String> getDrivers() {
@@ -109,10 +111,10 @@ public class SessionModel {
             User user = UserManager.getInstance().getUser();
 
             String uid = FirebaseUtils.getFirebaseUser().getUid();
-
             sessionModel.setSessionHostUid(uid);
-            if (user.getIsDriver()) {
 
+            if (user.getIsDriver()) {
+                sessionModel.setSessionHostUid(uid);
                 sessionModel.addDriver(uid);
             } else {
                 sessionModel.addPassenger(uid);
