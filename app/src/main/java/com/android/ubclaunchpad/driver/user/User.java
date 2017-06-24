@@ -50,7 +50,7 @@ public class User {
         this.seatNum = another.getSeatNum();
         this.destinationLatLngStr = another.getDestinationLatLngStr();
         this.currentLatLngStr = another.getCurrentLatLngStr();
-        this.isDriver = another.isDriver();
+        this.isDriver = another.getIsDriver();
         this.passengers = another.getPassengers();
     }
 
@@ -122,7 +122,7 @@ public class User {
      * A bunch of getter methods
      */
 
-    public Boolean isDriver() {
+    public Boolean getIsDriver() {
         return isDriver;
     }
 
