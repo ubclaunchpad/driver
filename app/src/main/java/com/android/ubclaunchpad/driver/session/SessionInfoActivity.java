@@ -55,6 +55,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
         final Button goButton = (Button) findViewById(R.id.go_Button);
+        goButton.setVisibility(View.INVISIBLE);
         session = FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
@@ -169,10 +170,7 @@ public class SessionInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Starting the goddamn algorithm
-                List<User> users = retrieveUsersFromSession();
-                LatLng startLocation = retrieveStartLocation();
-                FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(startLocation);
-                Map<User, List<User>> drivers = algorithm.findBestRoute(users);
+                setDriverPassengers();
             }
         });
     }
@@ -223,13 +221,17 @@ public class SessionInfoActivity extends AppCompatActivity {
                 });
     }
 
+
+
     /**
      * Retrieve all drivers and passengers from the current session
      * @return ArrayList of all Users in the current session
      */
-    private List<User> retrieveUsersFromSession() {
+    private void setDriverPassengers() {
+
         final List<User> users = new ArrayList<>();
-        final DatabaseReference usersReference = FirebaseUtils.getDatabase().child("Users");
+
+        DatabaseReference usersReference = FirebaseUtils.getDatabase().child("Users");
         // Getting reference to the users in Firebase
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -237,27 +239,38 @@ public class SessionInfoActivity extends AppCompatActivity {
                 // Getting reference to the drivers in current session
                 session.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshotDrivers) {
-                        for (DataSnapshot driver : dataSnapshotDrivers.child("drivers").getChildren()) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        DataSnapshot dataSnapshotDrivers = dataSnapshot.child("drivers");
+                        System.out.println(dataSnapshotDrivers.getChildrenCount());
+
+                        for (DataSnapshot driver : dataSnapshotDrivers.getChildren()) {
                             String driverUid = driver.getValue(String.class);
+
                             User uDriver = dataSnapshotUsers.child(driverUid).getValue(User.class);
                             uDriver.setIsDriver(true);
+                            uDriver.setUserUid(driverUid);
+                            System.out.println(uDriver.name);
                             users.add(uDriver);
                         }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                // Getting reference to the passengers in current session
-                session.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshotDrivers) {
-                        for (DataSnapshot driver : dataSnapshotDrivers.child("passengers").getChildren()) {
-                            String passengerUid = driver.getValue(String.class);
+                        DataSnapshot dataSnapshotPassengers = dataSnapshot.child("passengers");
+                        for (DataSnapshot passenger : dataSnapshotPassengers.getChildren()) {
+                            String passengerUid = passenger.getValue(String.class);
                             User uPassenger = dataSnapshotUsers.child(passengerUid).getValue(User.class);
+                            uPassenger.setUserUid(passengerUid);
                             users.add(uPassenger);
+
                         }
+
+                        String locStr = dataSnapshot.child("location").getValue(String.class);
+                        LatLng location = StringUtils.stringToLatLng(locStr);
+
+                        System.out.println(users.size());
+                        FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(location);
+                        Map<String, Object> driverPassengers = algorithm.findBestRoute(users);
+                        System.out.println(driverPassengers.size());
+
+                        session.child("driverPassengers").updateChildren(driverPassengers);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -268,28 +281,5 @@ public class SessionInfoActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        return users;
-    }
-
-    /**
-     * Get the start location for the current session
-     * @return LatLng of the location of the start
-     */
-    private LatLng retrieveStartLocation() {
-        // It is so ugly for a reason
-        final Location startLocation = new Location("");
-        session.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String location = dataSnapshot.child("location").getValue(String.class);
-                LatLng data = StringUtils.stringToLatLng(location);
-                startLocation.setLatitude(data.latitude);
-                startLocation.setLongitude(data.longitude);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        return new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
     }
 }

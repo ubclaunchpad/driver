@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sherryuan on 2017-02-04.
@@ -25,7 +26,8 @@ public class SessionModel {
 
     // the person who runs the algorithm
     private String sessionHostUid;
-
+    
+    private Map<User, List<User>> driverPassengers;
 
     public SessionModel() {
         drivers = new ArrayList<>();
@@ -63,6 +65,10 @@ public class SessionModel {
         this.name = name;
     }
 
+    public void setDriverPassengers(Map<User, List<User>> driverPassengers) {
+        this.driverPassengers = driverPassengers;
+    }
+
     public void setSessionHostUid(String sessionHostUid) {
         this.sessionHostUid = sessionHostUid;
     }
@@ -85,6 +91,10 @@ public class SessionModel {
 
     public String getSessionHostUid() {
         return sessionHostUid;
+    }
+
+    public Map<User, List<User>> getDriverPassengers() {
+        return driverPassengers;
     }
 
     // creates new Session with the creator in the drivers list if they're a driver
