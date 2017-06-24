@@ -89,7 +89,6 @@ public class NumPassengersFragment extends DialogFragment {
             }
         });
 
-
         AlertDialog alert = builder.create();
         alert.show();
 
