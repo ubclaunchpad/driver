@@ -39,7 +39,7 @@ public class FindBestRouteAlgorithm {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         for (User user : users) {
-            if (user.isDriver()) {
+            if (user.getIsDriver()) {
                 drivers.add(user);
             } else {
                 passengers.add(user);
