@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +23,6 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -191,7 +188,6 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
         }
     }
 
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -218,15 +214,13 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
                 }
-
-                else {
-
-                        // permission denied, boo! Disable the
-                        // functionality that depends on this permission.
-                    }
                 return;
-                }
+            }
 
             // other 'case' lines to check for other
             // permissions this app might request
