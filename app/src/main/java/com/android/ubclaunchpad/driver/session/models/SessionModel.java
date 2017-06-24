@@ -27,7 +27,7 @@ public class SessionModel {
     // the person who runs the algorithm
     private String sessionHostUid;
     
-    private Map<User, List<User>> driverPassengers;
+    private Map<String, List<String>> driverPassengers;
 
     public SessionModel() {
         drivers = new ArrayList<>();
@@ -65,7 +65,7 @@ public class SessionModel {
         this.name = name;
     }
 
-    public void setDriverPassengers(Map<User, List<User>> driverPassengers) {
+    public void setDriverPassengers(Map<String, List<String>> driverPassengers) {
         this.driverPassengers = driverPassengers;
     }
 
@@ -93,7 +93,7 @@ public class SessionModel {
         return sessionHostUid;
     }
 
-    public Map<User, List<User>> getDriverPassengers() {
+    public Map<String, List<String>> getDriverPassengers() {
         return driverPassengers;
     }
 
