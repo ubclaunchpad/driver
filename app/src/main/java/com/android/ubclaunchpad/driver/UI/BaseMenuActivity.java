@@ -31,6 +31,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    // ActionBar menu item options
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -38,9 +39,11 @@ public class BaseMenuActivity extends AppCompatActivity {
                 new AlertDialogFragment().show(getFragmentManager(), "signOutAlertDialog");
                 return true;
 
+            // this starts the EditProfileACtivity
             case R.id.action_edit_profile:
                 Log.v(TAG, "editing profile");
-                Toast.makeText(getApplicationContext(), "editing profile", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, EditProfileActivity.class);
+                startActivity(intent);
                 return true;
 
             default:
