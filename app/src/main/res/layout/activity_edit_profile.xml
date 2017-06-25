@@ -13,8 +13,20 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:text="UPDATE YOUR PROFILE SETTINGS"
+        android:textColor="@android:color/white"/>
+
+    <!-- Name related fields -->
+    <TextView
+        android:id="@+id/name_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/update_settings"
+        android:text="NAME"
         android:textColor="@android:color/white"/>
 
     <EditText
@@ -23,8 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
 
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/update_settings"
+        android:layout_below="@id/name_field"
         android:text="Miley Cyrus"
         android:textColor="@android:color/white"/>
 
@@ -39,6 +50,18 @@
         android:text="confirm"/>
 
 
+    <!-- Email related fields -->
+    <TextView
+        android:id="@+id/email_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/name_update_button"
+        android:text="EMAIL"
+        android:textColor="@android:color/white"/>
+
     <EditText
         android:id="@+id/profile_email"
         android:layout_centerHorizontal="true"
@@ -46,8 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/name_update_button"
+        android:layout_below="@id/email_field"
         android:text="testing@gmail.com"
         android:textColor="@android:color/white"/>
 
@@ -61,7 +83,17 @@
         android:layout_below="@id/profile_email"
         android:text="confirm"/>
 
+    <!-- Password related fields -->
+    <TextView
+        android:id="@+id/password_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/email_update_button"
+        android:text="PASSWORD"
+        android:textColor="@android:color/white"/>
 
     <EditText
         android:id="@+id/profile_password"
@@ -70,8 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/email_update_button"
+        android:layout_below="@id/password_field"
         android:inputType="textPassword"
         android:text="password"
         android:textColor="@android:color/white"/>
@@ -85,7 +116,5 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/profile_password"
         android:text="confirm"/>
-
-
 
 </RelativeLayout>
