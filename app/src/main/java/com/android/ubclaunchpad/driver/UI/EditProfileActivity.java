@@ -26,11 +26,7 @@ public class EditProfileActivity extends BaseMenuActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
 
-
-    // TODO Need to add reauthentication fragment
-
-    // method for hiding the EditProfile option from the menu
-    // since we are already in the  EditProfileActivity
+    // this method hides "edit profile" option from the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -89,8 +85,7 @@ public class EditProfileActivity extends BaseMenuActivity {
         });
     }
 
-    // takes the text in the EditText and updates Firebase
-    // email needs to be updated in 3 places: UserManager, FirebaseAuth, and Firebase database
+    // email updated in 3 places: UserManager, FirebaseAuth, and Firebase database
     private void updateEmail(){
         String email = emailEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseUser();
@@ -121,8 +116,7 @@ public class EditProfileActivity extends BaseMenuActivity {
         }
     }
 
-    // takes the text in EditText for name and updates Firebase
-    // name needs to be updated in 2 places: user manager, and firebase database
+    // name updated in 2 places: user manager, and firebase database
     private void updateName(){
         String name = nameEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseUser();
@@ -141,8 +135,7 @@ public class EditProfileActivity extends BaseMenuActivity {
         }
     }
 
-    // takes the text in EditText for password and updates Firebase
-    // password only needs to be updated in Firebase authentication
+    // password updated only in Firebase authentication
     private void updatePassword(){
         String newPassword = passwordEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseAuth().getCurrentUser();

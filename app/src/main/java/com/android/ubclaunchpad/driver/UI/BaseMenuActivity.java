@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +40,10 @@ public class BaseMenuActivity extends AppCompatActivity {
                 new AlertDialogFragment().show(getFragmentManager(), "signOutAlertDialog");
                 return true;
 
-            // this starts the EditProfileACtivity
             case R.id.action_edit_profile:
                 Log.v(TAG, "editing profile");
+
+                // TODO reauthenticate before starting EditProfileActivity
                 Intent intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
                 return true;
