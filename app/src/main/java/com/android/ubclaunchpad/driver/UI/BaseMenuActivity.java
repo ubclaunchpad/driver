@@ -3,17 +3,13 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.android.ubclaunchpad.driver.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +39,6 @@ public class BaseMenuActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_edit_profile:
-                Log.v(TAG, "editing profile");
                 ReauthenticationFragment rf = new ReauthenticationFragment();
                 rf.show(getFragmentManager(), "reauthenticationDialog");
                 return true;
