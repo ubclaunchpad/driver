@@ -12,6 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ReauthenticationFragment extends DialogFragment {
 
@@ -42,17 +48,29 @@ public class ReauthenticationFragment extends DialogFragment {
                 if(email.isEmpty() || password.isEmpty()){
                     Toast.makeText(getActivity(), "Fields cannot be empty", Toast.LENGTH_SHORT).show();
                 }else{
-                    // TODO try authentication with email and password
+                    FirebaseUser user = FirebaseUtils.getFirebaseUser();
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(email, password);
 
-                    if(true) { // successful -> dismiss dialog and start EditProfile activity
-                        dialog.dismiss();
-                        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+                    user.reauthenticate(credential)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                // if authentication is successful, start EditProfile activity
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                        dialog.dismiss();
+                                        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                        startActivity(intent);
-                    } else { // unsuccessful -> error message
-                        Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
-                    }
+                                        Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                                        startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                // if authentication is unsuccessful, display error message
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "Incorrect email or password", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
