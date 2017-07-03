@@ -4,8 +4,6 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -51,15 +49,18 @@ public class NumPassengersFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomizedDialogStyle);
 
         builder.setView(rootView);
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+
+        Button negButton = (Button) rootView.findViewById(R.id.neg_button);
+        negButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                dismiss();
             }
         });
-        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        Button posButton = (Button) rootView.findViewById(R.id.pos_button);
+        posButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View v) {
                 int numPassengers = numPassengerPick.getValue();
                 try {
                     UserManager.getInstance().getUser().setSeatNum(numPassengers);
@@ -84,19 +85,12 @@ public class NumPassengersFragment extends DialogFragment {
 
                 // TODO: at this point, value chosen by user should be saved in the User object
                 // that is accessible everywhere in the app.
+                dismiss();
             }
         });
 
         AlertDialog alert = builder.create();
         alert.show();
-
-        Button NegativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        NegativeButton.setBackgroundColor(Color.parseColor("#5c505c"));
-        NegativeButton.setTextColor(Color.WHITE);
-
-        Button PositiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        PositiveButton.setBackgroundColor(Color.parseColor("#5c505c"));
-        PositiveButton.setTextColor(Color.WHITE);
 
         return alert;
     }
