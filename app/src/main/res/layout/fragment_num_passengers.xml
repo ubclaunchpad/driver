@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:background="#171618"
     android:orientation="vertical"
-    android:paddingBottom="120dp"
+
     android:paddingTop="80dp"
-    android:weightSum="1"
+
     tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment">
 
 
@@ -22,17 +23,48 @@
         android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffff"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="normal|bold" />
 
-    <NumberPicker
-
+    <biz.kasual.materialnumberpicker.MaterialNumberPicker
         android:id="@+id/num_passenger_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_gravity="center"
-        android:background="@drawable/gradient" />
+        android:layout_gravity="center_horizontal"
+        app:npBackgroundColor="#171618"
+        app:npSeparatorColor="#cf70a4"
+        app:npTextColor="#ffff"
+        app:npTextSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/neg_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="CANCEL"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/pos_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="OK"
+            android:textColor="#fff" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
