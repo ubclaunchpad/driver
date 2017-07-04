@@ -1,4 +1,4 @@
-package com.android.ubclaunchpad.driver.util;
+package com.android.ubclaunchpad.driver.network;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +23,7 @@ public class NetworkUtils {
     private NetworkUtils networkUtils;
     private OkHttpClient client;
 
-    private NetworkUtils() {
+    public NetworkUtils() {
         client = new OkHttpClient();
     }
 
