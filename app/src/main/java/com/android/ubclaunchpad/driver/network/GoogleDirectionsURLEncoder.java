@@ -1,16 +1,11 @@
 package com.android.ubclaunchpad.driver.network;
 
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by sherryuan on 2017-07-03.
  */
-public class GoogleDirectionsApi {
+public class GoogleDirectionsURLEncoder {
 
     // base URL for launching an Intent to the Google Maps app
     // https://developers.google.com/maps/documentation/urls/guide
