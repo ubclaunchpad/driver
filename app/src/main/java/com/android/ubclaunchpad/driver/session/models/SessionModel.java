@@ -40,7 +40,6 @@ public class SessionModel {
         drivers = new ArrayList<>();
         passengers = new ArrayList<>();
         this.location = StringUtils.latLngToString(latLng);
-
     }
 
     public void setDrivers(List<String> drivers) {
@@ -114,7 +113,6 @@ public class SessionModel {
             sessionModel.setSessionHostUid(uid);
 
             if (user.getIsDriver()) {
-                sessionModel.setSessionHostUid(uid);
                 sessionModel.addDriver(uid);
             } else {
                 sessionModel.addPassenger(uid);

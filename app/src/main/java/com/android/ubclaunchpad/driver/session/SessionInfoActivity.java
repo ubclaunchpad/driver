@@ -61,7 +61,7 @@ public class SessionInfoActivity extends AppCompatActivity {
             session.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String uid = dataSnapshot.child("sessionHostUid").getValue(String.class);
+                    String uid = dataSnapshot.child(StringUtils.FirebaseSessionHostUid).getValue(String.class);
                     if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
                         Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
                         goButton.setVisibility(View.VISIBLE);
@@ -170,7 +170,6 @@ public class SessionInfoActivity extends AppCompatActivity {
         });
     }
 
-
     private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
         FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseUserEndpoint)
@@ -216,11 +215,8 @@ public class SessionInfoActivity extends AppCompatActivity {
                 });
     }
 
-
     /**
      * Retrieve all drivers and passengers from the current session
-     *
-     * @return ArrayList of all Users in the current session
      */
     private void setDriverPassengers() {
 
@@ -236,8 +232,8 @@ public class SessionInfoActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        DataSnapshot dataSnapshotDrivers = dataSnapshot.child("drivers");
-                        System.out.println(dataSnapshotDrivers.getChildrenCount());
+                        DataSnapshot dataSnapshotDrivers = dataSnapshot.child(StringUtils.FirebaseSessionDriverEndpoint);
+
 
                         for (DataSnapshot driver : dataSnapshotDrivers.getChildren()) {
                             String driverUid = driver.getValue(String.class);
@@ -245,10 +241,9 @@ public class SessionInfoActivity extends AppCompatActivity {
                             User uDriver = dataSnapshotUsers.child(driverUid).getValue(User.class);
                             uDriver.setIsDriver(true);
                             uDriver.setUserUid(driverUid);
-                            System.out.println(uDriver.name);
                             users.add(uDriver);
                         }
-                        DataSnapshot dataSnapshotPassengers = dataSnapshot.child("passengers");
+                        DataSnapshot dataSnapshotPassengers = dataSnapshot.child(StringUtils.FirebaseSessionPassengerEndpoint);
                         for (DataSnapshot passenger : dataSnapshotPassengers.getChildren()) {
                             String passengerUid = passenger.getValue(String.class);
                             User uPassenger = dataSnapshotUsers.child(passengerUid).getValue(User.class);
@@ -260,12 +255,11 @@ public class SessionInfoActivity extends AppCompatActivity {
                         String locStr = dataSnapshot.child("location").getValue(String.class);
                         LatLng location = StringUtils.stringToLatLng(locStr);
 
-                        System.out.println(users.size());
+
                         FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(location);
                         Map<String, Object> driverPassengers = algorithm.findBestRoute(users);
-                        System.out.println(driverPassengers.size());
 
-                        session.child("driverPassengers").updateChildren(driverPassengers);
+                        session.child(StringUtils.FirebaseSessionDriverPassengers).updateChildren(driverPassengers);
                     }
 
                     @Override
