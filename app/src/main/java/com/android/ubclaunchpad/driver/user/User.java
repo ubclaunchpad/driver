@@ -42,7 +42,8 @@ public class User {
         this.destinationLatLngStr = "";
         this.currentLatLngStr = "";
         isDriver = false;
-        seatNum = null;
+        seatNum = 0;
+        passengers = new ArrayList<>();
     }
 
     public User(User another) {
