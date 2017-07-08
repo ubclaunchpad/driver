@@ -45,7 +45,7 @@ captures/
 .idea/markdown-exported-files.xml
 .idea/markdown-navigator.xml
 .idea/kotlinc.xml
-
+.idea/misc.xml
 # Keystore files
 *.jks
 
