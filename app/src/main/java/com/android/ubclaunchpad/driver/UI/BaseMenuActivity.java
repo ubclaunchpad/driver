@@ -3,8 +3,11 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ public class BaseMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkInternetConnection();
     }
 
     // ActionBar menu item options
@@ -85,6 +89,15 @@ public class BaseMenuActivity extends AppCompatActivity {
                                 }
                             })
                     .create();
+        }
+    }
+
+    public void checkInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+        if (!(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected()
+                || connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected())) {
+
         }
     }
 }
