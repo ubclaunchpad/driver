@@ -1,19 +1,23 @@
 package com.android.ubclaunchpad.driver.session;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.user.UserManager;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SessionInfoActivity extends AppCompatActivity {
 
@@ -28,6 +34,7 @@ public class SessionInfoActivity extends AppCompatActivity {
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
     final ArrayList<String> itemsArray = new ArrayList<String>();
+    private DatabaseReference session;
     // private DatabaseReference mDatabase;
 
     @Override
@@ -41,14 +48,31 @@ public class SessionInfoActivity extends AppCompatActivity {
         final String sessionName = getIntent().getStringExtra(StringUtils.SESSION_NAME);
         TextView textViewSessionName = (TextView) findViewById(R.id.viewSessionName);
         textViewSessionName.setText(sessionName);
-
-        final DatabaseReference session = FirebaseUtils.getDatabase()
+        final Button goButton = (Button) findViewById(R.id.go_Button);
+        goButton.setVisibility(View.INVISIBLE);
+        session = FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
         final String UID = FirebaseUtils.getFirebaseUser().getUid();
         final User currentUser;
         try {
             currentUser = UserManager.getInstance().getUser();
+
+            session.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String uid = dataSnapshot.child(StringUtils.FirebaseSessionHostUid).getValue(String.class);
+                    if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                        Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
+                        goButton.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
             //add current user's UID to the current session's driver or passenger list
             session.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -137,8 +161,13 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                     }
                 });
-
-
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Starting the goddamn algorithm
+                setDriverPassengers();
+            }
+        });
     }
 
     private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
@@ -184,5 +213,64 @@ public class SessionInfoActivity extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+
+    /**
+     * Retrieve all drivers and passengers from the current session
+     */
+    private void setDriverPassengers() {
+
+        final List<User> users = new ArrayList<>();
+
+        DatabaseReference usersReference = FirebaseUtils.getDatabase().child("Users");
+        // Getting reference to the users in Firebase
+        usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshotUsers) {
+                // Getting reference to the drivers in current session
+                session.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        DataSnapshot dataSnapshotDrivers = dataSnapshot.child(StringUtils.FirebaseSessionDriverEndpoint);
+
+
+                        for (DataSnapshot driver : dataSnapshotDrivers.getChildren()) {
+                            String driverUid = driver.getValue(String.class);
+
+                            User uDriver = dataSnapshotUsers.child(driverUid).getValue(User.class);
+                            uDriver.setIsDriver(true);
+                            uDriver.setUserUid(driverUid);
+                            users.add(uDriver);
+                        }
+                        DataSnapshot dataSnapshotPassengers = dataSnapshot.child(StringUtils.FirebaseSessionPassengerEndpoint);
+                        for (DataSnapshot passenger : dataSnapshotPassengers.getChildren()) {
+                            String passengerUid = passenger.getValue(String.class);
+                            User uPassenger = dataSnapshotUsers.child(passengerUid).getValue(User.class);
+                            uPassenger.setUserUid(passengerUid);
+                            users.add(uPassenger);
+
+                        }
+
+                        String locStr = dataSnapshot.child(StringUtils.FirebaseSessionLocation).getValue(String.class);
+                        LatLng location = StringUtils.stringToLatLng(locStr);
+
+
+                        FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(location);
+                        Map<String, Object> driverPassengers = algorithm.findBestRoute(users);
+
+                        session.child(StringUtils.FirebaseSessionDriverPassengers).updateChildren(driverPassengers);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

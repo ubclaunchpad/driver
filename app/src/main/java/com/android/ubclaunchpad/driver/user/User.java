@@ -24,7 +24,7 @@ public class User {
     public Boolean isDriver;
     public Integer seatNum;
     public List<User> passengers;
-
+    public String userUid;
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
         // empty
@@ -119,12 +119,22 @@ public class User {
         this.isDriver = isDriver;
     }
 
+    @Exclude
+    public void setUserUid(String userUid) {
+        this.userUid = userUid;
+    }
+
     /**
      * A bunch of getter methods
      */
 
     public Boolean getIsDriver() {
         return isDriver;
+    }
+
+    @Exclude
+    public String getUserUid() {
+        return userUid;
     }
 
     public Integer getSeatNum() {

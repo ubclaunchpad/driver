@@ -32,7 +32,9 @@ public class StringUtils {
     public static final String FirebaseCurrentLatLngStr = "currentLatLngStr";
     public static final String isDriverEndpoint = "isDriver";
     public static final String numPassengersEndpoint = "seatNum";
-
+    public static final String FirebaseSessionHostUid = "sessionHostUid";
+    public static final String FirebaseSessionDriverPassengers = "driverPassengers";
+    public static final String FirebaseSessionLocation = "location";
     public static final String FirebaseSessionDriverEndpoint = "drivers";
     public static final String FirebaseSessionPassengerEndpoint = "passengers";
     /**

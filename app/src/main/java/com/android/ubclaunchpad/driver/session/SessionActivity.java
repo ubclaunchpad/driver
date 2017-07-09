@@ -11,13 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.UI.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
-import com.android.ubclaunchpad.driver.util.FirebaseUtils;
-import com.android.ubclaunchpad.driver.UI.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.user.UserUtils;
+import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +33,7 @@ import static com.android.ubclaunchpad.driver.util.StringUtils.stringToLatLng;
 
 public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
-    private SessionModel mSession;
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
     @BindView(R.id.create_session)
     Button CreateSession;
     @BindView(R.id.list_existing_sessions)
@@ -45,14 +44,12 @@ public class SessionActivity extends BaseMenuActivity {
     Button launchGoogleMapsButton;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private String sessionName;
     private SessionCreateDialog sessionCreateDialog;
 
+
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
-
-    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

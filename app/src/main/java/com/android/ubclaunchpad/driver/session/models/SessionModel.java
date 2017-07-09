@@ -1,13 +1,14 @@
 package com.android.ubclaunchpad.driver.session.models;
 
 import com.android.ubclaunchpad.driver.user.User;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.android.ubclaunchpad.driver.user.UserManager;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sherryuan on 2017-02-04.
@@ -22,6 +23,12 @@ public class SessionModel {
     // location of the starting location
     private String location;
     private String name;
+
+    private Map<String, List<String>> driverPassengers;
+
+    // the person who runs the algorithm
+    private String sessionHostUid;
+
 
     public SessionModel() {
         drivers = new ArrayList<>();
@@ -51,12 +58,20 @@ public class SessionModel {
         this.passengers.add(passenger);
     }
 
+    public void setSessionHostUid(String sessionHostUid) {
+        this.sessionHostUid = sessionHostUid;
+    }
+
     public void setLocation(String latLngString) {
         this.location = latLngString;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDriverPassengers(Map<String, List<String>> driverPassengers) {
+        this.driverPassengers = driverPassengers;
     }
 
     public List<String> getDrivers() {
@@ -75,6 +90,14 @@ public class SessionModel {
         return name;
     }
 
+    public String getSessionHostUid() {
+        return sessionHostUid;
+    }
+
+    public Map<String, List<String>> getDriverPassengers() {
+        return driverPassengers;
+    }
+
     // creates new Session with the creator in the drivers list if they're a driver
     // or passengers list if they're a passenger.
     // other than the creator lists are empty, and latlng should be calculated based on creator's location
@@ -87,6 +110,7 @@ public class SessionModel {
             User user = UserManager.getInstance().getUser();
 
             String uid = FirebaseUtils.getFirebaseUser().getUid();
+            sessionModel.setSessionHostUid(uid);
 
             if (user.getIsDriver()) {
                 sessionModel.addDriver(uid);
