@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.session;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,11 +38,16 @@ public class SessionActivity extends BaseMenuActivity {
     Button CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
-    private SessionModel mSession;
+    @BindView(R.id.map_button)
+    Button showMapButton;
+    @BindView(R.id.launch_google_maps_button)
+    Button launchGoogleMapsButton;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String sessionName;
-    private SessionCreateDialog scd;
+    private SessionCreateDialog sessionCreateDialog;
+
+
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
 
@@ -59,28 +65,36 @@ public class SessionActivity extends BaseMenuActivity {
         mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
 
-        scd = new SessionCreateDialog(this);
+        sessionCreateDialog = new SessionCreateDialog(this);
 
         CreateSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scd.show();
+                sessionCreateDialog.show();
             }
         });
 
-        /**
-         * this button is only used to test the map
-         */
-        Button showMapButton = (Button) findViewById(R.id.mapButton);
-        final Intent mapIntent = new Intent(this, MapsActivity.class);
-        //this LatLng is only used to test whether MapsActivity receives
-        //the correct latlng, delete it with the real session latlng
-        LatLng sessionLatLng = new LatLng(49.2827, -123.1207);
-
-        mapIntent.putExtra("session latlng", sessionLatLng);
+        // button for showing embedded Google Map, for testing purposes
         showMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent mapIntent = new Intent(getApplicationContext(), MapsActivity.class);
+                //this LatLng is only used to test whether MapsActivity receives
+                //the correct latlng, delete it with the real session latlng
+                LatLng sessionLatLng = new LatLng(49.2827, -123.1207);
+                mapIntent.putExtra("session latlng", sessionLatLng);
+                startActivity(mapIntent);
+            }
+        });
+
+        // button for launching Google Maps and showing a hardcoded route, for testing purposes
+        launchGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=CF Richmond Centre3&destination=Myst Asian Fusion Restaurant&waypoints=Oakridge Centre|Metrotown");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                // Make the Intent explicit by setting the Google Maps package
+                mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
             }
         });
