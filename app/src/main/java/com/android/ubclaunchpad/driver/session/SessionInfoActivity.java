@@ -252,7 +252,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                         }
 
-                        String locStr = dataSnapshot.child("location").getValue(String.class);
+                        String locStr = dataSnapshot.child(StringUtils.FirebaseSessionLocation).getValue(String.class);
                         LatLng location = StringUtils.stringToLatLng(locStr);
 
 
