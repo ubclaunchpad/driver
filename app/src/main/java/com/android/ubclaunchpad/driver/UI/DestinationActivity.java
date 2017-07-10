@@ -122,7 +122,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                     Log.d(TAG, "got uid: " + uid);
                     mDatabase.child(StringUtils.FirebaseUserEndpoint)
                             .child(uid)
-                            .child(StringUtils.FirebaseDestinationLatLngEndpoint)
+                            .child(StringUtils.FirebaseCurrentLatLngStr)
                             .setValue(StringUtils.latLngToString(place.getLatLng()));
                 }
             }
