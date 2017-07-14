@@ -65,7 +65,7 @@
         <activity android:name=".UI.DestinationActivity" />
         <activity android:name=".session.SessionInfoActivity" />
         <activity android:name=".UI.BaseMenuActivity" />
-        <activity android:name=".UI.DriverAssignmentActivity"></activity>
+        <activity android:name=".session.DriverAssignmentActivity"></activity>
     </application>
 
 </manifest>
