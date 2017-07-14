@@ -24,4 +24,8 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="google_maps_key">AIzaSyB_R9ij5t4MLX8Y4fF7E1ZGRRmimpyAgj0</string>
+    <string name="default_driver_name">Driver: Vladimir Putin</string>
+    <string name="default_passenger_name">Donald Trump</string>
+    <string name="default_driver_status">1 passenger, 2 free seats</string>
+    <string name="default_passenger_status">Goes to White House</string>
 </resources>
