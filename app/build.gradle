@@ -26,26 +26,34 @@ dependencies {
 
     // Android Testing Support Library's runner and rules
 
+    
+
+    //compile 'com.android.support:support-v4:23.4.0'
+
+    // Dependencies for Android Butterknife
+    
+    //JSON serialize/deserialize
+    
+    // Dependencies for Android unit tests
+    
+    // RecyclerView
+    
+    //OkHttp for http web requests
+    
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.1'
     compile 'com.google.firebase:firebase-database:9.0.1'
     compile 'com.google.firebase:firebase-auth:9.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.9.0'
     compile 'com.google.android.gms:play-services-location:9.0.1'
-
     compile 'com.android.support:support-v4:24.0.0'
-
-   //compile 'com.android.support:support-v4:23.4.0'
-
-    // Dependencies for Android Butterknife
     compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
-
-    //JSON serialize/deserialize
     compile 'com.google.code.gson:gson:2.7'
-
-    // Dependencies for Android unit tests
     compile 'com.google.android.gms:play-services-maps:9.0.1'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'biz.kasual:materialnumberpicker:1.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
     androidTestCompile 'com.android.support.test:runner:0.5'
@@ -55,14 +63,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-
-    // RecyclerView
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-
-    //OkHttp for http web requests
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-
-    compile 'biz.kasual:materialnumberpicker:1.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
