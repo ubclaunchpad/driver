@@ -29,7 +29,11 @@
             android:textStyle="normal|bold" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            style="@style/Widget.AppCompat.Button"
+            android:backgroundTint="#665966"
+            android:fontFamily="serif-monospace"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
