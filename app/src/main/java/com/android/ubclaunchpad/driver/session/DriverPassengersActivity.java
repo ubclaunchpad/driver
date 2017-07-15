@@ -4,10 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
@@ -16,30 +14,29 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverAssignmentActivity extends AppCompatActivity {
+public class DriverPassengersActivity extends AppCompatActivity {
 
-    private static final String TAG = DriverAssignmentActivity.class.getSimpleName();
+    private static final String TAG = DriverPassengersActivity.class.getSimpleName();
 
     private DatabaseReference session;
     private ChildEventListener listener;
-    private DriverAssignmentAdapter adapter;
+    private DriverPassengersAdapter adapter;
     private List<User> passengers;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_assignment);
+        setContentView(R.layout.activity_driver_passengers);
 
         String sessionName = getIntent().getStringExtra("Session");
         RecyclerView driversPassengers = (RecyclerView) findViewById(R.id.passengers_container);
         passengers = new ArrayList<>();
-        adapter = new DriverAssignmentAdapter(this, passengers);
+        adapter = new DriverPassengersAdapter(this, passengers);
 
         driversPassengers.setAdapter(adapter);
         session = FirebaseUtils.getDatabase()
@@ -58,7 +55,7 @@ public class DriverAssignmentActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                removePassengerFromAdapter(dataSnapshot, adapter);
             }
 
             @Override
@@ -69,11 +66,11 @@ public class DriverAssignmentActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-        session.child(StringUtils.FirebaseSessionDriverEndpoint).addChildEventListener(listener);
+        session.child(StringUtils.FirebaseSessionDriverPassengers).child(driverUid).addChildEventListener(listener);
     }
 
 
-    private void addPassengerToAdapter(DataSnapshot dataSnapshot, final DriverAssignmentAdapter adapter) {
+    private void addPassengerToAdapter(DataSnapshot dataSnapshot, final DriverPassengersAdapter adapter) {
         FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseUserEndpoint)
                 .child(dataSnapshot.getValue().toString()) //get the added user's UID
@@ -92,6 +89,27 @@ public class DriverAssignmentActivity extends AppCompatActivity {
                     }
                 });
         Log.d(TAG, "Passenger " + dataSnapshot.getValue() + " is added to this driver");
+    }
+
+    private void removePassengerFromAdapter(DataSnapshot dataSnapshot, final DriverPassengersAdapter adapter) {
+        final String removedUID = dataSnapshot.getValue().toString();
+        FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint)
+                .child(removedUID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user != null) {
+                            passengers.remove(user);
+                            adapter.notifyDataSetChanged();
+                            Log.d(TAG, user + " is removed from current driver");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     @Override

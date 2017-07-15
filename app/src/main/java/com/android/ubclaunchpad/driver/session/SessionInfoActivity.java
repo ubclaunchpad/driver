@@ -33,8 +33,13 @@ public class SessionInfoActivity extends AppCompatActivity {
     private static final String TAG = "SessionInfoActivity";
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
-    final ArrayList<String> itemsArray = new ArrayList<String>();
+    final ArrayList<String> itemsArray = new ArrayList<>();
+    final String UID = FirebaseUtils.getFirebaseUser().getUid();
+    private ChildEventListener driversListener;
+    private ChildEventListener passengersListener;
+    private ChildEventListener driverPassengersListener;
     private DatabaseReference session;
+
     // private DatabaseReference mDatabase;
 
     @Override
@@ -53,7 +58,6 @@ public class SessionInfoActivity extends AppCompatActivity {
         session = FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
-        final String UID = FirebaseUtils.getFirebaseUser().getUid();
         final User currentUser;
         try {
             currentUser = UserManager.getInstance().getUser();
@@ -110,57 +114,13 @@ public class SessionInfoActivity extends AppCompatActivity {
         //listen to changes in Firebase to update the driver passenger info list
         //the displayed "driver" or "passenger" label is not dependent on the isDriver
         //field but the list the user is in
+        initializeListeners(adapter);
         session.child(StringUtils.FirebaseSessionDriverEndpoint)
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        addUserToAdapter(dataSnapshot, adapter, true);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        removeUserFromAdapter(dataSnapshot, adapter, true);
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                .addChildEventListener(driversListener);
         session.child(StringUtils.FirebaseSessionPassengerEndpoint)
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        addUserToAdapter(dataSnapshot, adapter, false);
-                    }
+                .addChildEventListener(passengersListener);
+        session.addChildEventListener(driverPassengersListener);
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        removeUserFromAdapter(dataSnapshot, adapter, false);
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +173,118 @@ public class SessionInfoActivity extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+
+    private void initializeListeners(final ArrayAdapter<String> adapter) {
+        driversListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                addUserToAdapter(dataSnapshot, adapter, true);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                removeUserFromAdapter(dataSnapshot, adapter, true);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+
+        passengersListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                addUserToAdapter(dataSnapshot, adapter, false);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                removeUserFromAdapter(dataSnapshot, adapter, false);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        driverPassengersListener = new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(final DataSnapshot sessionSnapshot, String s) {
+
+                DatabaseReference usersReference = FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint);
+                usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot usersSnapshot) {
+
+                        // If algorithm finished
+                        if (sessionSnapshot.getValue().equals(StringUtils.FirebaseSessionDriverPassengers)) {
+
+                            User currentUser = usersSnapshot.child(UID).getValue(User.class);
+                            DataSnapshot driverPassengersSnapshot = sessionSnapshot.child(StringUtils.FirebaseSessionDriverPassengers);
+                            if (currentUser.getIsDriver()) {
+                                // No need to search for anything, just start DriverPassengersActivity
+                            } else {
+                                // We need to find to which driver this passenger belongs to
+                                for (DataSnapshot driver : driverPassengersSnapshot.getChildren()) {
+                                    for (DataSnapshot passenger : driver.getChildren()) {
+                                        if (passenger.getValue().equals(UID)) {
+
+                                            // Start activity with this driver, yeah
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
     }
 
     /**
@@ -272,5 +344,12 @@ public class SessionInfoActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        session.removeEventListener(driversListener);
+        session.removeEventListener(passengersListener);
+        super.onDestroy();
     }
 }

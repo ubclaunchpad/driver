@@ -1,7 +1,6 @@
 package com.android.ubclaunchpad.driver.session;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +22,15 @@ import butterknife.ButterKnife;
  * Created by grigorii on 14/07/17.
  */
 
-public class DriverAssignmentAdapter
-        extends RecyclerView.Adapter<DriverAssignmentAdapter.DriverAssignmentViewHolder> {
+public class DriverPassengersAdapter
+        extends RecyclerView.Adapter<DriverPassengersAdapter.DriverAssignmentViewHolder> {
 
-    private static final String TAG = DriverAssignmentAdapter.class.getSimpleName();
+    private static final String TAG = DriverPassengersAdapter.class.getSimpleName();
     private Context context;
     private List<User> passengers;
 
 
-    public DriverAssignmentAdapter(Context context, List<User> passengers) {
+    public DriverPassengersAdapter(Context context, List<User> passengers) {
         this.context = context;
         this.passengers = passengers;
     }
