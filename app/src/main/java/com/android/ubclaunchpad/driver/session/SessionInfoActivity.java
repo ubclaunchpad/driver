@@ -1,6 +1,10 @@
 package com.android.ubclaunchpad.driver.session;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -114,7 +118,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         //listen to changes in Firebase to update the driver passenger info list
         //the displayed "driver" or "passenger" label is not dependent on the isDriver
         //field but the list the user is in
-        initializeListeners(adapter);
+        initializeListeners(adapter, sessionName);
         session.child(StringUtils.FirebaseSessionDriverEndpoint)
                 .addChildEventListener(driversListener);
         session.child(StringUtils.FirebaseSessionPassengerEndpoint)
@@ -175,7 +179,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                 });
     }
 
-    private void initializeListeners(final ArrayAdapter<String> adapter) {
+    private void initializeListeners(final ArrayAdapter<String> adapter, final String sessionName) {
         driversListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -219,11 +223,22 @@ public class SessionInfoActivity extends AppCompatActivity {
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        };
+
+        final Handler handler = new Handler(){
+            public void handleMessage(Message m){
+                Bundle data = m.getData();
+                data.putString("session", sessionName);
+                Intent intent = new Intent (SessionInfoActivity.this, DriverPassengersActivity.class);
+                intent.putExtra("firebaseData", data);
+                startActivity(intent);
             }
         };
 
@@ -242,15 +257,22 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                             User currentUser = usersSnapshot.child(UID).getValue(User.class);
                             DataSnapshot driverPassengersSnapshot = sessionSnapshot.child(StringUtils.FirebaseSessionDriverPassengers);
+                            Bundle data = new Bundle();
+                            Message message = new Message();
+                            message.setData(data);
+
                             if (currentUser.getIsDriver()) {
                                 // No need to search for anything, just start DriverPassengersActivity
+                                data.putString("driverUid", UID);
+                                handler.sendMessage(message);
                             } else {
                                 // We need to find to which driver this passenger belongs to
                                 for (DataSnapshot driver : driverPassengersSnapshot.getChildren()) {
                                     for (DataSnapshot passenger : driver.getChildren()) {
                                         if (passenger.getValue().equals(UID)) {
 
-                                            // Start activity with this driver, yeah
+                                            data.putString("driverUid", UID);
+                                            handler.sendMessage(message);
                                         }
                                     }
                                 }
