@@ -3,6 +3,7 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,11 +94,15 @@ public class BaseMenuActivity extends AppCompatActivity {
     }
 
     public void checkInternetConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-
-        if (!(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected()
-                || connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected())) {
-
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+        if (!(connection != null && connection.isConnected())) {
+            Fragment noInternetFragment = new NoInternetFragment();
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, noInternetFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }
