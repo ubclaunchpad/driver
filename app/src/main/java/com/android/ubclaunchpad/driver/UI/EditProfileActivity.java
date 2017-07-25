@@ -106,7 +106,7 @@ public class EditProfileActivity extends BaseMenuActivity {
             // update email in usermanager
             UserManager.getInstance().getUser().setEmail(email);
             // update email in database
-            FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child("email").setValue(email);
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.FirebaseEmailEndpoint).setValue(email);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -124,7 +124,7 @@ public class EditProfileActivity extends BaseMenuActivity {
             UserManager.getInstance().getUser().setName(name);
 
             // update name in database
-            FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child("name").setValue(name);
+            FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.FirebaseNameEndpoint).setValue(name);
             Toast.makeText(EditProfileActivity.this, "Successfully updated name.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(EditProfileActivity.this, "Your name failed to update.", Toast.LENGTH_SHORT).show();
