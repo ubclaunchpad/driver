@@ -19,7 +19,14 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ReauthenticationFragment extends DialogFragment {
+
+    @BindView(R.id.emailEditText) EditText mEmail;
+    @BindView(R.id.passwordEditText) EditText mPassword;
+    @BindView(R.id.btnLogin) Button mLogin;
 
     public ReauthenticationFragment() {
         // Required empty public constructor
@@ -29,10 +36,10 @@ public class ReauthenticationFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View mView = getActivity().getLayoutInflater().inflate(R.layout.fragment_reauthentication, null);
-
-        final EditText mEmail = (EditText) mView.findViewById(R.id.emailEditText);
-        final EditText mPassword = (EditText) mView.findViewById(R.id.passwordEditText);
-        Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+        ButterKnife.bind(this, mView);
+        //final EditText mEmail = (EditText) mView.findViewById(R.id.emailEditText);
+        //final EditText mPassword = (EditText) mView.findViewById(R.id.passwordEditText);
+        //Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         mBuilder.setView(mView);

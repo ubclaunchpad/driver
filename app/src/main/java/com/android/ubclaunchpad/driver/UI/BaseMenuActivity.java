@@ -39,8 +39,8 @@ public class BaseMenuActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_edit_profile:
-                ReauthenticationFragment rf = new ReauthenticationFragment();
-                rf.show(getFragmentManager(), "reauthenticationDialog");
+                ReauthenticationFragment reauthenticationFragment = new ReauthenticationFragment();
+                reauthenticationFragment.show(getFragmentManager(), "reauthenticationDialog");
                 return true;
 
             default:
@@ -58,10 +58,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
     public static class AlertDialogFragment extends DialogFragment {
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())

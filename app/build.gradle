@@ -48,7 +48,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    compile 'biz.kasual:materialnumberpicker:1.2.1
+    compile 'biz.kasual:materialnumberpicker:1.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

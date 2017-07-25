@@ -17,14 +17,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
-public class EditProfileActivity extends BaseMenuActivity {
-    private Button nameUpdateButton;
-    private Button passwordUpdateButton;
-    private Button emailUpdateButton;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private EditText nameEditText;
-    private EditText emailEditText;
-    private EditText passwordEditText;
+public class EditProfileActivity extends BaseMenuActivity {
+    @BindView(R.id.name_update_button) Button nameUpdateButton;
+    @BindView(R.id.password_update_button) Button passwordUpdateButton;
+    @BindView(R.id.email_update_button) Button emailUpdateButton;
+
+    @BindView(R.id.profile_name) EditText nameEditText;
+    @BindView(R.id.profile_email) EditText emailEditText;
+    @BindView(R.id.profile_password) EditText passwordEditText;
 
     // this method hides "edit profile" option from the menu
     @Override
@@ -42,13 +45,7 @@ public class EditProfileActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        nameUpdateButton = (Button) findViewById(R.id.name_update_button);
-        passwordUpdateButton = (Button) findViewById(R.id.password_update_button);
-        emailUpdateButton = (Button) findViewById(R.id.email_update_button);
-
-        nameEditText = (EditText) findViewById(R.id.profile_name);
-        emailEditText = (EditText) findViewById(R.id.profile_email);
-        passwordEditText = (EditText) findViewById(R.id.profile_password);
+        ButterKnife.bind(this);
 
         // set EditText to show user's name
         String name = "";
