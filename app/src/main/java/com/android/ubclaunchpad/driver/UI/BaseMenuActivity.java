@@ -105,4 +105,12 @@ public class BaseMenuActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // if it's the NoInternetFragment, do nothing
+        if (!(getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment)) {
+            super.onBackPressed();
+        }
+    }
 }

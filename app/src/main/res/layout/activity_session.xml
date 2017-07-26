@@ -1,68 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618"
-    android:fitsSystemWindows="true"
     tools:context="com.android.ubclaunchpad.driver.session.SessionActivity">
 
-    <Button
-        android:id="@+id/create_session"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/mapButton"
-        android:layout_alignStart="@+id/mapButton"
-        android:layout_marginTop="13dp"
-        android:backgroundTint="#5c505c"
-        android:fontFamily="serif-monospace"
-        android:text="Create Session"
-        android:textColor="#ffffff"
-        android:textStyle="normal|bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:id="@+id/buttons"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/map_button"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
-            android:backgroundTint="#5c505c"
-            android:fontFamily="serif-monospace"
-            android:text="show map"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold" />
-
-        <Button
-            android:id="@+id/launch_google_maps_button"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="33dp"
-            android:backgroundTint="#5c505c"
-            android:fontFamily="serif-monospace"
-            android:text="open Google Maps"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold" />
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_existing_sessions"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/buttons"
-        android:layout_below="@+id/create_session"
-        android:layout_margin="17dp"
-        android:scrollbars="vertical"
-        android:textColor="#C0C0C0" />
+        android:layout_height="match_parent"
+        android:background="#171618"
+        android:fitsSystemWindows="true">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/create_session"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/mapButton"
+            android:layout_alignStart="@+id/mapButton"
+            android:layout_marginTop="13dp"
+            android:backgroundTint="#5c505c"
+            android:fontFamily="serif-monospace"
+            android:text="Create Session"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold" />
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/map_button"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="33dp"
+                android:backgroundTint="#5c505c"
+                android:fontFamily="serif-monospace"
+                android:text="show map"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold" />
+
+            <Button
+                android:id="@+id/launch_google_maps_button"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="33dp"
+                android:backgroundTint="#5c505c"
+                android:fontFamily="serif-monospace"
+                android:text="open Google Maps"
+                android:textColor="#ffffff"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_existing_sessions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/buttons"
+            android:layout_below="@+id/create_session"
+            android:layout_margin="17dp"
+            android:scrollbars="vertical"
+            android:textColor="#C0C0C0" />
+    </RelativeLayout>
+</FrameLayout>

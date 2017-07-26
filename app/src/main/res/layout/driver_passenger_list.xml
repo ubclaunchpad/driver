@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618"
-    android:orientation="vertical">
+    android:background="#171618">
 
-    <TextView
-        android:id="@+id/driver_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="70dp"
-        android:fontFamily="serif-monospace"
-        android:text="Driver:"
-        android:textAllCaps="true"
-        android:textColor="#ffffff"
-        android:textColorLink="@android:color/holo_blue_dark"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/passenger_tag"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="29dp"
-        android:textColor="#ffffff" />
+        android:background="#171618">
 
-    <TextView
-        android:id="@+id/passenger_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/driver_tag"
-        android:layout_below="@+id/driver_tag"
-        android:layout_marginTop="27dp"
-        android:fontFamily="serif-monospace"
-        android:text="Passengers:"
-        android:textAllCaps="true"
-        android:textColor="#ffffff"
-        android:textColorLink="@android:color/holo_blue_dark"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/driver_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="70dp"
+            android:fontFamily="serif-monospace"
+            android:text="Driver:"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textColorLink="@android:color/holo_blue_dark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/driver_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/driver_tag"
-        android:layout_alignBottom="@+id/driver_tag"
-        android:layout_alignEnd="@+id/recycler_view"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="25dp"
-        android:fontFamily="serif-monospace"
-        android:text="Driver's Name"
-        android:textAllCaps="true"
-        android:textColor="#ffffff"
-        android:textSize="24sp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/passenger_tag"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="29dp"
+            android:textColor="#ffffff" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/passenger_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/driver_tag"
+            android:layout_below="@+id/driver_tag"
+            android:layout_marginTop="27dp"
+            android:fontFamily="serif-monospace"
+            android:text="Passengers:"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textColorLink="@android:color/holo_blue_dark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/driver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/driver_tag"
+            android:layout_alignBottom="@+id/driver_tag"
+            android:layout_alignEnd="@+id/recycler_view"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="25dp"
+            android:fontFamily="serif-monospace"
+            android:text="Driver's Name"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+    </RelativeLayout>
+</FrameLayout>
