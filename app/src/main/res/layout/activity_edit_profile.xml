@@ -104,7 +104,7 @@
 
         android:layout_below="@id/password_field"
         android:inputType="textPassword"
-        android:text="password"
+        android:text=""
         android:textColor="@android:color/white"/>
 
     <Button

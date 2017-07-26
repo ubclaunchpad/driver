@@ -137,18 +137,21 @@ public class EditProfileActivity extends BaseMenuActivity {
         String newPassword = passwordEditText.getText().toString();
         FirebaseUser user = FirebaseUtils.getFirebaseAuth().getCurrentUser();
 
-        user.updatePassword(newPassword)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(EditProfileActivity.this, "User password updated.", Toast.LENGTH_SHORT).show();
+        if(newPassword.isEmpty() || newPassword == null) {
+            Toast.makeText(EditProfileActivity.this, "User password failed to update. Try a more secure password.", Toast.LENGTH_SHORT).show();
+        } else {
+            user.updatePassword(newPassword)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(EditProfileActivity.this, "User password updated.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(EditProfileActivity.this, "User password failed to update. Try a more secure password.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(EditProfileActivity.this, "User password failed to update.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+        }
     }
 
 }
