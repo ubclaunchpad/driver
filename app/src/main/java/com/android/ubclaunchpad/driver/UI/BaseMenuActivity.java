@@ -3,7 +3,7 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,8 +31,8 @@ public class BaseMenuActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
         checkInternetConnection();
     }
 
@@ -97,10 +97,10 @@ public class BaseMenuActivity extends AppCompatActivity {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo connection = manager.getActiveNetworkInfo();
         if (!(connection != null && connection.isConnected())) {
-            Fragment noInternetFragment = new NoInternetFragment();
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, noInternetFragment)
+                    .add(R.id.container, new NoInternetFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack(null)
                     .commit();
         }
@@ -108,7 +108,7 @@ public class BaseMenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // if it's the NoInternetFragment, do nothing
+        // if it's the NoInternetFragment, do nothing when user hits back
         if (!(getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment)) {
             super.onBackPressed();
         }
