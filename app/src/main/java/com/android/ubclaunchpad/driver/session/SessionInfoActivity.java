@@ -232,15 +232,7 @@ public class SessionInfoActivity extends AppCompatActivity {
             }
         };
 
-        final Handler handler = new Handler(){
-            public void handleMessage(Message m){
-                Bundle data = m.getData();
-                data.putString("session", sessionName);
-                Intent intent = new Intent (SessionInfoActivity.this, DriverPassengersActivity.class);
-                intent.putExtra("firebaseData", data);
-                startActivity(intent);
-            }
-        };
+
 
         driverPassengersListener = new ChildEventListener() {
 
@@ -253,18 +245,20 @@ public class SessionInfoActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot usersSnapshot) {
 
                         // If algorithm finished
-                        if (sessionSnapshot.getValue().equals(StringUtils.FirebaseSessionDriverPassengers)) {
+                        if (sessionSnapshot.getKey().equals(StringUtils.FirebaseSessionDriverPassengers)) {
 
                             User currentUser = usersSnapshot.child(UID).getValue(User.class);
                             DataSnapshot driverPassengersSnapshot = sessionSnapshot.child(StringUtils.FirebaseSessionDriverPassengers);
                             Bundle data = new Bundle();
                             Message message = new Message();
                             message.setData(data);
-
+                            data.putString("sessionName", sessionName);
+                            Toast.makeText(getBaseContext(), "Does it even get here omfg deeper", Toast.LENGTH_LONG).show();
                             if (currentUser.getIsDriver()) {
+
                                 // No need to search for anything, just start DriverPassengersActivity
                                 data.putString("driverUid", UID);
-                                handler.sendMessage(message);
+                                runOnUiThread(startActivityTask(data));
                             } else {
                                 // We need to find to which driver this passenger belongs to
                                 for (DataSnapshot driver : driverPassengersSnapshot.getChildren()) {
@@ -272,7 +266,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                                         if (passenger.getValue().equals(UID)) {
 
                                             data.putString("driverUid", UID);
-                                            handler.sendMessage(message);
+                                            runOnUiThread(startActivityTask(data));
                                         }
                                     }
                                 }
@@ -305,6 +299,17 @@ public class SessionInfoActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        };
+    }
+
+    private Runnable startActivityTask(final Bundle data) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent (SessionInfoActivity.this, DriverPassengersActivity.class);
+                intent.putExtra("firebaseData", data);
+                startActivity(intent);
             }
         };
     }

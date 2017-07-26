@@ -33,7 +33,8 @@ public class DriverPassengersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_passengers);
 
-        String sessionName = getIntent().getStringExtra("Session");
+        String sessionName = (String) getIntent().getBundleExtra("firebaseData").get("sessionName");
+        String driverUid = (String) getIntent().getBundleExtra("firebaseData").get("driverUid");
         RecyclerView driversPassengers = (RecyclerView) findViewById(R.id.passengers_container);
         passengers = new ArrayList<>();
         adapter = new DriverPassengersAdapter(this, passengers);
