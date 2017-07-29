@@ -99,6 +99,10 @@ public class BaseMenuActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if the phone is connected to the Internet
+     * If it's not, show the No Internet fragment
+     */
     public void checkInternetConnection() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo connection = manager.getActiveNetworkInfo();
@@ -115,9 +119,7 @@ public class BaseMenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // if it's the NoInternetFragment, do nothing when user hits back
-        if (getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment) {
-            System.exit(0);
-        } else {
+        if (!(getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment)) {
             super.onBackPressed();
         }
     }
