@@ -1,12 +1,16 @@
 package com.android.ubclaunchpad.driver.UI;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.login.LoginActivity;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
@@ -41,7 +45,11 @@ public class DispatchActivity extends AppCompatActivity {
             savedUid = sharedPref.getString(StringUtils.FirebaseUidKey, "");
         }
 
+//        if (!isConnectedToInternet()) {
+//            startActivity(new Intent(DispatchActivity.this, BaseMenuActivity.class));
+//        } else
         if (!savedUid.equals("")) {
+            startActivity(new Intent(DispatchActivity.this, BaseMenuActivity.class));
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(savedUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -76,5 +84,11 @@ public class DispatchActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
         }
         finish();
+    }
+
+    public boolean isConnectedToInternet() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+        return connection != null && connection.isConnected();
     }
 }

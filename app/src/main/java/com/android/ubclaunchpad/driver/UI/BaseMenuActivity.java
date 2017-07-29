@@ -25,6 +25,12 @@ public class BaseMenuActivity extends AppCompatActivity {
     private static final String TAG = BaseMenuActivity.class.getSimpleName();
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base_menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
@@ -109,7 +115,9 @@ public class BaseMenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // if it's the NoInternetFragment, do nothing when user hits back
-        if (!(getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment)) {
+        if (getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment) {
+            System.exit(0);
+        } else {
             super.onBackPressed();
         }
     }
