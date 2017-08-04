@@ -12,7 +12,7 @@
         android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="90dp"
         android:contentDescription="driverImg"
         android:src="@mipmap/driver"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="90dp"
         android:textSize="22sp"
         android:text="@string/default_driver_name"
         app:layout_constraintLeft_toRightOf="@+id/driver_image"
@@ -46,18 +46,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/driver_status">
+        app:layout_constraintTop_toBottomOf="@+id/driver_status"
+        android:layout_marginTop="152dp">
     </android.support.v7.widget.RecyclerView>
 
     <Button
-        android:id="@+id/startButton"
+        android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="@string/start_button"
-        android:layout_marginTop="196dp"
-        app:layout_constraintTop_toBottomOf="@+id/passengers_container"
-        android:layout_marginLeft="148dp"
-        android:layout_marginStart="148dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

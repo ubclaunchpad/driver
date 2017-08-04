@@ -110,6 +110,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                 }
             });
+            // This stinks like good old french cheese
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,8 +253,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                             Bundle data = new Bundle();
                             Message message = new Message();
                             message.setData(data);
-                            data.putString("sessionName", sessionName);
-                            Toast.makeText(getBaseContext(), "Does it even get here omfg deeper", Toast.LENGTH_LONG).show();
+                            data.putString(StringUtils.FirebaseSessionName, sessionName);
                             if (currentUser.getIsDriver()) {
 
                                 // No need to search for anything, just start DriverPassengersActivity
@@ -307,7 +307,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         return new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent (SessionInfoActivity.this, DriverPassengersActivity.class);
+                Intent intent = new Intent(SessionInfoActivity.this, DriverPassengersActivity.class);
                 intent.putExtra("firebaseData", data);
                 startActivity(intent);
             }
@@ -321,7 +321,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
         final List<User> users = new ArrayList<>();
 
-        DatabaseReference usersReference = FirebaseUtils.getDatabase().child("Users");
+        DatabaseReference usersReference = FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint);
         // Getting reference to the users in Firebase
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
