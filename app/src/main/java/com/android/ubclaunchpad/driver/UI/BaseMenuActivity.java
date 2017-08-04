@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +30,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    // ActionBar menu item options
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -39,8 +39,8 @@ public class BaseMenuActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_edit_profile:
-                Log.v(TAG, "editing profile");
-                Toast.makeText(getApplicationContext(), "editing profile", Toast.LENGTH_LONG).show();
+                ReauthenticationFragment reauthenticationFragment = new ReauthenticationFragment();
+                reauthenticationFragment.show(getFragmentManager(), "reauthenticationDialog");
                 return true;
 
             default:
@@ -58,9 +58,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public static class AlertDialogFragment extends DialogFragment {
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
