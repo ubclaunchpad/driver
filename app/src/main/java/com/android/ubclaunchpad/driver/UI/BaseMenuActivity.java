@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class BaseMenuActivity extends AppCompatActivity {
         Log.d(TAG, "Signing Out");
         FirebaseAuth.getInstance().signOut();
         startActivity(intent);
+        finish();
     }
 
 
