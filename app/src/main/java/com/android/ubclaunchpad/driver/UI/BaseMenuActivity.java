@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,12 +51,17 @@ public class BaseMenuActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method signs the user out and clears the backstack so that the user will no longer be
+     * able to access activities before it by pressing the back button.
+     */
     public void signOut() {
         Intent intent = new Intent(this, DispatchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
         Log.d(TAG, "Signing Out");
         FirebaseAuth.getInstance().signOut();
         startActivity(intent);
+        finish();
     }
 
     public static class AlertDialogFragment extends DialogFragment {
