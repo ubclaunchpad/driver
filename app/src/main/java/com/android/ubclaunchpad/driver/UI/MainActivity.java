@@ -41,35 +41,6 @@ public class MainActivity extends BaseMenuActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
-                try {
-                    try {
-                        User user = UserManager.getInstance().getUser();
-                        if (user != null) {
-                            user.setCurrentLatLngStr(place.getLatLng());
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Could not retrieve user" + e.getMessage());
-                    }
-
-                } catch (NullPointerException e) {
-                    Log.d(TAG, e.getMessage());
-                }
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.d(TAG, "An error occurred: " + status);
-            }
-        });
-
         mPassengerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

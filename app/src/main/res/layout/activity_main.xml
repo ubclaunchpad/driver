@@ -22,10 +22,10 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/i_am_a_passenger_button"
@@ -54,13 +54,6 @@
             android:text="@string/driver_bttn_text"
             android:textColor="#ffffff"
             android:textStyle="normal|bold" />
-
-        <fragment
-            android:id="@+id/place_autocomplete_fragment"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp" />
 
     </LinearLayout>
 

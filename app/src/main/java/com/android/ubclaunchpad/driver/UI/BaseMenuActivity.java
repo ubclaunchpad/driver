@@ -53,7 +53,7 @@ public class BaseMenuActivity extends AppCompatActivity {
 
     public void signOut() {
         Intent intent = new Intent(this, DispatchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
         Log.d(TAG, "Signing Out");
         FirebaseAuth.getInstance().signOut();
         startActivity(intent);
