@@ -20,12 +20,10 @@
         android:textStyle="normal|bold" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_centerVertical="true">
 
         <Button
             android:id="@+id/i_am_a_passenger_button"

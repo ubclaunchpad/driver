@@ -51,6 +51,10 @@ public class BaseMenuActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method signs the user out and clears the backstack so that the user will no longer be
+     * able to access activities before it by pressing the back button.
+     */
     public void signOut() {
         Intent intent = new Intent(this, DispatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); //remove all activity in stack
