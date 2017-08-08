@@ -38,16 +38,15 @@ public class SessionInfoActivity extends AppCompatActivity {
     private static final String TAG = "SessionInfoActivity";
     final String passengerDistance = "\nP\n\t\t\t\t";
     final String driverDistance = "\nD\n\t\t\t\t";
-    final ArrayList<String> itemsArray = new ArrayList<>();
     final String UID = FirebaseUtils.getFirebaseUser().getUid();
     @BindView(R.id.viewSessionName)
     TextView textViewSessionName;
     private ChildEventListener driversListener;
     private ChildEventListener passengersListener;
     private ChildEventListener driverPassengersListener;
-    private DatabaseReference session;
 
-    // private DatabaseReference mDatabase;
+    final ArrayList<String> itemsArray = new ArrayList<>();
+    private DatabaseReference session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,34 +96,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Session no longer exists", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (currentUser.isDriver && !updatedSession.getDrivers().contains(UID)) {
-                        // if the user is already in the passengers list, remove them
-                        if (updatedSession.getPassengers().contains(UID)) {
-                            updatedSession.removePassenger(UID);
-                        }
-                        updatedSession.addDriver(UID);
-                        FirebaseUtils.getDatabase()
-                                .child(StringUtils.FirebaseSessionEndpoint)
-                                .child(session.getKey())
-                                .child(StringUtils.FirebaseSessionDriverEndpoint)
-                                .setValue(updatedSession.getDrivers());
-                        session.setValue(updatedSession);
-                        Log.v(TAG, "new driver added");
-                    }
-                    if (!currentUser.isDriver && !updatedSession.getPassengers().contains(UID)) {
-                        // if the user is already in the drivers list, remove them
-                        if (updatedSession.getDrivers().contains(UID)) {
-                            updatedSession.removeDriver(UID);
-                        }
-                        updatedSession.addPassenger(UID);
-                        FirebaseUtils.getDatabase()
-                                .child(StringUtils.FirebaseSessionEndpoint)
-                                .child(session.getKey())
-                                .child(StringUtils.FirebaseSessionPassengerEndpoint)
-                                .setValue(updatedSession.getPassengers());
-                        session.setValue(updatedSession);
-                        Log.v(TAG, "new passenger added");
-                    }
+                    addUserToSession(currentUser.getIsDriver(), updatedSession, UID);
                 }
 
                 @Override
@@ -391,11 +363,51 @@ public class SessionInfoActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onDestroy() {
         session.removeEventListener(driversListener);
         session.removeEventListener(passengersListener);
         session.removeEventListener(driverPassengersListener);
         super.onDestroy();
+    }
+
+
+    /**
+     * Adds the current user to the session. Update both the in-app model and Firebase
+     *
+     * @param isDriver       whether or not the current user is a driver
+     * @param updatedSession the session that needs to be updated
+     * @param UID            the UID of the current user
+     */
+    private void addUserToSession(boolean isDriver, SessionModel updatedSession, String UID) {
+        if (isDriver && !updatedSession.getDrivers().contains(UID)) {
+            // if the user is already in the passengers list, remove them
+            if (updatedSession.getPassengers().contains(UID)) {
+                updatedSession.removePassenger(UID);
+            }
+            updatedSession.addDriver(UID);
+            FirebaseUtils.getDatabase()
+                    .child(StringUtils.FirebaseSessionEndpoint)
+                    .child(session.getKey())
+                    .child(StringUtils.FirebaseSessionDriverEndpoint)
+                    .setValue(updatedSession.getDrivers());
+            session.setValue(updatedSession);
+            Log.v(TAG, "new driver added");
+        }
+        if (!isDriver && !updatedSession.getPassengers().contains(UID)) {
+            // if the user is already in the drivers list, remove them
+            if (updatedSession.getDrivers().contains(UID)) {
+                updatedSession.removeDriver(UID);
+            }
+            updatedSession.addPassenger(UID);
+            FirebaseUtils.getDatabase()
+                    .child(StringUtils.FirebaseSessionEndpoint)
+                    .child(session.getKey())
+                    .child(StringUtils.FirebaseSessionPassengerEndpoint)
+                    .setValue(updatedSession.getPassengers());
+            session.setValue(updatedSession);
+            Log.v(TAG, "new passenger added");
+        }
     }
 }
