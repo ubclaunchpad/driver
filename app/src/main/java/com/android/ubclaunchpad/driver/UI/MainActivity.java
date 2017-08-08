@@ -47,9 +47,16 @@ public class MainActivity extends BaseMenuActivity {
                 // this is a debug statement, delete this when load screen view is implemented
                 Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
 
+                try {
+                    UserManager.getInstance().getUser().setIsDriver(false);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                }
+
                 if (FirebaseUtils.getFirebaseUser() != null) {
                     String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
+
                     FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.isDriverEndpoint).setValue(false);
                     FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(0);
                 }
@@ -60,6 +67,13 @@ public class MainActivity extends BaseMenuActivity {
         mDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try {
+                    UserManager.getInstance().getUser().setIsDriver(true);
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                }
+
                 DialogFragment numPassengersFragment = new NumPassengersFragment();
                 numPassengersFragment.show(getFragmentManager(), "num_passengers");
             }
