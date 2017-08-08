@@ -83,15 +83,31 @@ public class SessionInfoActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Session no longer exists", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (currentUser.isDriver &&
-                            !updatedSession.getDrivers().contains(UID)) {
+                    if (currentUser.isDriver && !updatedSession.getDrivers().contains(UID)) {
+                        // if the user is already in the passengers list, remove them
+                        if (updatedSession.getPassengers().contains(UID)) {
+                            updatedSession.removePassenger(UID);
+                        }
                         updatedSession.addDriver(UID);
+                        FirebaseUtils.getDatabase()
+                                .child(StringUtils.FirebaseSessionEndpoint)
+                                .child(session.getKey())
+                                .child(StringUtils.FirebaseSessionDriverEndpoint)
+                                .setValue(updatedSession.getDrivers());
                         session.setValue(updatedSession);
                         Log.v(TAG, "new driver added");
                     }
-                    if (!currentUser.isDriver &&
-                            !updatedSession.getPassengers().contains(UID)) {
+                    if (!currentUser.isDriver && !updatedSession.getPassengers().contains(UID)) {
+                        // if the user is already in the drivers list, remove them
+                        if (updatedSession.getDrivers().contains(UID)) {
+                            updatedSession.removeDriver(UID);
+                        }
                         updatedSession.addPassenger(UID);
+                        FirebaseUtils.getDatabase()
+                                .child(StringUtils.FirebaseSessionEndpoint)
+                                .child(session.getKey())
+                                .child(StringUtils.FirebaseSessionPassengerEndpoint)
+                                .setValue(updatedSession.getPassengers());
                         session.setValue(updatedSession);
                         Log.v(TAG, "new passenger added");
                     }
@@ -234,12 +250,10 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                         DataSnapshot dataSnapshotDrivers = dataSnapshot.child(StringUtils.FirebaseSessionDriverEndpoint);
 
-
                         for (DataSnapshot driver : dataSnapshotDrivers.getChildren()) {
                             String driverUid = driver.getValue(String.class);
 
                             User uDriver = dataSnapshotUsers.child(driverUid).getValue(User.class);
-                            uDriver.setIsDriver(true);
                             uDriver.setUserUid(driverUid);
                             users.add(uDriver);
                         }
@@ -249,7 +263,6 @@ public class SessionInfoActivity extends AppCompatActivity {
                             User uPassenger = dataSnapshotUsers.child(passengerUid).getValue(User.class);
                             uPassenger.setUserUid(passengerUid);
                             users.add(uPassenger);
-
                         }
 
                         String locStr = dataSnapshot.child(StringUtils.FirebaseSessionLocation).getValue(String.class);
