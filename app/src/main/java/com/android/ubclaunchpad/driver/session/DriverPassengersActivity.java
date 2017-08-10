@@ -24,15 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DriverPassengersActivity extends AppCompatActivity {
 
-    private static final String TAG = DriverPassengersActivity.class.getSimpleName();
-
-    private DatabaseReference session;
-    private ChildEventListener listener;
-    private DriverPassengersAdapter adapter;
-    private List<User> passengers;
     @BindView(R.id.start_button)
     Button startButton;
     @BindView(R.id.driver_name)
@@ -42,6 +37,14 @@ public class DriverPassengersActivity extends AppCompatActivity {
     @BindView(R.id.passengers_container)
     RecyclerView driversPassengers;
 
+    private static final String TAG = DriverPassengersActivity.class.getSimpleName();
+    private DatabaseReference session;
+    private DatabaseReference driver;
+    private ChildEventListener listener;
+    private DriverPassengersAdapter adapter;
+    private List<User> passengers;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,27 +52,32 @@ public class DriverPassengersActivity extends AppCompatActivity {
 
         String sessionName = (String) getIntent().getBundleExtra(StringUtils.DriverPassengersFirebaseData).get(StringUtils.FirebaseSessionName);
         String driverUid = (String) getIntent().getBundleExtra(StringUtils.DriverPassengersFirebaseData).get(StringUtils.DriverPassengersDriverUid);
-
+        ButterKnife.bind(this);
+        passengers = new ArrayList<>();
         adapter = new DriverPassengersAdapter(this, passengers);
-
+        driversPassengers = (RecyclerView) findViewById(R.id.passengers_container);
         driversPassengers.setAdapter(adapter);
         driversPassengers.setLayoutManager(new LinearLayoutManager(this));
         session = FirebaseUtils.getDatabase()
                 .child(StringUtils.FirebaseSessionEndpoint)
                 .child(sessionName);
 
-        session.addListenerForSingleValueEvent(new ValueEventListener() {
+        if (driverUid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+            Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
+            startButton.setVisibility(View.VISIBLE);
+        }
+        // Setting driver's name
+        FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint)
+                .child(driverUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String uid = dataSnapshot.child(StringUtils.FirebaseSessionDriverPassengers).getValue(String.class);
-                if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
-                    Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
-                    startButton.setVisibility(View.VISIBLE);
-                }
+                User driver = dataSnapshot.getValue(User.class);
+                driverName.setText(driver.name);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
