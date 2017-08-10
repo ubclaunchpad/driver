@@ -24,15 +24,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Android Testing Support Library's runner and rules
+    // JSON serialize/deserialize
+    compile 'com.google.code.gson:gson:2.7'
 
-
-
-    //compile 'com.android.support:support-v4:23.4.0'
-
-    // Dependencies for Android Butterknife
-
-    //JSON serialize/deserialize
 
     // Dependencies for Android unit tests
 
@@ -67,6 +61,15 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
+
+    // RecyclerView
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+
+    //OkHttp for http web requests
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'biz.kasual:materialnumberpicker:1.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

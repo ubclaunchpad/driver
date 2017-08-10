@@ -94,6 +94,45 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             }
         });
 
+        currentAutoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
+                okButton.setEnabled(true);
+
+                User innerUser;
+
+                try {
+                    innerUser = UserManager.getInstance().getUser();
+                    if (innerUser != null) {
+                        // Save location to user's currentLatLngStr
+                        innerUser.setCurrentLatLngStr(place.getLatLng());
+                    } else {
+                        FirebaseUtils.getFirebaseAuth().signOut();
+                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                }
+
+                if (FirebaseUtils.getFirebaseUser() != null) {
+                    String uid = FirebaseUtils.getFirebaseUser().getUid();
+                    Log.d(TAG, "got uid: " + uid);
+                    mDatabase.child(StringUtils.FirebaseUserEndpoint)
+                            .child(uid)
+                            .child(StringUtils.FirebaseCurrentLatLngStr)
+                            .setValue(StringUtils.latLngToString(place.getLatLng()));
+                }
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.d(TAG, "An error occurred: " + status);
+            }
+        });
+
         destinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -108,6 +147,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                     innerUser = UserManager.getInstance().getUser();
 
                     if (innerUser != null) {
+                        // Save location to user's destinationLatLngStr
                         innerUser.setDestinationLatLngStr(place.getLatLng());
                     } else {
                         //Something went wrong, go back to login

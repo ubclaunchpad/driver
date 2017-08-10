@@ -57,11 +57,12 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity android:name=".UI.DestinationActivity" />
         <activity android:name=".session.SessionInfoActivity" />
         <activity android:name=".UI.BaseMenuActivity" />
         <activity android:name=".session.DriverPassengersActivity"/>
+        <activity android:name=".UI.EditProfileActivity"></activity>
+
     </application>
 
 </manifest>
