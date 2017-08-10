@@ -1,7 +1,7 @@
 package com.android.ubclaunchpad.driver.session;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class DriverPassengersActivity extends AppCompatActivity {
 
+    private static final String TAG = DriverPassengersActivity.class.getSimpleName();
     @BindView(R.id.start_button)
     Button startButton;
     @BindView(R.id.driver_name)
@@ -36,10 +37,7 @@ public class DriverPassengersActivity extends AppCompatActivity {
     TextView driverStatus;
     @BindView(R.id.passengers_container)
     RecyclerView driversPassengers;
-
-    private static final String TAG = DriverPassengersActivity.class.getSimpleName();
     private DatabaseReference session;
-    private DatabaseReference driver;
     private ChildEventListener listener;
     private DriverPassengersAdapter adapter;
     private List<User> passengers;

@@ -2,9 +2,7 @@ package com.android.ubclaunchpad.driver.session;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
-import android.provider.Contacts;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,8 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +40,12 @@ public class SessionInfoActivity extends AppCompatActivity {
     final String driverDistance = "\nD\n\t\t\t\t";
     final ArrayList<String> itemsArray = new ArrayList<>();
     final String UID = FirebaseUtils.getFirebaseUser().getUid();
+    @BindView(R.id.viewSessionName)
+    TextView textViewSessionName;
     private ChildEventListener driversListener;
     private ChildEventListener passengersListener;
     private ChildEventListener driverPassengersListener;
     private DatabaseReference session;
-    @BindView(R.id.viewSessionName)
-    TextView textViewSessionName;
 
     // private DatabaseReference mDatabase;
 
@@ -240,7 +236,6 @@ public class SessionInfoActivity extends AppCompatActivity {
         };
 
 
-
         driverPassengersListener = new ChildEventListener() {
 
             @Override
@@ -264,7 +259,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                                 // No need to search for anything, just start DriverPassengersActivity
                                 data.putString(StringUtils.DriverPassengersDriverUid, UID);
-                                runOnUiThread(startActivityTask(data));
+                                runOnUiThread(startDriverPassengersActivityTask(data));
                             } else {
                                 // We need to find to which driver this passenger belongs to
                                 for (DataSnapshot driver : driverPassengersSnapshot.getChildren()) {
@@ -272,7 +267,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                                         if (passenger.getValue().equals(UID)) {
 
                                             data.putString(StringUtils.DriverPassengersDriverUid, UID);
-                                            runOnUiThread(startActivityTask(data));
+                                            runOnUiThread(startDriverPassengersActivityTask(data));
                                         }
                                     }
                                 }
@@ -309,7 +304,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         };
     }
 
-    private Runnable startActivityTask(final Bundle data) {
+    private Runnable startDriverPassengersActivityTask(final Bundle data) {
         return new Runnable() {
             @Override
             public void run() {
@@ -338,7 +333,6 @@ public class SessionInfoActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         DataSnapshot dataSnapshotDrivers = dataSnapshot.child(StringUtils.FirebaseSessionDriverEndpoint);
-
 
                         for (DataSnapshot driver : dataSnapshotDrivers.getChildren()) {
                             String driverUid = driver.getValue(String.class);
