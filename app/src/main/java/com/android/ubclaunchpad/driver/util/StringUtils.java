@@ -38,6 +38,8 @@ public class StringUtils {
     public static final String FirebaseSessionLocation = "location";
     public static final String FirebaseSessionDriverEndpoint = "drivers";
     public static final String FirebaseSessionPassengerEndpoint = "passengers";
+    public static final String DriverPassengersFirebaseData = "firebaseData";
+    public static final String DriverPassengersDriverUid = "driverUid";
     /**
      * Shared pref keys
      * TODO turn to enum

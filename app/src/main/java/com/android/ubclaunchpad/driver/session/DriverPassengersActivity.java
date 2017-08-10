@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 public class DriverPassengersActivity extends AppCompatActivity {
 
     private static final String TAG = DriverPassengersActivity.class.getSimpleName();
@@ -31,25 +33,23 @@ public class DriverPassengersActivity extends AppCompatActivity {
     private ChildEventListener listener;
     private DriverPassengersAdapter adapter;
     private List<User> passengers;
+    @BindView(R.id.start_button)
     Button startButton;
+    @BindView(R.id.driver_name)
     TextView driverName;
+    @BindView(R.id.driver_status)
     TextView driverStatus;
-
+    @BindView(R.id.passengers_container)
+    RecyclerView driversPassengers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_passengers);
-        startButton = (Button) findViewById(R.id.start_button);
 
-        String sessionName = (String) getIntent().getBundleExtra("firebaseData").get(StringUtils.FirebaseSessionName);
-        String driverUid = (String) getIntent().getBundleExtra("firebaseData").get("driverUid");
+        String sessionName = (String) getIntent().getBundleExtra(StringUtils.DriverPassengersFirebaseData).get(StringUtils.FirebaseSessionName);
+        String driverUid = (String) getIntent().getBundleExtra(StringUtils.DriverPassengersFirebaseData).get(StringUtils.DriverPassengersDriverUid);
 
-        driverName = (TextView) findViewById(R.id.driver_name);
-        driverStatus = (TextView) findViewById(R.id.driver_status);
-
-        RecyclerView driversPassengers = (RecyclerView) findViewById(R.id.passengers_container);
-        passengers = new ArrayList<>();
         adapter = new DriverPassengersAdapter(this, passengers);
 
         driversPassengers.setAdapter(adapter);
