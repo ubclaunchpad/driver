@@ -126,7 +126,7 @@ public class SessionModel {
                 sessionModel.addPassenger(uid);
             }
 
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return sessionModel;

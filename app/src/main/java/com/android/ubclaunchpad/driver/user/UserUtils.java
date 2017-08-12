@@ -43,7 +43,7 @@ public class UserUtils {
         LatLng ownLatLng;
         try {
             ownLatLng = StringUtils.stringToLatLng(UserManager.getInstance().getUser().getCurrentLatLngStr());
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             Log.d(TAG, "caught exception getting user" + e);
             ownLatLng = new LatLng(0, 0);
         }
