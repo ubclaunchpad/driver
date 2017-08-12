@@ -126,7 +126,7 @@ public class EditProfileActivity extends BaseMenuActivity {
             // update name in database
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.FirebaseNameEndpoint).setValue(name);
             Toast.makeText(EditProfileActivity.this, "Successfully updated name.", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             Toast.makeText(EditProfileActivity.this, "Your name failed to update.", Toast.LENGTH_SHORT).show();
             return;
         }

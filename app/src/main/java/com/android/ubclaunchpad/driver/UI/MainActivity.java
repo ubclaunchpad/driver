@@ -1,7 +1,6 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,15 +9,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
-import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.user.UserManager;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +43,7 @@ public class MainActivity extends BaseMenuActivity {
 
                 try {
                     UserManager.getInstance().getUser().setIsDriver(false);
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
@@ -70,7 +64,7 @@ public class MainActivity extends BaseMenuActivity {
 
                 try {
                     UserManager.getInstance().getUser().setIsDriver(true);
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 

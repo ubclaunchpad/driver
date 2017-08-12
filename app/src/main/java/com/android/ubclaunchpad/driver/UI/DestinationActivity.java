@@ -77,7 +77,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
         }
 
@@ -113,7 +113,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                     }
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
@@ -155,7 +155,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                     }
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
@@ -214,7 +214,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             // we just saved the location, so even if the location changes
             // we shouldn't update it unless the user taps "Use Current Location" again
             shouldSaveLocation = false;
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
