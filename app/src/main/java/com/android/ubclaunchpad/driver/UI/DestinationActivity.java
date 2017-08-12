@@ -36,10 +36,16 @@ import butterknife.ButterKnife;
 public class DestinationActivity extends BaseMenuActivity implements LocationListener {
     LocationManager mLocationManager;
     Location mLocation;
-    PlaceAutocompleteFragment currentAutoCompleteFragment;
-    PlaceAutocompleteFragment destinationAutocompleteFragment;
+    PlaceAutocompleteFragment mCurrentAutoCompleteFragment;
+    PlaceAutocompleteFragment mDestinationAutocompleteFragment;
+
     // keeps track of whether or not we saved the location after the user requested it
     boolean shouldSaveLocation = false;
+
+    // shows whether or not we have the value for the current location
+    boolean currLocationNull = true;
+    // shows whether or not we have a value for the destination location
+    boolean destinationNull = true;
 
     //an int used to check and request permission for the app to access the user's location
     private final static int PERMISSION_REQUEST_FINE = 105;
@@ -81,20 +87,27 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
         }
 
-        currentAutoCompleteFragment = (PlaceAutocompleteFragment)
+        mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.current_autocomplete_fragment);
 
-        destinationAutocompleteFragment = (PlaceAutocompleteFragment)
+        mDestinationAutocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToMainActivity(v);
+                // move onto the next screen if we have enough information
+                if (!currLocationNull && !destinationNull) {
+                    goToMainActivity(v);
+                }
+                // if not, give reminder for user to include the location information
+                else {
+
+                }
             }
         });
 
-        currentAutoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        mCurrentAutoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
@@ -117,6 +130,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
+                // store location on Firebase
                 if (FirebaseUtils.getFirebaseUser() != null) {
                     String uid = FirebaseUtils.getFirebaseUser().getUid();
                     Log.d(TAG, "got uid: " + uid);
@@ -124,6 +138,8 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                             .child(uid)
                             .child(StringUtils.FirebaseCurrentLatLngStr)
                             .setValue(StringUtils.latLngToString(place.getLatLng()));
+                    // a current location has been indicated by the user
+                    currLocationNull = false;
                 }
             }
 
@@ -133,7 +149,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             }
         });
 
-        destinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        mDestinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
@@ -166,6 +182,8 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                             .child(uid)
                             .child(StringUtils.FirebaseDestinationLatLngEndpoint)
                             .setValue(StringUtils.latLngToString(place.getLatLng()));
+                    // user has indicated destination activity
+                    destinationNull = false;
                 }
             }
 
@@ -188,13 +206,15 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
         shouldSaveLocation = true;
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            //get last cached location
+            // get last cached location
             mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             //If not found, try to request a gps update and set it
             if (mLocation != null) {
+                // current location has been selected
+                currLocationNull = false;
                 saveCurrentLocationToFirebase();
-                currentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
+                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
             }
 
         } catch (SecurityException e) {
