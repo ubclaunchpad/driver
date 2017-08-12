@@ -108,11 +108,11 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                     builder.setTitle("Empty Fields Detected");
                     builder.setMessage("Please make sure you have indicated where you are " +
                             "and where you want to go.");
-                    builder.setCancelable(true);
+                    builder.setCancelable(false);
                     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
+                            dialogInterface.dismiss();
                         }
                     });
                     AlertDialog alert = builder.create();
