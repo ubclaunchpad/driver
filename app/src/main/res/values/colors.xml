@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5c505c</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="secondary_text_material_light">#5c505c</color>
+    <color name="colorPrimary">#4db6ac</color>
+    <color name="colorPrimaryDark">#00867d</color>
+    <color name="colorPrimaryLight">#82e9de</color>
+    <color name="colorSecondary">#0277bd</color>
+    <color name="colorSecondaryDark">#004c8c</color>
+    <color name="colorSecondaryLight">#58a5f0</color>
+    <color name="primaryTextColor">#424242</color>
+    <color name="secondaryTextColor">#757575</color>
     <color name="place_autocomplete_search_text">#ffffff</color>
     <color name="place_autocomplete_search_hint">#ffffff</color>
+    <color name="colorDefaultBackground">@color/cardview_light_background</color>
 </resources>

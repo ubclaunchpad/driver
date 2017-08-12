@@ -3,11 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:background="#171618"
     android:orientation="vertical"
-
     android:paddingTop="80dp"
-
     tools:context="com.android.ubclaunchpad.driver.UI.NumPassengersFragment">
 
 
@@ -17,23 +14,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="120dp"
-        android:fontFamily="serif-monospace"
         android:paddingBottom="35dp"
         android:text="How Many Passengers?"
-        android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="normal|bold" />
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp" />
 
     <biz.kasual.materialnumberpicker.MaterialNumberPicker
         android:id="@+id/num_passenger_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:npBackgroundColor="#171618"
-        app:npSeparatorColor="#cf70a4"
-        app:npTextColor="#ffff"
+        app:npBackgroundColor="@color/colorDefaultBackground"
+        app:npSeparatorColor="@color/colorSecondary"
+        app:npTextColor="@color/primaryTextColor"
         app:npTextSize="25sp" />
 
     <LinearLayout
@@ -51,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/colorSecondary"
             android:text="CANCEL"
             android:textColor="#fff" />
 
@@ -60,11 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/colorSecondary"
             android:text="OK"
             android:textColor="#fff" />
-
     </LinearLayout>
-
 
 </LinearLayout>

@@ -18,12 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="440dp"
-        android:backgroundTint="#5c505c"
         android:elevation="0dp"
         android:fontFamily="serif-monospace"
         android:onClick="signInClick"
-        android:text="@string/signIn_bEnter"
-        android:textColor="#ffffff" />
+        android:text="@string/signIn_bEnter" />
 
 
     <TextView

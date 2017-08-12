@@ -91,9 +91,11 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
         mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.current_autocomplete_fragment);
+        mCurrentAutoCompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         mDestinationAutocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
+        mDestinationAutocompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override

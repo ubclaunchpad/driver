@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618"
     android:fitsSystemWindows="true"
     tools:context="com.android.ubclaunchpad.driver.UI.EditProfileActivity">
 
@@ -15,37 +14,30 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
-        android:text="UPDATE YOUR PROFILE SETTINGS"
-        android:textColor="@android:color/white"/>
+        android:text="UPDATE YOUR PROFILE SETTINGS"/>
 
     <!-- Name related fields -->
     <TextView
         android:id="@+id/name_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_centerHorizontal="true"
         android:layout_below="@id/update_settings"
-        android:text="NAME"
-        android:textColor="@android:color/white"/>
+        android:text="NAME"/>
 
     <EditText
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
         android:layout_below="@id/name_field"
-        android:text="Miley Cyrus"
-        android:textColor="@android:color/white"/>
+        android:hint="Miley Cyrus"/>
 
     <Button
         android:id="@+id/name_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
-
         android:layout_below="@id/profile_name"
         android:text="confirm"/>
 

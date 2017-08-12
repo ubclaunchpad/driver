@@ -2,56 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618"
     android:fitsSystemWindows="true">
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/main_toolbar"
-        android:layout_marginTop="13dp"
-        android:backgroundTint="#5c505c"
-        android:fontFamily="serif-monospace"
-        android:text="Create/find session"
-        android:textColor="#ffffff"
-        android:textStyle="normal|bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/passenger_driver_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="36dp">
+
+            <RadioButton
+                android:id="@+id/i_am_a_passenger_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:buttonTint="@color/colorSecondary"
+                android:text="@string/passenger_bttn_text"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/i_am_a_driver_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:buttonTint="@color/colorSecondary"
+                android:text="@string/driver_bttn_text"
+                android:textSize="18sp" />
+        </RadioGroup>
 
         <Button
-            android:id="@+id/i_am_a_passenger_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTint="#5c505c"
-            android:fontFamily="serif-monospace"
-            android:text="@string/passenger_bttn_text"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold" />
-
-        <Button
-            android:id="@+id/i_am_a_driver_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#5c505c"
-            android:fontFamily="serif-monospace"
-            android:text="@string/driver_bttn_text"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold" />
+            android:layout_below="@+id/passenger_driver_select"
+            android:layout_marginTop="13dp"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Create or find a session"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

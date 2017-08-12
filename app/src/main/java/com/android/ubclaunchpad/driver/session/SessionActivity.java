@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.BaseMenuActivity;
 import com.android.ubclaunchpad.driver.UI.MapsActivity;
@@ -35,7 +38,7 @@ public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
     @BindView(R.id.create_session)
-    Button CreateSession;
+    FloatingActionButton CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
     @BindView(R.id.map_button)
@@ -46,7 +49,7 @@ public class SessionActivity extends BaseMenuActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private String sessionName;
     private SessionCreateDialog sessionCreateDialog;
-
+    private DividerItemDecoration mDividerItemDecoration;
 
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
@@ -64,6 +67,10 @@ public class SessionActivity extends BaseMenuActivity {
 
         mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
+
+        mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), RecyclerView.HORIZONTAL);
+        mDividerItemDecoration.setDrawable(getDrawable(R.drawable.session_activity_divider));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
 
         sessionCreateDialog = new SessionCreateDialog(this);
 

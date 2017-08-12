@@ -27,7 +27,6 @@ dependencies {
     // JSON serialize/deserialize
     compile 'com.google.code.gson:gson:2.7'
 
-
     // Dependencies for Android unit tests
 
     // RecyclerView
@@ -63,13 +62,16 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
 
     // RecyclerView
-    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
 
     //OkHttp for http web requests
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'biz.kasual:materialnumberpicker:1.2.1'
+
+    // floating action button
+    compile 'com.android.support:design:25.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

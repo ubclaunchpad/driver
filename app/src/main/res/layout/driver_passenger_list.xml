@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618"
     android:orientation="vertical">
 
 
@@ -19,7 +18,6 @@
         android:fontFamily="serif-monospace"
         android:text="Driver:"
         android:textAllCaps="true"
-        android:textColor="#ffffff"
         android:textColorLink="@android:color/holo_blue_dark"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -33,8 +31,7 @@
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="29dp"
-        android:textColor="#ffffff" />
+        android:layout_marginTop="29dp" />
 
     <TextView
         android:id="@+id/passenger_tag"
@@ -46,7 +43,6 @@
         android:fontFamily="serif-monospace"
         android:text="Passengers:"
         android:textAllCaps="true"
-        android:textColor="#ffffff"
         android:textColorLink="@android:color/holo_blue_dark"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -63,7 +59,6 @@
         android:fontFamily="serif-monospace"
         android:text="Driver's Name"
         android:textAllCaps="true"
-        android:textColor="#ffffff"
         android:textSize="24sp" />
 
 </RelativeLayout>

@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.session.SessionActivity;
+import com.android.ubclaunchpad.driver.user.UserManager;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
 import com.android.ubclaunchpad.driver.user.UserManager;
@@ -21,9 +23,9 @@ public class MainActivity extends BaseMenuActivity {
 
 
     @BindView(R.id.i_am_a_passenger_button)
-    Button mPassengerButton;
+    RadioButton mPassengerButton;
     @BindView(R.id.i_am_a_driver_button)
-    Button mDriverButton;
+    RadioButton mDriverButton;
     @BindView(R.id.button3)
     Button mSessionButton;
 
@@ -72,6 +74,17 @@ public class MainActivity extends BaseMenuActivity {
                 numPassengersFragment.show(getFragmentManager(), "num_passengers");
             }
         });
+
+        try {
+            if (UserManager.getInstance().getUser().isDriver) {
+                mDriverButton.setSelected(true);
+            } else {
+                mPassengerButton.setSelected(true);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Caught exception");
+            mPassengerButton.callOnClick();
+        }
 
         final Intent SessionIntent = new Intent(this, SessionActivity.class);                           // session intent
         mSessionButton.setOnClickListener(new View.OnClickListener() {
