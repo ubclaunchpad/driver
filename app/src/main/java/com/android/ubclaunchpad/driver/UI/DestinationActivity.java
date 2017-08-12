@@ -1,6 +1,7 @@
 package com.android.ubclaunchpad.driver.UI;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -102,6 +104,20 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 }
                 // if not, give reminder for user to include the location information
                 else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setTitle("Empty Fields Detected");
+                    builder.setMessage("Please make sure you have indicated where you are " +
+                            "and where you want to go.");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
 
                 }
             }
