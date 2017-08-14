@@ -53,7 +53,6 @@ public class DriverPassengersActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         passengers = new ArrayList<>();
         adapter = new DriverPassengersAdapter(this, passengers);
-        driversPassengers = (RecyclerView) findViewById(R.id.passengers_container);
         driversPassengers.setAdapter(adapter);
         driversPassengers.setLayoutManager(new LinearLayoutManager(this));
         session = FirebaseUtils.getDatabase()

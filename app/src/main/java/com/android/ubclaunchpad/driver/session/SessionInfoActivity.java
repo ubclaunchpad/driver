@@ -377,6 +377,7 @@ public class SessionInfoActivity extends AppCompatActivity {
     protected void onDestroy() {
         session.removeEventListener(driversListener);
         session.removeEventListener(passengersListener);
+        session.removeEventListener(driverPassengersListener);
         super.onDestroy();
     }
 }
