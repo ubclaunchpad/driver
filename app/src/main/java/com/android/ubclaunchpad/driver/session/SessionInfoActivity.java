@@ -72,7 +72,11 @@ public class SessionInfoActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String uid = dataSnapshot.child(StringUtils.FirebaseSessionHostUid).getValue(String.class);
-                    if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                    if (uid == null) {
+                        Toast.makeText(getBaseContext(), "Session is not valid", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                    else if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
                         Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
                         goButton.setVisibility(View.VISIBLE);
                     }
