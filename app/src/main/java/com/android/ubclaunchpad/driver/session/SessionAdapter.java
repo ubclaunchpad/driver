@@ -35,7 +35,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
     private List<SessionModel> sessions;
 
     // Custom ViewHolder
-    public class SessionViewHolder extends RecyclerView.ViewHolder {
+    static class SessionViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.session_list_name)
         TextView sessionName;
         @BindView(R.id.session_driver_info)
