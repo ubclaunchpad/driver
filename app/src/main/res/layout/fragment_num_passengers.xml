@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         app:npBackgroundColor="@color/background_dark"
         app:npSeparatorColor="#cf70a4"
-        app:npTextColor="#ffff"
+        app:npTextColor="@color/text_white"
         app:npTextSize="25sp" />
 
     <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
             android:text="CANCEL"
-            android:textColor="#fff" />
+            android:textColor="@color/text_white" />
 
         <Button
             android:id="@+id/pos_button"
@@ -62,7 +62,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
             android:text="OK"
-            android:textColor="#fff" />
+            android:textColor="@color/text_white" />
 
     </LinearLayout>
 
