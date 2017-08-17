@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:background="#171618"
+    android:background="@color/background_dark"
     android:orientation="vertical"
 
     android:paddingTop="80dp"
@@ -22,7 +22,7 @@
         android:text="How Many Passengers?"
         android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff"
+        android:textColor="@color/text_white"
         android:textSize="20sp"
         android:textStyle="normal|bold" />
 
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:npBackgroundColor="#171618"
+        app:npBackgroundColor="@color/background_dark"
         app:npSeparatorColor="#cf70a4"
         app:npTextColor="#ffff"
         app:npTextSize="25sp" />

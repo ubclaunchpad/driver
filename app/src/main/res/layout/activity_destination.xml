@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#171618"
+        android:background="@color/background_dark"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -30,7 +30,7 @@
                 android:fontFamily="serif-monospace"
                 android:text="Where are you right now?"
                 android:textAllCaps="true"
-                android:textColor="#ffffff"
+                android:textColor="@color/text_white"
                 android:textSize="20sp"
                 android:textStyle="normal|bold" />
 
@@ -40,11 +40,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="#665966"
+                android:backgroundTint="@color/colorPrimary"
                 android:fontFamily="serif-monospace"
                 android:onClick="useCurrentLocation"
                 android:text="@string/current_location"
-                android:textColor="#ffffff"
+                android:textColor="@color/text_white"
                 android:textSize="18sp" />
 
             <fragment
@@ -74,7 +74,7 @@
                 android:fontFamily="serif-monospace"
                 android:text="Where do you want to go?"
                 android:textAllCaps="true"
-                android:textColor="#ffffff"
+                android:textColor="@color/text_white"
                 android:textSize="20sp"
                 android:textStyle="normal|bold" />
 
@@ -94,11 +94,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/nowFragment"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="#665966"
+            android:backgroundTint="@color/colorPrimary"
             android:fontFamily="serif-monospace"
             android:onClick="goToMainActivity"
             android:text="OK"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textSize="24sp"
             android:textStyle="normal|bold" />
     </RelativeLayout>

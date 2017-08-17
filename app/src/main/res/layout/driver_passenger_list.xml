@@ -3,12 +3,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618">
+    android:background="@color/background_dark">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#171618">
+        android:background="@color/background_dark">
 
         <TextView
             android:id="@+id/driver_tag"
@@ -23,7 +23,7 @@
             android:fontFamily="serif-monospace"
             android:text="Driver:"
             android:textAllCaps="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textColorLink="@android:color/holo_blue_dark"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -38,7 +38,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="29dp"
-            android:textColor="#ffffff" />
+            android:textColor="@color/text_white" />
 
         <TextView
             android:id="@+id/passenger_tag"
@@ -50,7 +50,7 @@
             android:fontFamily="serif-monospace"
             android:text="Passengers:"
             android:textAllCaps="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textColorLink="@android:color/holo_blue_dark"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -67,7 +67,7 @@
             android:fontFamily="serif-monospace"
             android:text="Driver's Name"
             android:textAllCaps="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textSize="24sp" />
     </RelativeLayout>
 </FrameLayout>

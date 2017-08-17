@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#171618">
+    android:background="@color/background_dark">
 
     <TextView
         android:id="@+id/passenger_name"
@@ -14,12 +14,12 @@
         android:layout_marginLeft="13dp"
         android:layout_marginStart="33dp"
         android:layout_marginTop="64dp"
-        android:background="#171618"
+        android:background="@color/background_dark"
         android:fontFamily="serif-monospace"
         android:maxLines="1"
         android:text="first last"
         android:textAllCaps="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/text_white"
         android:textSize="25dp" />
 
 

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="secondary_text_material_light">#5c505c</color>
+    <color name="text_white">#ffffff</color>
     <color name="place_autocomplete_search_text">#ffffff</color>
     <color name="place_autocomplete_search_hint">#ffffff</color>
+    <color name="background_dark">#171618</color>
 </resources>
