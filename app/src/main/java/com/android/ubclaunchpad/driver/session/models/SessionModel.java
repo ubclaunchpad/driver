@@ -50,12 +50,20 @@ public class SessionModel {
         this.drivers.add(driver);
     }
 
+    public void removeDriver(String driver) {
+        this.drivers.remove(driver);
+    }
+
     public void setPassengers(List<String> passengers) {
         this.passengers = passengers;
     }
 
     public void addPassenger(String passenger) {
         this.passengers.add(passenger);
+    }
+
+    public void removePassenger(String passenger) {
+        this.passengers.remove(passenger);
     }
 
     public void setSessionHostUid(String sessionHostUid) {
@@ -118,7 +126,7 @@ public class SessionModel {
                 sessionModel.addPassenger(uid);
             }
 
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return sessionModel;

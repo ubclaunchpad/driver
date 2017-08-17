@@ -64,7 +64,7 @@ public class NumPassengersFragment extends DialogFragment {
                 int numPassengers = numPassengerPick.getValue();
                 try {
                     UserManager.getInstance().getUser().setSeatNum(numPassengers);
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
                 }
 
