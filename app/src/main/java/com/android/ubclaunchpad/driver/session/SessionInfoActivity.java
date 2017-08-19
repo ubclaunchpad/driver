@@ -348,6 +348,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                         FindBestRouteAlgorithm algorithm = new FindBestRouteAlgorithm(location);
                         Map<String, Object> driverPassengers = algorithm.findBestRoute(users);
 
+                        session.child(StringUtils.FirebaseSessionDriverPassengers).removeValue();
                         session.child(StringUtils.FirebaseSessionDriverPassengers).updateChildren(driverPassengers);
                     }
 
