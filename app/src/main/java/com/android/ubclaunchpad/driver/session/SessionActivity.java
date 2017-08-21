@@ -40,8 +40,6 @@ public class SessionActivity extends BaseMenuActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.map_button)
     Button showMapButton;
-    @BindView(R.id.launch_google_maps_button)
-    Button launchGoogleMapsButton;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String sessionName;
@@ -83,18 +81,6 @@ public class SessionActivity extends BaseMenuActivity {
                 //the correct latlng, delete it with the real session latlng
                 LatLng sessionLatLng = new LatLng(49.2827, -123.1207);
                 mapIntent.putExtra("session latlng", sessionLatLng);
-                startActivity(mapIntent);
-            }
-        });
-
-        // button for launching Google Maps and showing a hardcoded route, for testing purposes
-        launchGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=CF Richmond Centre3&destination=Myst Asian Fusion Restaurant&waypoints=Oakridge Centre|Metrotown");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                // Make the Intent explicit by setting the Google Maps package
-                mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
             }
         });
