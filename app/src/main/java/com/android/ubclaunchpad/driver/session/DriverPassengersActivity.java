@@ -1,5 +1,7 @@
 package com.android.ubclaunchpad.driver.session;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.network.GoogleDirectionsURLEncoder;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +45,10 @@ public class DriverPassengersActivity extends AppCompatActivity {
     private ChildEventListener listener;
     private DriverPassengersAdapter adapter;
     private List<User> passengers;
+
+    private String originLatLng;
+    private String destinationLatLng;
+    private ArrayList<String> waypointLatLngs = new ArrayList<>();
 
 
     @Override
@@ -70,6 +78,8 @@ public class DriverPassengersActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User driver = dataSnapshot.getValue(User.class);
                 driverName.setText(driver.name);
+                originLatLng = driver.currentLatLngStr;
+                destinationLatLng = driver.destinationLatLngStr;
             }
 
             @Override
@@ -102,8 +112,27 @@ public class DriverPassengersActivity extends AppCompatActivity {
             }
         };
         session.child(StringUtils.FirebaseSessionDriverPassengers).child(driverUid).addChildEventListener(listener);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchGoogleMaps();
+            }
+        });
     }
 
+    /**
+     * Create the Google Maps URI based on the origin, destination and waypoint latlngs and launch Google Maps
+     */
+    private void launchGoogleMaps() {
+        String urlString = GoogleDirectionsURLEncoder.encodeURL(originLatLng, destinationLatLng, waypointLatLngs);
+
+        Uri googleMapsIntentUri = Uri.parse(urlString);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, googleMapsIntentUri);
+        // Make the Intent explicit by setting the Google Maps package
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
 
     private void addPassengerToAdapter(DataSnapshot dataSnapshot, final DriverPassengersAdapter adapter) {
 
@@ -117,6 +146,7 @@ public class DriverPassengersActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), user.email, Toast.LENGTH_LONG).show();
                         if (user != null) {
                             passengers.add(user);
+                            waypointLatLngs.add(user.getDestinationLatLngStr());
                             adapter.notifyDataSetChanged();
                         }
                     }

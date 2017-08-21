@@ -15,7 +15,7 @@ public class GoogleDirectionsURLEncoder {
     private static String WAYPOINTS = "waypoints=";
     private static String AMPERSAND = "&";
 
-    public String encodeURL(String originLatLng, String destinationLatLng, List<String> waypoints) {
+    public static String encodeURL(String originLatLng, String destinationLatLng, List<String> waypoints) {
         String encodedUrl = DIRECTIONS_BASE_URL +
                 ORIGIN + originLatLng +
                 AMPERSAND + DESTINATION + destinationLatLng;
