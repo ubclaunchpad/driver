@@ -17,7 +17,6 @@ import com.android.ubclaunchpad.driver.network.GoogleDirectionsURLEncoder;
 import com.android.ubclaunchpad.driver.user.User;
 import com.android.ubclaunchpad.driver.util.FirebaseUtils;
 import com.android.ubclaunchpad.driver.util.StringUtils;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +32,8 @@ import butterknife.ButterKnife;
 public class DriverPassengersActivity extends AppCompatActivity {
 
     private static final String TAG = DriverPassengersActivity.class.getSimpleName();
+    private static final String GOOGLE_MAPS_PACKAGE = "com.google.android.apps.maps";
+
     @BindView(R.id.start_button)
     Button startButton;
     @BindView(R.id.driver_name)
@@ -78,8 +79,8 @@ public class DriverPassengersActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User driver = dataSnapshot.getValue(User.class);
                 driverName.setText(driver.name);
-                originLatLng = driver.currentLatLngStr;
-                destinationLatLng = driver.destinationLatLngStr;
+                originLatLng = driver.getCurrentLatLngStr();
+                destinationLatLng = driver.getDestinationLatLngStr();
             }
 
             @Override
@@ -130,7 +131,7 @@ public class DriverPassengersActivity extends AppCompatActivity {
         Uri googleMapsIntentUri = Uri.parse(urlString);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, googleMapsIntentUri);
         // Make the Intent explicit by setting the Google Maps package
-        mapIntent.setPackage("com.google.android.apps.maps");
+        mapIntent.setPackage(GOOGLE_MAPS_PACKAGE);
         startActivity(mapIntent);
     }
 
