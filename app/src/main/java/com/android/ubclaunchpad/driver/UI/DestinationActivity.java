@@ -49,11 +49,6 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
     // keeps track of whether or not we saved the location after the user requested it
     boolean shouldSaveLocation = false;
 
-//    // shows whether or not current location is NULL
-//    boolean currLocationNull = true;
-//    // shows whether or not destination location is NULL
-//    boolean destinationNull = true;
-
     //an int used to check and request permission for the app to access the user's location
     private final static int PERMISSION_REQUEST_FINE = 105;
     private final static String TAG = DestinationActivity.class.getSimpleName();
@@ -204,6 +199,16 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 }
         });
 
+        // listener for deselecting current location
+        mCurrentAutoCompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCurrentAutoCompleteFragment.setText("");
+                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_search));
+                mCurrLoc = null;
+            }
+        });
+
         mDestinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -249,6 +254,16 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 Log.d(TAG, "An error occurred: " + status);
             }
         });
+
+        // listener for deselecting destination
+        mDestinationAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                mDestinationAutocompleteFragment.setText("");
+                mDestinationAutocompleteFragment.setHint(getText(R.string.autocomplete_search));
+                mDestLoc = null;
+            }
+        });
     }
 
 
@@ -276,7 +291,9 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 // save the current location as a LatLng locally
                 mCurrLoc = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
                 Log.d(TAG, "Current LatLng is " + "");
+                mCurrentAutoCompleteFragment.setText("");
                 mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
+
             }
 
         } catch (SecurityException e) {
