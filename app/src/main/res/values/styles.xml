@@ -38,7 +38,7 @@
     </style>
 
     <style name="CustomizedDialogStyle">
-        <item name="android:background">#171618</item>
+        <item name="android:background">@color/background_dark</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/pDialog_button</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/nDialog_button</item>
     </style>

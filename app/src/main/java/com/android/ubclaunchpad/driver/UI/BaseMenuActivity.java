@@ -3,8 +3,12 @@ package com.android.ubclaunchpad.driver.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +25,21 @@ public class BaseMenuActivity extends AppCompatActivity {
     private static final String TAG = BaseMenuActivity.class.getSimpleName();
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base_menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+        checkInternetConnection();
     }
 
     // ActionBar menu item options
@@ -85,6 +96,31 @@ public class BaseMenuActivity extends AppCompatActivity {
                                 }
                             })
                     .create();
+        }
+    }
+
+    /**
+     * Check if the phone is connected to the Internet
+     * If it's not, show the No Internet fragment
+     */
+    public void checkInternetConnection() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo connection = manager.getActiveNetworkInfo();
+        if (!(connection != null && connection.isConnected())) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new NoInternetFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // if it's the NoInternetFragment, do nothing when user hits back
+        if (!(getFragmentManager().findFragmentById(R.id.container) instanceof NoInternetFragment)) {
+            super.onBackPressed();
         }
     }
 }

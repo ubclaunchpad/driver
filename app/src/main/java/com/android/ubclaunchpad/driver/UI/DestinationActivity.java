@@ -61,13 +61,12 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //check for permission
         permission = (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
         if (!permission) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE);
         }
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
         ButterKnife.bind(this);
 

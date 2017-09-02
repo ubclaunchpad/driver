@@ -42,6 +42,7 @@ public class DispatchActivity extends AppCompatActivity {
         }
 
         if (!savedUid.equals("")) {
+            startActivity(new Intent(DispatchActivity.this, BaseMenuActivity.class));
             FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(savedUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

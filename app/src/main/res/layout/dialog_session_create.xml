@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#171618"
+    android:background="@color/background_dark"
     android:orientation="vertical"
     android:paddingTop="110dp">
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:background="#171618"
+        android:background="@color/background_dark"
         android:orientation="horizontal"
         android:paddingBottom="20dp">
 
@@ -46,11 +46,11 @@
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:background="@android:color/white"
-            android:backgroundTint="#5c505c"
+            android:backgroundTint="@color/colorPrimary"
             android:clickable="true"
             android:fontFamily="serif-monospace"
             android:text="Cancel"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textStyle="normal|bold" />
 
         <Button
@@ -59,11 +59,11 @@
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:background="@android:color/white"
-            android:backgroundTint="#5c505c"
+            android:backgroundTint="@color/colorPrimary"
             android:clickable="true"
             android:fontFamily="serif-monospace"
             android:text="Ok"
-            android:textColor="#ffffff"
+            android:textColor="@color/text_white"
             android:textStyle="bold" />
     </LinearLayout>
 
