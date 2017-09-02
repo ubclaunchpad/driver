@@ -47,9 +47,7 @@ public class SessionActivity extends BaseMenuActivity {
     Button launchGoogleMapsButton;
     private SessionAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String sessionName;
     private SessionCreateDialog sessionCreateDialog;
-    private DividerItemDecoration mDividerItemDecoration;
 
     private List<SessionModel> allSessions = new ArrayList<>();
     private List<SessionModel> sessions = new ArrayList<>();
@@ -67,9 +65,7 @@ public class SessionActivity extends BaseMenuActivity {
 
         mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
-
-        mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         sessionCreateDialog = new SessionCreateDialog(this);
 
