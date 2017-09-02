@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
     android:id="@+id/passenger_item"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/passenger_img"
@@ -27,15 +28,16 @@
         android:text="@string/default_passenger_name"
         app:layout_constraintLeft_toRightOf="@+id/passenger_img"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/passenger_destination"
         android:layout_width="325dp"
         android:layout_height="15dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="5dp"
-        android:textSize="12sp"
         android:layout_marginTop="0dp"
         android:text="@string/default_passenger_status"
+        android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/passenger_img"
         app:layout_constraintTop_toBottomOf="@+id/passenger_name" />
 
