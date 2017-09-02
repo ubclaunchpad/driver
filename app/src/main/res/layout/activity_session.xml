@@ -32,7 +32,7 @@
             android:layout_marginBottom="33dp"
             android:backgroundTint="@color/colorSecondary"
             android:text="show map"
-            android:textColor="#ffffff" />
+            android:textColor="@color/whiteColor" />
 
         <Button
             android:id="@+id/launch_google_maps_button"
@@ -42,7 +42,7 @@
             android:layout_marginBottom="33dp"
             android:backgroundTint="@color/colorSecondary"
             android:text="open Google Maps"
-            android:textColor="#ffffff" />
+            android:textColor="@color/whiteColor" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

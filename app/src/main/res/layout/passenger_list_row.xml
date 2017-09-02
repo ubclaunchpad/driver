@@ -15,11 +15,9 @@
         android:layout_marginStart="33dp"
         android:layout_marginTop="64dp"
         android:background="#171618"
-        android:fontFamily="serif-monospace"
         android:maxLines="1"
-        android:text="first last"
-        android:textAllCaps="true"
-        android:textColor="#ffffff"
+        android:text="First Last"
+        android:textColor="@color/whiteColor"
         android:textSize="25dp" />
 
 

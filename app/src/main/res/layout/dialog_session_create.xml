@@ -48,7 +48,7 @@
             android:background="@color/colorSecondary"
             android:clickable="true"
             android:text="Cancel"
-            android:textColor="#ffffff" />
+            android:textColor="@color/whiteColor" />
 
         <Button
             android:id="@+id/btn_yes"
@@ -58,7 +58,7 @@
             android:background="@color/colorSecondary"
             android:clickable="true"
             android:text="Ok"
-            android:textColor="#ffffff" />
+            android:textColor="@color/whiteColor" />
     </LinearLayout>
 
 

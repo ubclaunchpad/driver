@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorSecondary"
             android:text="CANCEL"
-            android:textColor="#fff" />
+            android:textColor="@color/whiteColor" />
 
         <Button
             android:id="@+id/pos_button"
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorSecondary"
             android:text="OK"
-            android:textColor="#fff" />
+            android:textColor="@color/whiteColor" />
     </LinearLayout>
 
 </LinearLayout>

@@ -18,10 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="440dp"
-        android:elevation="0dp"
-        android:fontFamily="serif-monospace"
+        android:background="@color/whiteColor"
         android:onClick="signInClick"
-        android:background="#fff"
         android:text="@string/signIn_bEnter" />
 
 
@@ -35,7 +33,7 @@
         android:fontFamily="serif-monospace"
         android:text="@string/signIn_bRegister"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff" />
+        android:textColor="@color/whiteColor" />
 
 
     <ImageView
@@ -50,7 +48,7 @@
         android:backgroundTint="#00ffffff"
         android:contentDescription="@null"
         android:cropToPadding="false"
-        android:src="@drawable/launchpadicon" />
+        android:src="@drawable/launchpadicon_secondary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,14 +73,14 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:textAlignment="viewStart"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:textColor="@color/whiteColor"
+            android:textColorHint="@color/whiteColor" />
 
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#ffffff" />
+            android:background="@color/whiteColor" />
 
 
         <EditText
@@ -98,14 +96,13 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:textAlignment="viewStart"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:textColor="@color/whiteColor"
+            android:textColorHint="@color/whiteColor" />
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#ffffff" />
-
+            android:background="@color/whiteColor" />
 
     </LinearLayout>
 

@@ -58,7 +58,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/current_location"
         android:layout_marginBottom="30dp"
-        android:background="#ffffff" />
+        android:background="@color/whiteColor" />
 
     <RelativeLayout
         android:id="@+id/destination_location"

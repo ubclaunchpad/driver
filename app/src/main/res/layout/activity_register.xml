@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".UI.RegisterActivity">
+    tools:context=".UI.RegisterActivity"
+    android:background="@color/colorPrimary">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,11 +23,10 @@
             android:layout_alignRight="@+id/imgCar"
             android:layout_alignStart="@+id/imgCar"
             android:layout_marginTop="470dp"
-            android:backgroundTint="#5c505c"
-            android:fontFamily="serif-monospace"
+            android:backgroundTint="@color/whiteColor"
             android:onClick="signUpClick"
             android:text="@string/register_bSignUp"
-            android:textColor="#ffffff" />
+            android:textColor="@color/primaryTextColor" />
 
 
         <LinearLayout
@@ -53,14 +53,14 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:textAlignment="viewStart"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/primaryTextColor"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#ffffff" />
+                android:background="@color/primaryTextColor" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -74,13 +74,13 @@
                 android:inputType="textEmailAddress"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/primaryTextColor" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#ffffff" />
+                android:background="@color/primaryTextColor" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -95,13 +95,13 @@
                 android:inputType="textPassword"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/primaryTextColor" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#ffffff" />
+                android:background="@color/primaryTextColor" />
 
 
             <EditText
@@ -116,13 +116,13 @@
                 android:inputType="textPassword"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/primaryTextColor" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="#ffffff" />
+                android:background="@color/primaryTextColor" />
 
 
         </LinearLayout>
@@ -135,10 +135,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:adjustViewBounds="true"
-            android:backgroundTint="#00ffffff"
             android:contentDescription="@null"
             android:cropToPadding="false"
-            android:src="@drawable/launchpadicon" />
+            android:src="@drawable/launchpadicon_primary" />
     </RelativeLayout>
 
 </ScrollView>
