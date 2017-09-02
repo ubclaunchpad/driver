@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".UI.RegisterActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorSecondary">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,20 +47,19 @@
                 android:layout_height="30dp"
                 android:layout_weight="0.20"
                 android:background="@null"
-                android:fontFamily="serif-monospace"
                 android:hint="@string/register_name"
                 android:inputType="text"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:textAlignment="viewStart"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/primaryTextColor"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteTextHint"
                 android:textSize="18sp" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/primaryTextColor" />
+                android:background="@color/whiteColor" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -68,40 +67,34 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:background="@null"
-                android:ems="10"
-                android:fontFamily="serif-monospace"
                 android:hint="@string/register_email"
                 android:inputType="textEmailAddress"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/primaryTextColor" />
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteTextHint" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/primaryTextColor" />
+                android:background="@color/whiteColor" />
 
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="0.20"
                 android:background="@null"
-                android:ems="10"
-                android:fontFamily="serif-monospace"
                 android:hint="@string/register_password"
-                android:inputType="textPassword"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/primaryTextColor" />
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteTextHint" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/primaryTextColor" />
+                android:background="@color/whiteColor" />
 
 
             <EditText
@@ -111,18 +104,17 @@
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:ems="10"
-                android:fontFamily="serif-monospace"
                 android:hint="@string/register_passwordConfirm"
                 android:inputType="textPassword"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/primaryTextColor" />
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/whiteTextHint" />
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/primaryTextColor" />
+                android:background="@color/whiteColor" />
 
 
         </LinearLayout>
@@ -137,7 +129,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:cropToPadding="false"
-            android:src="@drawable/launchpadicon_primary" />
+            android:src="@drawable/launchpadicon_secondary" />
     </RelativeLayout>
 
 </ScrollView>

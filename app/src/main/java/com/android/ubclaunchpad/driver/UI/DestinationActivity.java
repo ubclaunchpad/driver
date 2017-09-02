@@ -232,7 +232,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 // current location has been selected
                 currLocationNull = false;
                 saveCurrentLocationToFirebase();
-                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
+                mCurrentAutoCompleteFragment.setText(getString(R.string.autocomplete_your_location));
             }
 
         } catch (SecurityException e) {

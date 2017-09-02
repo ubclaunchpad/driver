@@ -14,7 +14,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:text="Update Your Profile"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/primaryTextColor"/>
 
     <!-- Name related fields -->
     <TextView

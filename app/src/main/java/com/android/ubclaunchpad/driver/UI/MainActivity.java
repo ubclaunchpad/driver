@@ -77,9 +77,9 @@ public class MainActivity extends BaseMenuActivity {
 
         try {
             if (UserManager.getInstance().getUser().isDriver) {
-                mDriverButton.setSelected(true);
+                mDriverButton.setChecked(true);
             } else {
-                mPassengerButton.setSelected(true);
+                mPassengerButton.setChecked(true);
             }
         } catch (Exception e) {
             Log.e(TAG, "Caught exception");
