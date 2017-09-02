@@ -68,8 +68,7 @@ public class SessionActivity extends BaseMenuActivity {
         mAdapter = new SessionAdapter(this, sessions);
         mRecyclerView.setAdapter(mAdapter);
 
-        mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), RecyclerView.HORIZONTAL);
-        mDividerItemDecoration.setDrawable(getDrawable(R.drawable.session_activity_divider));
+        mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
 
         sessionCreateDialog = new SessionCreateDialog(this);

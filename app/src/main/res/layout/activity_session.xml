@@ -53,6 +53,6 @@
         android:layout_below="@+id/create_session"
         android:layout_margin="17dp"
         android:scrollbars="vertical"
-        android:textColor="#C0C0C0" />
+        android:textColor="@color/secondaryTextColor" />
 
 </RelativeLayout>
