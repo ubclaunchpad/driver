@@ -124,60 +124,35 @@ public class SessionInfoActivity extends AppCompatActivity {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if there is only one person in the session
+                // there is only one person in the session
                 if (itemsArray.size() == 1) {
-                    final String userString = itemsArray.get(0);
                     session.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             SessionModel s = dataSnapshot.getValue(SessionModel.class);
                             if (s != null) {
-                                // the user is supposed to be a driver
-                                // TODO how passengers and drivers are differentiated may change if the UI changes
-                                if (userString.startsWith(driverDistance)) {
-                                    String driverId = s.getDrivers().get(0);
-                                    FirebaseUtils.getDatabase()
-                                            .child(StringUtils.FirebaseUserEndpoint)
-                                            .child(driverId)
-                                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    User driver = dataSnapshot.getValue(User.class);
-                                                    String curLatLng = driver.getCurrentLatLngStr();
-                                                    String destLatLng = driver.getDestinationLatLngStr();
-                                                    openGoogleMap(true, curLatLng, destLatLng);
+                                String sessionHostID = s.getSessionHostUid();
+                                FirebaseUtils.getDatabase()
+                                        .child(StringUtils.FirebaseUserEndpoint)
+                                        .child(sessionHostID)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                User sessionHost = dataSnapshot.getValue(User.class);
+                                                if (sessionHost != null) {
+                                                    String curLatLng = sessionHost.getCurrentLatLngStr();
+                                                    String destLatLng = sessionHost.getDestinationLatLngStr();
+                                                    openGoogleMap(sessionHost.getIsDriver(), curLatLng, destLatLng);
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                    Toast.makeText(getApplicationContext(), "error getting driver", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-                                // the user is supposed to be a passenger
-                                else if (userString.startsWith(passengerDistance)) {
-                                    String passengerId = s.getPassengers().get(0);
-                                    FirebaseUtils.getDatabase()
-                                            .child(StringUtils.FirebaseUserEndpoint)
-                                            .child(passengerId)
-                                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    User passenger = dataSnapshot.getValue(User.class);
-                                                    String curLatLng = passenger.getCurrentLatLngStr();
-                                                    String destLatLng = passenger.getDestinationLatLngStr();
-                                                    openGoogleMap(false, curLatLng, destLatLng);
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                    Toast.makeText(getApplicationContext(), "error getting passenger", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "bad list item formatting", Toast.LENGTH_SHORT).show();
-                                }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Toast.makeText(getApplicationContext(), "error getting session host", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
+
                         }
 
                         @Override
