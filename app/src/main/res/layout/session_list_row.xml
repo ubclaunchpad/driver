@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#171618"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="17dp">
 
     <LinearLayout
@@ -14,32 +14,34 @@
             android:id="@+id/session_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
-            android:textColor="#ffffff"
+            android:textColor="@color/primaryTextColor"
+            tools:text="fake session name"
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/session_driver_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
-            android:textColor="#C0C0C0"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="fake driver"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/session_passenger_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
-            android:textColor="#C0C0C0"
+            android:textColor="@color/secondaryTextColor"
+            tools:text="fake passenger"
             android:textSize="16sp" />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/session_join_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:backgroundTint="#7c707c"
-        android:text="JOIN" />
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@drawable/ic_join_arrow" />
 </RelativeLayout>
