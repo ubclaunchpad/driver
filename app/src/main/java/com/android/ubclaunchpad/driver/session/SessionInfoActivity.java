@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.network.GoogleDirectionsURLEncoder;
 import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
@@ -129,9 +130,9 @@ public class SessionInfoActivity extends AppCompatActivity {
                     session.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            SessionModel s = dataSnapshot.getValue(SessionModel.class);
-                            if (s != null) {
-                                String sessionHostID = s.getSessionHostUid();
+                            SessionModel curSession = dataSnapshot.getValue(SessionModel.class);
+                            if (curSession != null) {
+                                String sessionHostID = curSession.getSessionHostUid();
                                 FirebaseUtils.getDatabase()
                                         .child(StringUtils.FirebaseUserEndpoint)
                                         .child(sessionHostID)
@@ -169,18 +170,16 @@ public class SessionInfoActivity extends AppCompatActivity {
     }
 
     private void openGoogleMap(boolean isDriver, String curLatLng, String destLatLng) {
-        String origin = "&origin=" + curLatLng;
-        String destination = "&destination=" + destLatLng;
         String travelMode = "";
         if (isDriver) {
-            travelMode = "&travelmode=driving";
+            travelMode = "driving";
         } else {
-            travelMode = "&travelmode=transit";
+            travelMode = "transit";
         }
-        Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1" + origin + destination + travelMode);
+        Uri gmmIntentUri = Uri.parse(GoogleDirectionsURLEncoder.encodeURL(curLatLng, destLatLng, travelMode));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         // Make the Intent explicit by setting the Google Maps package
-        mapIntent.setPackage("com.google.android.apps.maps");
+        mapIntent.setPackage(StringUtils.GOOGLE_MAPS_PACKAGE);
         startActivity(mapIntent);
     }
 
