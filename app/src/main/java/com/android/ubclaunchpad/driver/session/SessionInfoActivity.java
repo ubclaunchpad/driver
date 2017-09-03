@@ -76,8 +76,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                     if (uid == null) {
                         Toast.makeText(getBaseContext(), "Session is not valid", Toast.LENGTH_LONG).show();
                         finish();
-                    }
-                    else if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                    } else if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
                         Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
                         goButton.setVisibility(View.VISIBLE);
                     }
@@ -126,58 +125,59 @@ public class SessionInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //if there is only one person in the session
-                if(itemsArray.size() == 1){
+                if (itemsArray.size() == 1) {
                     final String userString = itemsArray.get(0);
                     session.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             SessionModel s = dataSnapshot.getValue(SessionModel.class);
-                            // the user is supposed to be a driver
-                            if(userString.startsWith(driverDistance)){
-                                String driverId = s.getDrivers().get(0);
-                                FirebaseUtils.getDatabase()
-                                        .child(StringUtils.FirebaseUserEndpoint)
-                                        .child(driverId)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                User driver = dataSnapshot.getValue(User.class);
-                                                String curLatLng = driver.getCurrentLatLngStr();
-                                                String destLatLng = driver.getDestinationLatLngStr();
-                                                openGoogleMap(true, curLatLng, destLatLng);
-                                            }
+                            if (s != null) {
+                                // the user is supposed to be a driver
+                                // TODO how passengers and drivers are differentiated may change if the UI changes
+                                if (userString.startsWith(driverDistance)) {
+                                    String driverId = s.getDrivers().get(0);
+                                    FirebaseUtils.getDatabase()
+                                            .child(StringUtils.FirebaseUserEndpoint)
+                                            .child(driverId)
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    User driver = dataSnapshot.getValue(User.class);
+                                                    String curLatLng = driver.getCurrentLatLngStr();
+                                                    String destLatLng = driver.getDestinationLatLngStr();
+                                                    openGoogleMap(true, curLatLng, destLatLng);
+                                                }
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-                                                Toast.makeText(getApplicationContext(), "error getting driver", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                            // the user is supposed to be a passenger
-                            else if(userString.startsWith(passengerDistance)){
-                                String passengerId = s.getPassengers().get(0);
-                                FirebaseUtils.getDatabase()
-                                        .child(StringUtils.FirebaseUserEndpoint)
-                                        .child(passengerId)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                User passenger = dataSnapshot.getValue(User.class);
-                                                String curLatLng = passenger.getCurrentLatLngStr();
-                                                String destLatLng = passenger.getDestinationLatLngStr();
-                                                openGoogleMap(false, curLatLng, destLatLng);
-                                            }
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                    Toast.makeText(getApplicationContext(), "error getting driver", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                                // the user is supposed to be a passenger
+                                else if (userString.startsWith(passengerDistance)) {
+                                    String passengerId = s.getPassengers().get(0);
+                                    FirebaseUtils.getDatabase()
+                                            .child(StringUtils.FirebaseUserEndpoint)
+                                            .child(passengerId)
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    User passenger = dataSnapshot.getValue(User.class);
+                                                    String curLatLng = passenger.getCurrentLatLngStr();
+                                                    String destLatLng = passenger.getDestinationLatLngStr();
+                                                    openGoogleMap(false, curLatLng, destLatLng);
+                                                }
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-                                                Toast.makeText(getApplicationContext(), "error getting passenger", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                    Toast.makeText(getApplicationContext(), "error getting passenger", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "bad list item formatting", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else {
-                                Toast.makeText(getApplicationContext(), "bad list item formatting", Toast.LENGTH_SHORT).show();
-                            }
-
                         }
 
                         @Override
@@ -186,23 +186,21 @@ public class SessionInfoActivity extends AppCompatActivity {
                         }
                     });
 
-                }
-                else {
+                } else {
                     setDriverPassengers();
                 }
             }
         });
     }
 
-    private void openGoogleMap(boolean isDriver, String curLatLng, String destLatLng){
+    private void openGoogleMap(boolean isDriver, String curLatLng, String destLatLng) {
         String origin = "&origin=" + curLatLng;
         String destination = "&destination=" + destLatLng;
         String travelMode = "";
-        if(isDriver){
+        if (isDriver) {
             travelMode = "&travelmode=driving";
-        }
-        else{
-            travelMode = "&travelmode=transit|walking|bicycling";
+        } else {
+            travelMode = "&travelmode=transit";
         }
         Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1" + origin + destination + travelMode);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
