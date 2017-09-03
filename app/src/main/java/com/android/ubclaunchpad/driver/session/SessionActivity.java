@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.android.ubclaunchpad.driver.R;
 import com.android.ubclaunchpad.driver.UI.BaseMenuActivity;
@@ -38,7 +39,7 @@ public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
     @BindView(R.id.create_session)
-    FloatingActionButton CreateSession;
+    ImageButton CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
     @BindView(R.id.map_button)

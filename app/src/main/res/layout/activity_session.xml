@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.ubclaunchpad.driver.session.SessionActivity">
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageButton
         android:id="@+id/create_session"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
