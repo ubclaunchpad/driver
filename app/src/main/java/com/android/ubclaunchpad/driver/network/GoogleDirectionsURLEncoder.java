@@ -33,7 +33,7 @@ public class GoogleDirectionsURLEncoder {
         return encodedUrl;
     }
 
-    public static String encodeURL(String originLatLng, String destinationLatLng, String travelmode){
+    public static String encodeURL(String originLatLng, String destinationLatLng, String travelmode) {
         return DIRECTIONS_BASE_URL +
                 ORIGIN + originLatLng +
                 AMPERSAND + DESTINATION + destinationLatLng +
