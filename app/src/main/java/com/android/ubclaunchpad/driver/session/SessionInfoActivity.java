@@ -176,7 +176,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         } else {
             travelMode = "transit";
         }
-        Uri gmmIntentUri = Uri.parse(GoogleDirectionsURLEncoder.encodeURL(curLatLng, destLatLng, travelMode));
+        Uri gmmIntentUri = Uri.parse(GoogleDirectionsURLEncoder.encodeMapsURLWithTravelmode(curLatLng, destLatLng, travelMode));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         // Make the Intent explicit by setting the Google Maps package
         mapIntent.setPackage(StringUtils.GOOGLE_MAPS_PACKAGE);

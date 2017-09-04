@@ -16,7 +16,7 @@ public class GoogleDirectionsURLEncoder {
     private static String TRAVELMODE = "travelmode=";
     private static String AMPERSAND = "&";
 
-    public static String encodeURL(String originLatLng, String destinationLatLng, List<String> waypoints) {
+    public static String encodeMapsURLWithWaypoints(String originLatLng, String destinationLatLng, List<String> waypoints) {
         String encodedUrl = DIRECTIONS_BASE_URL +
                 ORIGIN + originLatLng +
                 AMPERSAND + DESTINATION + destinationLatLng;
@@ -33,7 +33,7 @@ public class GoogleDirectionsURLEncoder {
         return encodedUrl;
     }
 
-    public static String encodeURL(String originLatLng, String destinationLatLng, String travelmode) {
+    public static String encodeMapsURLWithTravelmode(String originLatLng, String destinationLatLng, String travelmode) {
         return DIRECTIONS_BASE_URL +
                 ORIGIN + originLatLng +
                 AMPERSAND + DESTINATION + destinationLatLng +
