@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -242,7 +243,6 @@ public class SessionInfoActivity extends AppCompatActivity {
                         if (sessionSnapshot.getKey().equals(StringUtils.FirebaseSessionDriverPassengers)) {
 
                             User currentUser = usersSnapshot.child(UID).getValue(User.class);
-                            DataSnapshot driverPassengersSnapshot = sessionSnapshot.child(StringUtils.FirebaseSessionDriverPassengers);
                             Bundle data = new Bundle();
                             Message message = new Message();
                             message.setData(data);
@@ -254,14 +254,25 @@ public class SessionInfoActivity extends AppCompatActivity {
                                 runOnUiThread(startDriverPassengersActivityTask(data));
                             } else {
                                 // We need to find to which driver this passenger belongs to
-                                for (DataSnapshot driver : driverPassengersSnapshot.getChildren()) {
-                                    for (DataSnapshot passenger : driver.getChildren()) {
-                                        if (passenger.getValue().equals(UID)) {
+                                // convert the DataSnapshot object back to a HashMap
+                                HashMap<String, ArrayList<String>> driverPassengersMap = (HashMap<String, ArrayList<String>>) sessionSnapshot.getValue();
 
-                                            data.putString(StringUtils.DriverPassengersDriverUid, UID);
-                                            runOnUiThread(startDriverPassengersActivityTask(data));
+                                if (driverPassengersMap != null) {
+                                    for (Map.Entry<String, ArrayList<String>> entry : driverPassengersMap.entrySet()) {
+                                        // iterate through the drivers
+                                        String driverUid = entry.getKey();
+                                        ArrayList<String> passengersList = entry.getValue();
+                                        for (String passenger : passengersList) {
+                                            // iterate through the driver's passengers,
+                                            // if one matches the current user's UID then start DriverPassengersActivity using the driver
+                                            if (passenger.equals(UID)) {
+                                                data.putString(StringUtils.DriverPassengersDriverUid, driverUid);
+                                                runOnUiThread(startDriverPassengersActivityTask(data));
+                                            }
                                         }
                                     }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "There aren't enough people in the session", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
