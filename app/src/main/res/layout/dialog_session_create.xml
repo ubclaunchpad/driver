@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#171618"
     android:orientation="vertical"
-    android:paddingTop="110dp">
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="90dp">
 
     <TextView
         android:id="@+id/txt_dia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="55dp"
-        android:fontFamily="serif-monospace"
         android:text="Name your session"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="15dp"
-        android:textStyle="bold" />
+        android:textColor="@color/primaryTextColor"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/session_name"
@@ -25,10 +24,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text=""
-        android:textColor="@android:color/white"
+        android:textColor="@color/primaryTextColor"
+        android:textColorHint="@color/secondaryTextColor"
         android:textSize="15dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="fake name" />
 
 
     <LinearLayout
@@ -36,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:background="#171618"
         android:orientation="horizontal"
         android:paddingBottom="20dp">
 
@@ -45,26 +46,20 @@
             android:id="@+id/btn_no"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:background="@android:color/white"
-            android:backgroundTint="#5c505c"
+            android:background="@color/colorSecondary"
             android:clickable="true"
-            android:fontFamily="serif-monospace"
             android:text="Cancel"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold" />
+            android:textColor="@color/whiteColor" />
 
         <Button
             android:id="@+id/btn_yes"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
-            android:background="@android:color/white"
-            android:backgroundTint="#5c505c"
+            android:background="@color/colorSecondary"
             android:clickable="true"
-            android:fontFamily="serif-monospace"
             android:text="Ok"
-            android:textColor="#ffffff"
-            android:textStyle="bold" />
+            android:textColor="@color/whiteColor" />
     </LinearLayout>
 
 

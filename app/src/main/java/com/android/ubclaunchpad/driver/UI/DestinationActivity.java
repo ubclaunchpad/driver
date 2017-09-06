@@ -91,9 +91,11 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
         mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.current_autocomplete_fragment);
+        mCurrentAutoCompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         mDestinationAutocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
+        mDestinationAutocompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,7 +232,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 // current location has been selected
                 currLocationNull = false;
                 saveCurrentLocationToFirebase();
-                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
+                mCurrentAutoCompleteFragment.setText(getString(R.string.autocomplete_your_location));
             }
 
         } catch (SecurityException e) {

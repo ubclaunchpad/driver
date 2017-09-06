@@ -14,8 +14,6 @@ public class GoogleDirectionsURLEncoderTest {
 
     @Test
     public void testEncodeUrl() {
-        GoogleDirectionsURLEncoder googleDirectionsURLEncoder = new GoogleDirectionsURLEncoder();
-
         // test case where waypoints are empty
         String urlWithOutWaypoints = googleDirectionsURLEncoder.encodeMapsURLWithWaypoints("41.43206,-81.38992", "41.412,-81.245", new ArrayList<String>());
         assertEquals(urlWithOutWaypoints,
