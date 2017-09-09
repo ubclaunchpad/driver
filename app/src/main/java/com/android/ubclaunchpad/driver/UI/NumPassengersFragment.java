@@ -75,16 +75,12 @@ public class NumPassengersFragment extends DialogFragment {
                     FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.numPassengersEndpoint).setValue(numPassengers);
                 }
 
-                // debug toad
-                // TODO: delete this when we're able to save this into user object
                 Toast.makeText(getContext(),
                         "choosing " + Integer.toString(numPassengers) +
                                 (numPassengers > 1 ? " passengers" : " passenger"),
                         Toast.LENGTH_SHORT)
                         .show();
 
-                // TODO: at this point, value chosen by user should be saved in the User object
-                // that is accessible everywhere in the app.
                 dismiss();
             }
         });

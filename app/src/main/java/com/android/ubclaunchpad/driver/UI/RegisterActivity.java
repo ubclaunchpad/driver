@@ -153,8 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(StringUtils.RegisterActivity, "signInWithEmail:onComplete:" + task.isSuccessful());
                                     if (!task.isSuccessful()) {
                                         Log.w(StringUtils.RegisterActivity, "signInWithEmail", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

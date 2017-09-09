@@ -144,7 +144,6 @@ public class DriverPassengersActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-                        Toast.makeText(getBaseContext(), user.email, Toast.LENGTH_LONG).show();
                         if (user != null) {
                             passengers.add(user);
                             waypointLatLngs.add(user.getDestinationLatLngStr());

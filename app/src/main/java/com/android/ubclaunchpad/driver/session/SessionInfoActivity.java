@@ -128,9 +128,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                 .addChildEventListener(passengersListener);
         session.addChildEventListener(driverPassengersListener);
 
-        goButton.setOnClickListener(new View.OnClickListener()
-
-        {
+        goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // there is only one person in the session
@@ -308,7 +306,6 @@ public class SessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(final DataSnapshot sessionSnapshot, String s) {
-                setSessionSnapshot(sessionSnapshot);
 
                 DatabaseReference usersReference = FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint);
                 usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -317,6 +314,8 @@ public class SessionInfoActivity extends AppCompatActivity {
 
                         // If algorithm finished
                         if (sessionSnapshot.getKey().equals(StringUtils.FirebaseSessionDriverPassengers)) {
+
+                            setSessionSnapshot(sessionSnapshot);
 
                             // the DriverPassengers map has been set in Firebase
                             isDriverPassengersSet = true;
@@ -365,6 +364,8 @@ public class SessionInfoActivity extends AppCompatActivity {
                     Intent intent = new Intent(SessionInfoActivity.this, DriverPassengersActivity.class);
                     intent.putExtra(StringUtils.DriverPassengersFirebaseData, data);
                     startActivity(intent);
+                    // the button click should only start the Activity once
+                    isGoButtonClicked = false;
                 }
             }
         };

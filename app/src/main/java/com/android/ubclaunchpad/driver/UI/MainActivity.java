@@ -41,7 +41,7 @@ public class MainActivity extends BaseMenuActivity {
             @Override
             public void onClick(View v) {
                 // this is a debug statement, delete this when load screen view is implemented
-                Toast.makeText(v.getContext(), "I AM A PASSENGER", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "I am a passenger", Toast.LENGTH_SHORT).show();
 
                 try {
                     UserManager.getInstance().getUser().setIsDriver(false);
