@@ -51,6 +51,13 @@ public class SessionInfoActivity extends AppCompatActivity {
     final ArrayList<String> itemsArray = new ArrayList<>();
     private DatabaseReference session;
 
+    // the following booleans are the two conditions for going to DriverPassengersActivity
+    // the user has already clicked the "Go" button, and the DriverPassengers map is already set on Firebase
+    private boolean isGoButtonClicked = false;
+    private boolean isDriverPassengersSet = false;
+    private DataSnapshot sessionSnapshot;
+    private String sessionName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +66,7 @@ public class SessionInfoActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.sessionItemsList);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemsArray);
         listView.setAdapter(adapter);
-        final String sessionName = getIntent().getStringExtra(StringUtils.SESSION_NAME);
+        sessionName = getIntent().getStringExtra(StringUtils.SESSION_NAME);
         textViewSessionName.setText(sessionName);
         final Button goButton = (Button) findViewById(R.id.go_Button);
         goButton.setVisibility(View.INVISIBLE);
@@ -111,7 +118,6 @@ public class SessionInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         //listen to changes in Firebase to update the driver passenger info list
         //the displayed "driver" or "passenger" label is not dependent on the isDriver
         //field but the list the user is in
@@ -122,10 +128,21 @@ public class SessionInfoActivity extends AppCompatActivity {
                 .addChildEventListener(passengersListener);
         session.addChildEventListener(driverPassengersListener);
 
-        goButton.setOnClickListener(new View.OnClickListener() {
+        goButton.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 // there is only one person in the session
+                isGoButtonClicked = true;
+                boolean isDriver = false;
+                try {
+                    isDriver = UserManager.getInstance().getUser().isDriver;
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "user was null");
+                }
+                setupDriverPassengersActivity(isDriver);
+
                 if (itemsArray.size() == 1) {
                     session.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -167,6 +184,10 @@ public class SessionInfoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    protected void setSessionSnapshot(DataSnapshot dataSnapshot) {
+        sessionSnapshot = dataSnapshot;
     }
 
     private void openGoogleMap(boolean isDriver, String curLatLng, String destLatLng) {
@@ -287,6 +308,7 @@ public class SessionInfoActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(final DataSnapshot sessionSnapshot, String s) {
+                setSessionSnapshot(sessionSnapshot);
 
                 DatabaseReference usersReference = FirebaseUtils.getDatabase().child(StringUtils.FirebaseUserEndpoint);
                 usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -296,39 +318,12 @@ public class SessionInfoActivity extends AppCompatActivity {
                         // If algorithm finished
                         if (sessionSnapshot.getKey().equals(StringUtils.FirebaseSessionDriverPassengers)) {
 
+                            // the DriverPassengers map has been set in Firebase
+                            isDriverPassengersSet = true;
+
                             User currentUser = usersSnapshot.child(UID).getValue(User.class);
-                            Bundle data = new Bundle();
-                            Message message = new Message();
-                            message.setData(data);
-                            data.putString(StringUtils.FirebaseSessionName, sessionName);
-                            if (currentUser.getIsDriver()) {
 
-                                // No need to search for anything, just start DriverPassengersActivity
-                                data.putString(StringUtils.DriverPassengersDriverUid, UID);
-                                runOnUiThread(startDriverPassengersActivityTask(data));
-                            } else {
-                                // We need to find to which driver this passenger belongs to
-                                // convert the DataSnapshot object back to a HashMap
-                                HashMap<String, ArrayList<String>> driverPassengersMap = (HashMap<String, ArrayList<String>>) sessionSnapshot.getValue();
-
-                                if (driverPassengersMap != null) {
-                                    for (Map.Entry<String, ArrayList<String>> entry : driverPassengersMap.entrySet()) {
-                                        // iterate through the drivers
-                                        String driverUid = entry.getKey();
-                                        ArrayList<String> passengersList = entry.getValue();
-                                        for (String passenger : passengersList) {
-                                            // iterate through the driver's passengers,
-                                            // if one matches the current user's UID then start DriverPassengersActivity using the driver
-                                            if (passenger.equals(UID)) {
-                                                data.putString(StringUtils.DriverPassengersDriverUid, driverUid);
-                                                runOnUiThread(startDriverPassengersActivityTask(data));
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "There aren't enough people in the session", Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                            setupDriverPassengersActivity(currentUser.isDriver);
                         }
                     }
 
@@ -365,9 +360,12 @@ public class SessionInfoActivity extends AppCompatActivity {
         return new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SessionInfoActivity.this, DriverPassengersActivity.class);
-                intent.putExtra(StringUtils.DriverPassengersFirebaseData, data);
-                startActivity(intent);
+                // start DriverPassengersActivity if the user has already clicked the Go button and the DriverPassengers map is set
+                if (isGoButtonClicked && isDriverPassengersSet) {
+                    Intent intent = new Intent(SessionInfoActivity.this, DriverPassengersActivity.class);
+                    intent.putExtra(StringUtils.DriverPassengersFirebaseData, data);
+                    startActivity(intent);
+                }
             }
         };
     }
@@ -474,6 +472,39 @@ public class SessionInfoActivity extends AppCompatActivity {
                     .setValue(updatedSession.getPassengers());
             session.setValue(updatedSession);
             Log.v(TAG, "new passenger added");
+        }
+    }
+
+    private void setupDriverPassengersActivity(boolean isDriver) {
+        Bundle data = new Bundle();
+        data.putString(StringUtils.FirebaseSessionName, sessionName);
+
+        if (isDriver) {
+            // No need to search for anything, just start DriverPassengersActivity
+            data.putString(StringUtils.DriverPassengersDriverUid, UID);
+            runOnUiThread(startDriverPassengersActivityTask(data));
+        } else {
+            // We need to find to which driver this passenger belongs to
+            // convert the DataSnapshot object back to a HashMap
+            HashMap<String, ArrayList<String>> driverPassengersMap = (HashMap<String, ArrayList<String>>) sessionSnapshot.getValue();
+
+            if (driverPassengersMap != null) {
+                for (Map.Entry<String, ArrayList<String>> entry : driverPassengersMap.entrySet()) {
+                    // iterate through the drivers
+                    String driverUid = entry.getKey();
+                    ArrayList<String> passengersList = entry.getValue();
+                    for (String passenger : passengersList) {
+                        // iterate through the driver's passengers,
+                        // if one matches the current user's UID then start DriverPassengersActivity using the driver
+                        if (passenger.equals(UID)) {
+                            data.putString(StringUtils.DriverPassengersDriverUid, driverUid);
+                            runOnUiThread(startDriverPassengersActivityTask(data));
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "There aren't enough people in the session", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
