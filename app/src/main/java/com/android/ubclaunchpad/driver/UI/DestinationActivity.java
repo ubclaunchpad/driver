@@ -85,15 +85,17 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
         }
 
         mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.current_autocomplete_fragment);
+        mCurrentAutoCompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         mDestinationAutocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.destination_autocomplete_fragment);
+        mDestinationAutocompleteFragment.getView().setBackgroundColor(0xe5ffff);
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +161,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+
                 // since a current location place has been selected, current location listener
                 // would not need to update mLocation on location changes, so we set
                 // shouldUseLocationListener to false

@@ -20,9 +20,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="passenger_bttn_text">PASSENGER</string>
-    <string name="driver_bttn_text">DRIVER</string>
+    <string name="passenger_bttn_text">I am a passenger</string>
+    <string name="driver_bttn_text">I am a driver</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="google_maps_key">AIzaSyB_R9ij5t4MLX8Y4fF7E1ZGRRmimpyAgj0</string>
+    <string name="google_maps_key" translatable="false">AIzaSyB_R9ij5t4MLX8Y4fF7E1ZGRRmimpyAgj0</string>
+    <string name="default_driver_name">Driver: Vladimir Putin</string>
+    <string name="default_passenger_name">Donald Trump</string>
+    <string name="default_driver_status">1 passenger, 2 free seats</string>
+    <string name="needs_a_ride">Needs a ride to: </string>
+    <string name="default_passenger_status">Needs a ride to: White House</string>
+    <string name="start_button">Start</string>
 </resources>

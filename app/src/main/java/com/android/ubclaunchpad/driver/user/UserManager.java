@@ -39,10 +39,10 @@ public class UserManager {
      * @return User
      * @throws Exception if user is not set yet
      */
-    public User getUser() throws Exception {
+    public User getUser() throws NullPointerException {
         if (user == null) {
             //TODO get user?
-            throw new Exception("User not set");
+            throw new NullPointerException("User not set");
         }
         return user;
     }

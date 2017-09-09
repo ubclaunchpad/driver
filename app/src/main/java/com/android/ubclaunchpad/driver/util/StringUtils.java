@@ -28,15 +28,26 @@ public class StringUtils {
      */
     public static final String FirebaseUserEndpoint = "Users";
     public static final String FirebaseSessionEndpoint = "Session group";
-    public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLngStr";
+
     public static final String FirebaseCurrentLatLngStr = "currentLatLngStr";
+    public static final String FirebaseDestinationLatLngEndpoint = "destinationLatLngStr";
+    public static final String FirebaseEmailEndpoint = "email";
     public static final String isDriverEndpoint = "isDriver";
+    public static final String FirebaseNameEndpoint = "name";
     public static final String numPassengersEndpoint = "seatNum";
     public static final String FirebaseSessionHostUid = "sessionHostUid";
+    public static final String FirebaseSessionName = "sessionName";
     public static final String FirebaseSessionDriverPassengers = "driverPassengers";
     public static final String FirebaseSessionLocation = "location";
     public static final String FirebaseSessionDriverEndpoint = "drivers";
     public static final String FirebaseSessionPassengerEndpoint = "passengers";
+    public static final String DriverPassengersFirebaseData = "firebaseData";
+    public static final String DriverPassengersDriverUid = "driverUid";
+
+    /**
+     * Package for Google Maps intent
+     */
+    public static final String GOOGLE_MAPS_PACKAGE = "com.google.android.apps.maps";
     /**
      * Shared pref keys
      * TODO turn to enum

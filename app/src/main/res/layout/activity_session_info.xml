@@ -16,8 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:hint="Session Name"
-        android:textSize="26sp" />
+        android:textColor="@color/primaryTextColor"
+        android:textSize="26sp"
+        tools:text="Session Name" />
 
     <ListView
         android:id="@+id/sessionItemsList"
@@ -38,6 +39,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
-        android:text="GO" />
+        android:background="@color/colorSecondary"
+        android:text="GO"
+        android:textColor="@color/whiteColor" />
 
 </RelativeLayout>

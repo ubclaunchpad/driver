@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.ubclaunchpad.driver.R;
@@ -35,7 +35,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
     private List<SessionModel> sessions;
 
     // Custom ViewHolder
-    public class SessionViewHolder extends RecyclerView.ViewHolder {
+    static class SessionViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.session_list_name)
         TextView sessionName;
         @BindView(R.id.session_driver_info)
@@ -43,7 +43,7 @@ public class SessionAdapter extends RecyclerView.Adapter<SessionAdapter.SessionV
         @BindView(R.id.session_passenger_info)
         TextView sessionPassengerInfo;
         @BindView(R.id.session_join_button)
-        Button sessionJoinButton;
+        ImageButton sessionJoinButton;
 
         SessionViewHolder(View view) {
             super(view);

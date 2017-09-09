@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,7 +30,7 @@ public class HardwareUtils {
                 if (vals.length > 1)
                     map.put(vals[0].trim(), vals[1].trim());
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             Log.e("getCpuInfoMap", Log.getStackTraceString(e));
         }
         return map;
