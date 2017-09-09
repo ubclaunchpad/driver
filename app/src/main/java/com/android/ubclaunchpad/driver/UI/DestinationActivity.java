@@ -144,6 +144,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
                     }else {
                         // something went wrong with grabbing the user, go back to login
                         FirebaseUtils.getFirebaseAuth().signOut();
+                        user = null;
                         startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
                         finish();
                         return;
@@ -158,7 +159,6 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
-                okButton.setEnabled(true);
                 // since a current location place has been selected, current location listener
                 // would not need to update mLocation on location changes, so we set
                 // shouldUseLocationListener to false
@@ -189,8 +189,6 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
-
-                okButton.setEnabled(true);
                 // save the selected place as destination location locally
                 mDestLoc = place.getLatLng();
             }
