@@ -79,14 +79,12 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
         try {
             user = UserManager.getInstance().getUser();
 
-            if (user == null) {
-                // Something went wrong, go back to login
-                FirebaseUtils.getFirebaseAuth().signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-            }
         } catch (NullPointerException e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
+            //Something went wrong, go back to login
+            FirebaseUtils.getFirebaseAuth().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
 
         mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
