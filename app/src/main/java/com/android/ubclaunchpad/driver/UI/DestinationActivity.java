@@ -78,15 +78,12 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
         try {
             user = UserManager.getInstance().getUser();
-
-            if (user == null) {
-                //Something went wrong, go back to login
-                FirebaseUtils.getFirebaseAuth().signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-            }
         } catch (NullPointerException e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
+            //Something went wrong, go back to login
+            FirebaseUtils.getFirebaseAuth().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
 
         mCurrentAutoCompleteFragment = (PlaceAutocompleteFragment)
@@ -136,16 +133,14 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
                 try {
                     innerUser = UserManager.getInstance().getUser();
-                    if (innerUser != null) {
-                        // Save location to user's currentLatLngStr
-                        innerUser.setCurrentLatLngStr(place.getLatLng());
-                    } else {
-                        FirebaseUtils.getFirebaseAuth().signOut();
-                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
-                        finish();
-                    }
+                    // Save location to user's currentLatLngStr
+                    innerUser.setCurrentLatLngStr(place.getLatLng());
+
                 } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                    FirebaseUtils.getFirebaseAuth().signOut();
+                    startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                    finish();
                 }
 
                 // store location on Firebase
@@ -179,18 +174,15 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
                 try {
                     innerUser = UserManager.getInstance().getUser();
+                    // Save location to user's destinationLatLngStr
+                    innerUser.setDestinationLatLngStr(place.getLatLng());
 
-                    if (innerUser != null) {
-                        // Save location to user's destinationLatLngStr
-                        innerUser.setDestinationLatLngStr(place.getLatLng());
-                    } else {
-                        //Something went wrong, go back to login
-                        FirebaseUtils.getFirebaseAuth().signOut();
-                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
-                        finish();
-                    }
                 } catch (NullPointerException e) {
                     Log.e(TAG, "Could not retrieve user" + e.getMessage());
+                    //Something went wrong, go back to login
+                    FirebaseUtils.getFirebaseAuth().signOut();
+                    startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                    finish();
                 }
 
                 if (FirebaseUtils.getFirebaseUser() != null) {
