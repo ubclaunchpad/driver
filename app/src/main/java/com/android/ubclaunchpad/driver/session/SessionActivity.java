@@ -39,7 +39,7 @@ public class SessionActivity extends BaseMenuActivity {
     private static final String TAG = SessionActivity.class.toString();
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 1010;
     @BindView(R.id.create_session)
-    ImageButton CreateSession;
+    FloatingActionButton CreateSession;
     @BindView(R.id.list_existing_sessions)
     RecyclerView mRecyclerView;
     @BindView(R.id.map_button)
