@@ -1,6 +1,7 @@
 package com.android.ubclaunchpad.driver.session;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ubclaunchpad.driver.R;
+import com.android.ubclaunchpad.driver.network.GoogleDirectionsURLEncoder;
 import com.android.ubclaunchpad.driver.routingAlgorithms.FindBestRouteAlgorithm;
 import com.android.ubclaunchpad.driver.session.models.SessionModel;
 import com.android.ubclaunchpad.driver.user.User;
@@ -75,8 +77,7 @@ public class SessionInfoActivity extends AppCompatActivity {
                     if (uid == null) {
                         Toast.makeText(getBaseContext(), "Session is not valid", Toast.LENGTH_LONG).show();
                         finish();
-                    }
-                    else if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
+                    } else if (uid.equals(FirebaseUtils.getFirebaseUser().getUid())) {
                         Toast.makeText(getBaseContext(), "You are the chosen one!", Toast.LENGTH_LONG).show();
                         goButton.setVisibility(View.VISIBLE);
                     }
@@ -124,11 +125,64 @@ public class SessionInfoActivity extends AppCompatActivity {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Starting the goddamn algorithm
-                setDriverPassengers();
+                // there is only one person in the session
+                if (itemsArray.size() == 1) {
+                    session.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            SessionModel curSession = dataSnapshot.getValue(SessionModel.class);
+                            if (curSession != null) {
+                                String sessionHostID = curSession.getSessionHostUid();
+                                FirebaseUtils.getDatabase()
+                                        .child(StringUtils.FirebaseUserEndpoint)
+                                        .child(sessionHostID)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                User sessionHost = dataSnapshot.getValue(User.class);
+                                                if (sessionHost != null) {
+                                                    String curLatLng = sessionHost.getCurrentLatLngStr();
+                                                    String destLatLng = sessionHost.getDestinationLatLngStr();
+                                                    openGoogleMap(sessionHost.getIsDriver(), curLatLng, destLatLng);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Toast.makeText(getApplicationContext(), "error getting session host", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getApplicationContext(), "error getting session", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    setDriverPassengers();
+                }
             }
         });
     }
+
+    private void openGoogleMap(boolean isDriver, String curLatLng, String destLatLng) {
+        String travelMode = "";
+        if (isDriver) {
+            travelMode = "driving";
+        } else {
+            travelMode = "transit";
+        }
+        Uri gmmIntentUri = Uri.parse(GoogleDirectionsURLEncoder.encodeMapsURLWithTravelmode(curLatLng, destLatLng, travelMode));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        // Make the Intent explicit by setting the Google Maps package
+        mapIntent.setPackage(StringUtils.GOOGLE_MAPS_PACKAGE);
+        startActivity(mapIntent);
+    }
+
 
     private void addUserToAdapter(DataSnapshot dataSnapshot, final ArrayAdapter<String> adapter, final boolean inDriverList) {
         FirebaseUtils.getDatabase()

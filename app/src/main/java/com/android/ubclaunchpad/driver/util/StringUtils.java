@@ -43,6 +43,11 @@ public class StringUtils {
     public static final String FirebaseSessionPassengerEndpoint = "passengers";
     public static final String DriverPassengersFirebaseData = "firebaseData";
     public static final String DriverPassengersDriverUid = "driverUid";
+
+    /**
+     * Package for Google Maps intent
+     */
+    public static final String GOOGLE_MAPS_PACKAGE = "com.google.android.apps.maps";
     /**
      * Shared pref keys
      * TODO turn to enum

@@ -126,7 +126,7 @@ public class DriverPassengersActivity extends AppCompatActivity {
      * Create the Google Maps URI based on the origin, destination and waypoint latlngs and launch Google Maps
      */
     private void launchGoogleMaps() {
-        String urlString = GoogleDirectionsURLEncoder.encodeURL(originLatLng, destinationLatLng, waypointLatLngs);
+        String urlString = GoogleDirectionsURLEncoder.encodeMapsURLWithWaypoints(originLatLng, destinationLatLng, waypointLatLngs);
 
         Uri googleMapsIntentUri = Uri.parse(urlString);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, googleMapsIntentUri);
