@@ -16,6 +16,7 @@
     <string name="facebook_app_id">646494705501590</string>
     <string name="current_location">Use Current Location</string>
     <string name="autocomplete_your_location">Your location</string>
+    <string name="autocomplete_search">Search</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

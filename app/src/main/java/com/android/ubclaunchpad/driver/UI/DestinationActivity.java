@@ -40,14 +40,14 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
     Location mLocation;
     PlaceAutocompleteFragment mCurrentAutoCompleteFragment;
     PlaceAutocompleteFragment mDestinationAutocompleteFragment;
+    // local storage of what the user's current location LatLng is
+    LatLng mCurrLoc = null;
+    // local storage of what the user's destination location LatLng is
+    LatLng mDestLoc = null;
 
-    // keeps track of whether or not we saved the location after the user requested it
-    boolean shouldSaveLocation = false;
 
-    // shows whether or not we have the value for the current location
-    boolean currLocationNull = true;
-    // shows whether or not we have a value for the destination location
-    boolean destinationNull = true;
+    // keeps track of whether or not current location listener should be used
+    boolean shouldUseLocationListener = false;
 
     //an int used to check and request permission for the app to access the user's location
     private final static int PERMISSION_REQUEST_FINE = 105;
@@ -78,6 +78,7 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
         try {
             user = UserManager.getInstance().getUser();
+
         } catch (NullPointerException e) {
             Log.e(TAG, "Could not retrieve user" + e.getMessage());
             //Something went wrong, go back to login
@@ -97,63 +98,100 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // move onto the next screen if we have enough information
-                if (!currLocationNull && !destinationNull) {
-                    goToMainActivity(v);
-                }
-                // if not, give reminder for user to include the location information
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Empty Fields Detected");
-                    builder.setMessage("Please make sure you have indicated where you are " +
-                            "and where you want to go.");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
+                try {
+                    // get the user and set the location information
+                    User user = UserManager.getInstance().getUser();
+                    // makes sure that the user exists in Firebase and user manager
+                    if (user != null && FirebaseUtils.getFirebaseUser() != null) {
+                        // move onto the next screen if both the inputs are filled in when button is clicked
+                        if (mCurrLoc != null && mDestLoc != null) {
+                            // update user information on user manager
+                            user.setCurrentLatLngStr(StringUtils.latLngToString(mCurrLoc));
+                            user.setDestinationLatLngStr(StringUtils.latLngToString(mDestLoc));
+
+                            // get Firebase user and save the location information
+                            String uid = FirebaseUtils.getFirebaseUser().getUid();
+                            Log.d(TAG, "got uid: " + uid);
+                            // save to current location endpoint
+                            mDatabase.child(StringUtils.FirebaseUserEndpoint)
+                                    .child(uid)
+                                    .child(StringUtils.FirebaseCurrentLatLngStr)
+                                    .setValue(StringUtils.latLngToString(mCurrLoc));
+                            // save to destination endpoint
+                            mDatabase.child(StringUtils.FirebaseUserEndpoint)
+                                    .child(uid)
+                                    .child(StringUtils.FirebaseDestinationLatLngEndpoint)
+                                    .setValue(StringUtils.latLngToString(mDestLoc));
+                            goToMainActivity(v);
                         }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
 
-
+                        // if not, give alert to remind user to include the location information
+                        else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                            builder.setTitle("Empty Fields Detected");
+                            builder.setMessage("Please make sure you have indicated where you are " +
+                                    "and where you want to go.");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    }else {
+                        // something went wrong with grabbing the user, go back to login
+                        FirebaseUtils.getFirebaseAuth().signOut();
+                        user = null;
+                        startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
+                        finish();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
-
+        // listener for selecting current location
         mCurrentAutoCompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
 
-                okButton.setEnabled(true);
-
-                User innerUser;
-
-                try {
-                    innerUser = UserManager.getInstance().getUser();
-                    // Save location to user's currentLatLngStr
-                    innerUser.setCurrentLatLngStr(place.getLatLng());
-
-                } catch (NullPointerException e) {
-                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
-                    FirebaseUtils.getFirebaseAuth().signOut();
-                    startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
-                    finish();
+                // since a current location place has been selected, current location listener
+                // would not need to update mLocation on location changes, so we set
+                // shouldUseLocationListener to false
+                shouldUseLocationListener = false;
+                // save the selected place as the current location locally
+                mCurrLoc = place.getLatLng();
+            }
+                @Override
+                public void onError (Status status){
+                    Log.d(TAG, "An error occurred: " + status);
                 }
+        });
 
-                // store location on Firebase
-                if (FirebaseUtils.getFirebaseUser() != null) {
-                    String uid = FirebaseUtils.getFirebaseUser().getUid();
-                    Log.d(TAG, "got uid: " + uid);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint)
-                            .child(uid)
-                            .child(StringUtils.FirebaseCurrentLatLngStr)
-                            .setValue(StringUtils.latLngToString(place.getLatLng()));
-                    // a current location has been indicated by the user
-                    currLocationNull = false;
-                }
+        // listener for deselecting current location
+        mCurrentAutoCompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // since current location has been deselected, we set shouldUseLocationListener to
+                // true so we can update mLocation on location changes
+                mCurrentAutoCompleteFragment.setText("");
+                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_search));
+                mCurrLoc = null;
+            }
+        });
+
+        // listener for selecting a current location
+        mDestinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
+                // save the selected place as destination location locally
+                mDestLoc = place.getLatLng();
             }
 
             @Override
@@ -162,44 +200,13 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
             }
         });
 
-        mDestinationAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        // listener for deselecting destination
+        mDestinationAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onPlaceSelected(Place place) {
-                Log.d(TAG, "Place: " + place.getName() + "\nLatLong: " + place.getLatLng());
-
-                okButton.setEnabled(true);
-
-                // get the singleton User again because user from the outer class may not be initialized
-                User innerUser;
-
-                try {
-                    innerUser = UserManager.getInstance().getUser();
-                    // Save location to user's destinationLatLngStr
-                    innerUser.setDestinationLatLngStr(place.getLatLng());
-
-                } catch (NullPointerException e) {
-                    Log.e(TAG, "Could not retrieve user" + e.getMessage());
-                    //Something went wrong, go back to login
-                    FirebaseUtils.getFirebaseAuth().signOut();
-                    startActivity(new Intent(DestinationActivity.this, LoginActivity.class));
-                    finish();
-                }
-
-                if (FirebaseUtils.getFirebaseUser() != null) {
-                    String uid = FirebaseUtils.getFirebaseUser().getUid();
-                    Log.d(TAG, "got uid: " + uid);
-                    mDatabase.child(StringUtils.FirebaseUserEndpoint)
-                            .child(uid)
-                            .child(StringUtils.FirebaseDestinationLatLngEndpoint)
-                            .setValue(StringUtils.latLngToString(place.getLatLng()));
-                    // user has indicated destination activity
-                    destinationNull = false;
-                }
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.d(TAG, "An error occurred: " + status);
+            public void onClick(View v){
+                mDestinationAutocompleteFragment.setText("");
+                mDestinationAutocompleteFragment.setHint(getText(R.string.autocomplete_search));
+                mDestLoc = null;
             }
         });
     }
@@ -211,9 +218,10 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
     }
 
     public void useCurrentLocation(View view) {
+
         // this means the user clicked the use current location button,
-        // and wants the location to be saved again, so we'll set shouldSaveLocation to true
-        shouldSaveLocation = true;
+        // and wants the location listener to be used, so we'll set shouldUseLocationListener to true
+        shouldUseLocationListener = true;
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             // get last cached location
@@ -221,10 +229,11 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
 
             //If not found, try to request a gps update and set it
             if (mLocation != null) {
-                // current location has been selected
-                currLocationNull = false;
-                saveCurrentLocationToFirebase();
-                mCurrentAutoCompleteFragment.setText(getString(R.string.autocomplete_your_location));
+                // save the current location as a LatLng locally
+                mCurrLoc = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
+                Log.d(TAG, "Current LatLng is " + "");
+                mCurrentAutoCompleteFragment.setText("");
+                mCurrentAutoCompleteFragment.setHint(getText(R.string.autocomplete_your_location));
             }
 
         } catch (SecurityException e) {
@@ -232,29 +241,13 @@ public class DestinationActivity extends BaseMenuActivity implements LocationLis
         }
     }
 
-    public void saveCurrentLocationToFirebase() {
-        try {
-            //Get user and save current lat lng
-            User user = UserManager.getInstance().getUser();
-            user.setCurrentLatLngStr(StringUtils.latLngToString(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));
-
-            //Firebase user id and save location to firebase
-            String uid = FirebaseUtils.getFirebaseUser().getUid();
-            mDatabase.child(StringUtils.FirebaseUserEndpoint).child(uid).child(StringUtils.FirebaseCurrentLatLngStr).setValue(user.currentLatLngStr);
-            // we just saved the location, so even if the location changes
-            // we shouldn't update it unless the user taps "Use Current Location" again
-            shouldSaveLocation = false;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onLocationChanged(Location location) {
-        mLocation = location;
-        if (shouldSaveLocation) {
-            saveCurrentLocationToFirebase();
+        if (shouldUseLocationListener) {
+            mLocation = location;
+            mCurrLoc = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
         }
+
     }
 
     @Override
